@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "MyCampusMap",
+    "slug": "MyCampusMap",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./src/assets/mycampusmap_logo.jpg",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  },
+
+  "android": {
+    "config": {
+      "googleMaps": {
+        "apiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+      }
+    }
+  }
+}
