@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import MapView, { Marker } from "react-native-maps"; // > npm install react-native-maps
 // doc : https://github.com/react-native-maps/react-native-maps/tree/master#component-api
-import { StyleSheet, View, Alert, Text } from "react-native";
+import { StyleSheet, View, Alert, Modal, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 //import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions"; // > npm install react-native-permissions
 
@@ -22,7 +22,7 @@ export default function MainMap() {
   function handlePress(event) {
     Alert.alert(
       "Fonctionnalité", // Titre de l'alerte
-      "Un appui long réinitialisera le zoom et la position par défaut.", // Message de l'alerte
+      "Un appui long réinitialisera le zoom, la position par défaut et les marqueurs.", // Message de l'alerte
       [{ text: "OK" }],
       { cancelable: true } // L'alerte peut être annulée en cliquant en dehors de la boîte de dialogue
     );
@@ -52,6 +52,19 @@ export default function MainMap() {
             pinColor="green"
             draggable
             tappable
+            description={"à faire" + index}
+            onPress={() =>
+              Alert.alert(
+                "Point " + (index + 1),
+                "Coordonnées : \n\n- Latitude : " +
+                  marker.coordinate.latitude +
+                  "\n- Longitude : " +
+                  marker.coordinate.longitude +
+                  "\n\n(à mettre dans un component modal pour afficher avis etc.)",
+                [{ text: "OK" }],
+                { cancelable: true }
+              )
+            }
             coordinate={marker.coordinate}
           />
         ))}
