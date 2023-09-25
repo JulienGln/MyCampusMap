@@ -8,10 +8,33 @@ const Tab = createBottomTabNavigator();
 
 export default function NavBar() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Carte" component={MainMap} />
-      <Tab.Screen name="Accueil" component={MainMap} />
-      <Tab.Screen name="Paramètres" component={ParameterView} />
+    <Tab.Navigator
+      screenOptions={{
+        tabBarActiveTintColor: "blue",
+        tabBarInactiveTintColor: "gray",
+      }}
+    >
+      <Tab.Screen
+        name="Carte"
+        component={MainMap}
+        options={({ route }) => ({
+          tabBarLabel: ({ focused }) => (focused ? "Carte" : ""),
+        })}
+      />
+      <Tab.Screen
+        name="Accueil"
+        component={MainMap}
+        options={({ route }) => ({
+          tabBarLabel: ({ focused }) => (focused ? "Accueil" : ""),
+        })}
+      />
+      <Tab.Screen
+        name="Paramètres"
+        component={ParameterView}
+        options={({ route }) => ({
+          tabBarLabel: ({ focused }) => (focused ? "Paramètres" : ""),
+        })}
+      />
     </Tab.Navigator>
   );
 }
