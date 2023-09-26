@@ -1,7 +1,14 @@
 import React, { useRef, useState } from "react";
 import MapView, { Marker } from "react-native-maps"; // > npm install react-native-maps
 // doc : https://github.com/react-native-maps/react-native-maps/tree/master#component-api
-import { StyleSheet, View, Alert, Modal, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Alert,
+  Modal,
+  Text,
+  ToastAndroid,
+} from "react-native";
 import { StatusBar } from "expo-status-bar";
 //import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions"; // > npm install react-native-permissions
 
@@ -20,12 +27,16 @@ export default function MainMap() {
    * Appelée lors d'un appui sur la carte
    */
   function handlePress(event) {
-    Alert.alert(
+    ToastAndroid.show(
+      "Un appui long réinitialisera le zoom, la position par défaut et les marqueurs.",
+      ToastAndroid.LONG
+    );
+    /*Alert.alert(
       "Fonctionnalité", // Titre de l'alerte
       "Un appui long réinitialisera le zoom, la position par défaut et les marqueurs.", // Message de l'alerte
       [{ text: "OK" }],
       { cancelable: true } // L'alerte peut être annulée en cliquant en dehors de la boîte de dialogue
-    );
+    );*/
 
     setMarkers([...markers, { coordinate: event.nativeEvent.coordinate }]);
   }
