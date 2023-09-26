@@ -1,6 +1,6 @@
 // npm install @react-navigation/bottom-tabs
 // npm install @react-navigation/native
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; // doc : https://reactnavigation.org/docs/tab-based-navigation/
 import MainMap from "../MapView/MainMap";
 import ParameterView from "../Parametres/ParameterView";
 import { Text } from "react-native";
@@ -20,12 +20,12 @@ export default function NavBar() {
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "tomato", // tomato
+        tabBarActiveTintColor: "cornflowerblue", // tomato
         tabBarInactiveTintColor: "gray", //gray
       }}
     >
       <Tab.Screen
-        name="Carte"
+        name="Cartographie"
         component={MainMap}
         options={{
           tabBarLabel: "Carte",

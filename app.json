@@ -9,7 +9,7 @@
     "splash": {
       "image": "./src/assets/mycampusmap_logo.jpg",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#EAEEF1"
     },
     "assetBundlePatterns": [
       "**/*"

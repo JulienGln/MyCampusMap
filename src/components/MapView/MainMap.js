@@ -15,6 +15,7 @@ import { StatusBar } from "expo-status-bar";
 export default function MainMap() {
   const [markers, setMarkers] = useState([]); // tableau de Markers
   const mapRef = useRef(null); // référence à la carte
+  const [modalVisible, setModalVisible] = useState(false); // modal de vue des avis et du batiment
 
   const initialRegion = {
     latitude: 45.6417615,
@@ -26,7 +27,7 @@ export default function MainMap() {
   /**
    * Appelée lors d'un appui sur la carte
    */
-  function handlePress(event) {
+  function handleMapPress(event) {
     ToastAndroid.show(
       "Un appui long réinitialisera le zoom, la position par défaut et les marqueurs.",
       ToastAndroid.LONG
@@ -47,11 +48,21 @@ export default function MainMap() {
 
   return (
     <View style={styles.container}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+      ></Modal>
+
       <MapView
         ref={mapRef}
         style={styles.map}
         initialRegion={initialRegion}
-        onPress={handlePress}
+        onPress={handleMapPress}
         onLongPress={() => {
           mapRef.current.animateToRegion(initialRegion, 2000);
           removeAllMarkers();
@@ -64,7 +75,7 @@ export default function MainMap() {
             draggable
             tappable
             description={"à faire" + index}
-            onPress={() =>
+            onPress={() => {
               Alert.alert(
                 "Point " + (index + 1),
                 "Coordonnées : \n\n- Latitude : " +
@@ -74,8 +85,8 @@ export default function MainMap() {
                   "\n\n(à mettre dans un component modal pour afficher avis etc.)",
                 [{ text: "OK" }],
                 { cancelable: true }
-              )
-            }
+              );
+            }}
             coordinate={marker.coordinate}
           />
         ))}
@@ -92,6 +103,21 @@ const styles = StyleSheet.create({
   map: {
     width: "100%",
     height: "100%",
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
   },
 });
 
