@@ -10,6 +10,8 @@ import NavBar from "./src/components/NavBar/NavBar";
 // (en local) : > npx expo start --localhost --android
 // documentation : https://docs.expo.dev/
 
+// caméra  : https://docs.expo.dev/versions/latest/sdk/camera/
+
 export default function App() {
   return (
     <NavigationContainer>
