@@ -21,8 +21,8 @@ export default function MainMap() {
   const initialRegion = {
     latitude: 45.6417615,
     longitude: 5.8698961,
-    latitudeDelta: 0.005, // Plus c'est proche de 0, plus c'est zoomé
-    longitudeDelta: 0.005, // Plus c'est proche de 0, plus c'est zoomé
+    latitudeDelta: 0.0048, // Plus c'est proche de 0, plus c'est zoomé
+    longitudeDelta: 0.0044, // Plus c'est proche de 0, plus c'est zoomé
   };
 
   /**
@@ -210,7 +210,7 @@ const mapStyle = [
     ],
   },
   {
-    featureType: "poi",
+    featureType: "poi", // point of interest
     elementType: "geometry",
     stylers: [
       {
@@ -223,7 +223,7 @@ const mapStyle = [
     elementType: "labels.icon",
     stylers: [
       {
-        visibility: "off",
+        visibility: "off", // on masque les icônes fournies par Maps par défaut
       },
     ],
   },
