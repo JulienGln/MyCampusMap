@@ -64,6 +64,7 @@ export default function MainMap() {
         style={styles.map}
         initialRegion={initialRegion}
         customMapStyle={mapStyle}
+        //minZoomLevel={17}
         onPress={handleMapPress}
         onLongPress={() => {
           mapRef.current.animateToRegion(initialRegion, 2000);
