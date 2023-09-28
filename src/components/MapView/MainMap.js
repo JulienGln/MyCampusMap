@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import MapView, { Marker } from "react-native-maps"; // > npm install react-native-maps
-import { Appearance } from "react-native";
 // doc : https://github.com/react-native-maps/react-native-maps/tree/master#component-api
 // customiser le style sa map : https://mapstyle.withgoogle.com/
 import {
@@ -8,10 +7,18 @@ import {
   View,
   Alert,
   Modal,
-  Text,
   ToastAndroid,
+  Appearance,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  Button,
+  Pressable,
+  Text,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
+
+import { FontAwesome5 } from "@expo/vector-icons";
 //import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions"; // > npm install react-native-permissions
 
 export default function MainMap() {
@@ -33,7 +40,7 @@ export default function MainMap() {
    */
   function handleMapPress(event) {
     ToastAndroid.show(
-      "Un appui long réinitialisera le zoom, la position par défaut et les marqueurs.",
+      "Un appui long ajoutera un point sur la carte.",
       ToastAndroid.LONG
     );
 
@@ -42,6 +49,12 @@ export default function MainMap() {
 
   function removeAllMarkers() {
     setMarkers([]);
+  }
+
+  function clickHandler() {
+    //function to handle click on floating Action Button
+    mapRef.current.animateToRegion(initialRegion, 2000);
+    removeAllMarkers();
   }
 
   return (
@@ -56,17 +69,26 @@ export default function MainMap() {
         }}
       ></Modal>
 
+      {/* <Button title="text" style={styles.button} onPress={clickHandler}>
+        <FontAwesome5 name="crosshairs" size={24} color={"white"} />
+      </Button> */}
+
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={styles.button}
+        onPress={clickHandler}
+      >
+        <FontAwesome5 name="crosshairs" size={24} color={"white"} />
+      </TouchableOpacity>
+
       <MapView
         ref={mapRef}
         style={styles.map}
         initialRegion={initialRegion}
         customMapStyle={colorScheme === "light" ? mapStyle : nightMapStyle}
         //minZoomLevel={17}
-        onPress={handleMapPress}
-        onLongPress={() => {
-          mapRef.current.animateToRegion(initialRegion, 2000);
-          removeAllMarkers();
-        }} // Un appui long réinitialisera le zoom et la position par défaut.
+        //onPress={}
+        onLongPress={handleMapPress} // Un appui long ajoutera un point sur la carte.
       >
         {markers.map((marker, index) => (
           <Marker
@@ -99,6 +121,7 @@ export default function MainMap() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
   },
   map: {
     width: "100%",
@@ -118,6 +141,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  button: {
+    alignItems: "center",
+    backgroundColor: "#bbbbbb",
+    padding: 10,
+    //borderRadius: 25,
+    //width: 50,
+    //height: 50,
+    //marginTop: Dimensions.get("window").height * 0.76, // pourcentage de la hauteur de l'écran
+    //marginLeft: Dimensions.get("window").width * 0.82, // pourcentage de la largeur de l'écran
+    position: "flex",
   },
 });
 
