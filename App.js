@@ -14,8 +14,9 @@ import NavBar from "./src/components/NavBar/NavBar";
 
 export default function App() {
   const colorScheme = Appearance.getColorScheme(); // mode sombre ou light de l'OS
+  // theme={{ dark: colorScheme === "dark" }}
   return (
-    <NavigationContainer theme={{ dark: colorScheme === "dark" }}>
+    <NavigationContainer>
       <NavBar />
     </NavigationContainer>
   );

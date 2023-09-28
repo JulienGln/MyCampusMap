@@ -22,8 +22,8 @@ export default function MainMap() {
   const initialRegion = {
     latitude: 45.6417615,
     longitude: 5.8698961,
-    latitudeDelta: 0.0048, // Plus c'est proche de 0, plus c'est zoomé
-    longitudeDelta: 0.0044, // Plus c'est proche de 0, plus c'est zoomé
+    latitudeDelta: 0.004, // Plus c'est proche de 0, plus c'est zoomé
+    longitudeDelta: 0.004, // Plus c'est proche de 0, plus c'est zoomé
   };
 
   const colorScheme = Appearance.getColorScheme(); // mode sombre ou light de l'OS
