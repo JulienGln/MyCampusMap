@@ -3,7 +3,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; // doc : https://reactnavigation.org/docs/tab-based-navigation/
 import MainMap from "../MapView/MainMap";
 import ParameterView from "../Parametres/ParameterView";
-import { Text } from "react-native";
 // https://icons.expo.fyi/Index pour choix des icones
 import { MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 

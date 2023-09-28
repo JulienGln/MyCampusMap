@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import MapView, { Marker } from "react-native-maps"; // > npm install react-native-maps
+import { Appearance } from "react-native";
 // doc : https://github.com/react-native-maps/react-native-maps/tree/master#component-api
 // customiser le style sa map : https://mapstyle.withgoogle.com/
 import {
@@ -25,6 +26,8 @@ export default function MainMap() {
     longitudeDelta: 0.0044, // Plus c'est proche de 0, plus c'est zoomé
   };
 
+  const colorScheme = Appearance.getColorScheme(); // mode sombre ou light de l'OS
+
   /**
    * Appelée lors d'un appui sur la carte
    */
@@ -33,12 +36,6 @@ export default function MainMap() {
       "Un appui long réinitialisera le zoom, la position par défaut et les marqueurs.",
       ToastAndroid.LONG
     );
-    /*Alert.alert(
-      "Fonctionnalité", // Titre de l'alerte
-      "Un appui long réinitialisera le zoom, la position par défaut et les marqueurs.", // Message de l'alerte
-      [{ text: "OK" }],
-      { cancelable: true } // L'alerte peut être annulée en cliquant en dehors de la boîte de dialogue
-    );*/
 
     setMarkers([...markers, { coordinate: event.nativeEvent.coordinate }]);
   }
@@ -63,7 +60,7 @@ export default function MainMap() {
         ref={mapRef}
         style={styles.map}
         initialRegion={initialRegion}
-        customMapStyle={mapStyle}
+        customMapStyle={colorScheme === "light" ? mapStyle : nightMapStyle}
         //minZoomLevel={17}
         onPress={handleMapPress}
         onLongPress={() => {
@@ -87,7 +84,7 @@ export default function MainMap() {
                   marker.coordinate.longitude +
                   "\n\n(à mettre dans un component modal pour afficher avis etc.)",
                 [{ text: "OK" }],
-                { cancelable: true }
+                { cancelable: true } // L'alerte peut être annulée en cliquant en dehors de la boîte de dialogue
               );
             }}
             coordinate={marker.coordinate}
@@ -381,6 +378,255 @@ const mapStyle = [
     stylers: [
       {
         color: "#92998d",
+      },
+    ],
+  },
+];
+
+const nightMapStyle = [
+  {
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#1d2c4d",
+      },
+    ],
+  },
+  {
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#8ec3b9",
+      },
+    ],
+  },
+  {
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        color: "#1a3646",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.country",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#4b6878",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.land_parcel",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#64779e",
+      },
+    ],
+  },
+  {
+    featureType: "administrative.province",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#4b6878",
+      },
+    ],
+  },
+  {
+    featureType: "landscape.man_made",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#ffffff",
+      },
+      {
+        lightness: 100,
+      },
+      {
+        weight: 8,
+      },
+    ],
+  },
+  {
+    featureType: "landscape.natural",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#023e58",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#283d6a",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#6f9ba5",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        color: "#1d2c4d",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#023e58",
+      },
+    ],
+  },
+  {
+    featureType: "poi.park",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#3C7680",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#304a7d",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#98a5be",
+      },
+    ],
+  },
+  {
+    featureType: "road",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        color: "#1d2c4d",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#2c6675",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "geometry.stroke",
+    stylers: [
+      {
+        color: "#255763",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#b0d5ce",
+      },
+    ],
+  },
+  {
+    featureType: "road.highway",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        color: "#023e58",
+      },
+    ],
+  },
+  {
+    featureType: "transit",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#98a5be",
+      },
+    ],
+  },
+  {
+    featureType: "transit",
+    elementType: "labels.text.stroke",
+    stylers: [
+      {
+        color: "#1d2c4d",
+      },
+    ],
+  },
+  {
+    featureType: "transit.line",
+    elementType: "geometry.fill",
+    stylers: [
+      {
+        color: "#283d6a",
+      },
+    ],
+  },
+  {
+    featureType: "transit.station",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#3a4762",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [
+      {
+        color: "#0e1626",
+      },
+    ],
+  },
+  {
+    featureType: "water",
+    elementType: "labels.text.fill",
+    stylers: [
+      {
+        color: "#4e6d70",
       },
     ],
   },

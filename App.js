@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Appearance } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 
 /**** import des composants : */
@@ -13,8 +13,9 @@ import NavBar from "./src/components/NavBar/NavBar";
 // caméra  : https://docs.expo.dev/versions/latest/sdk/camera/
 
 export default function App() {
+  const colorScheme = Appearance.getColorScheme(); // mode sombre ou light de l'OS
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={{ dark: colorScheme === "dark" }}>
       <NavBar />
     </NavigationContainer>
   );
