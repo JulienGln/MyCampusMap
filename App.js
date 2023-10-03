@@ -11,6 +11,7 @@ import NavBar from "./src/components/NavBar/NavBar";
 // documentation : https://docs.expo.dev/
 
 // caméra  : https://docs.expo.dev/versions/latest/sdk/camera/
+// couleurs : https://reactnative.dev/docs/colors#color-keywords
 
 export default function App() {
   const colorScheme = Appearance.getColorScheme(); // mode sombre ou light de l'OS

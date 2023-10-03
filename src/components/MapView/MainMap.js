@@ -18,6 +18,7 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import ModalNewMarker from "../Modals/ModalNewMarker";
+import ModalDefault from "../Modals/ModalDefault";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 //import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions"; // > npm install react-native-permissions
@@ -25,7 +26,8 @@ import { FontAwesome5 } from "@expo/vector-icons";
 export default function MainMap() {
   const [markers, setMarkers] = useState([]); // tableau de Markers
   const mapRef = useRef(null); // référence à la carte
-  const [modalNewMarkerVisible, setModalNewMarkerVisible] = useState(false); // modal de vue des avis et du batiment
+  const [modalNewMarkerVisible, setModalNewMarkerVisible] = useState(false); // modal de création d'un avis
+  const [modalMarkerVisible, setModalMarkerVisible] = useState(false); // modal de vue des avis et du batiment
 
   const initialRegion = {
     latitude: 45.6417615,
@@ -50,6 +52,11 @@ export default function MainMap() {
     setMarkers([...markers, { coordinate: event.nativeEvent.coordinate }]);
   }
 
+  /**
+   * Appelée lors d'un appui sur un marqueur
+   */
+  function handleMarkerPress() {}
+
   function removeAllMarkers() {
     setMarkers([]);
   }
@@ -66,6 +73,11 @@ export default function MainMap() {
         visible={modalNewMarkerVisible}
         onClose={() => setModalNewMarkerVisible(false)}
       />
+
+      {/*<ModalDefault
+        visible={modalMarkerVisible}
+        onClose={() => setModalMarkerVisible(false)}
+  />*/}
 
       {/* <Button title="text" style={styles.button} onPress={clickHandler}>
         <FontAwesome5 name="crosshairs" size={24} color={"white"} />
