@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Modal, StyleSheet, View, Pressable, Text } from "react-native";
 /**
  * Modal qui s'affiche lorsqu'on clique sur un marqueur déjà existant (description du bâtiment, avis, photos...)
  */
 export default function ModalDefault(markerId) {
   const [modalVisible, setModalVisible] = useState(false);
-  const [data, setData] = useState({});
+  const [data, setData] = useState(null);
 
   /**
    * Récupère l'avis d'un point par son id
    * @returns - le json d'un avis sur le marqueur
    */
-  async function getMarkerById() {
+  async function getMarkerById(markerId) {
     // utiliser express pour aller chercher le json
     // doc : https://reactnative.dev/docs/network
     //var url = "http://192.168.1.23:3000/data/" + markerId; // adresse IP de l'ordinateur qui fait tourner le serveur
@@ -23,7 +23,7 @@ export default function ModalDefault(markerId) {
         console.error("Erreur HTTP", response.status);
       } else {
         const data = await response.json();
-        return data[0].title;
+        return data[markerId].title;
       }
     } catch (error) {
       console.error("Erreur fonction fetch", error);
@@ -31,7 +31,14 @@ export default function ModalDefault(markerId) {
   }
 
   // récupération des données du marqueur
-  setData(getMarkerById());
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await getMarkerById(1); // id du marqueur
+      setData(result);
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <Modal

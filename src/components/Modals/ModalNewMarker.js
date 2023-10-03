@@ -3,24 +3,24 @@ import { Modal, StyleSheet, View, Pressable, Text } from "react-native";
  * Modal de création d'un marqueur
  */
 
-export default function ModalNewMarker() {
-  const [modalVisible, setModalVisible] = useState(false);
+/**
+ * La gestion de la visibilité et la fermeture du modal est réglée dans le composant MainMap.js
+ */
+export default function ModalNewMarker({ visible, onClose }) {
   return (
     <Modal
       style={styles.modalView}
       animationType="fade"
       transparent={true}
-      visible={modalVisible}
-      onRequestClose={() => {
-        setModalVisible(!modalVisible);
-      }}
+      visible={visible}
+      onRequestClose={onClose}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Nouveau marqueur</Text>
           <Pressable
             style={[styles.button, styles.buttonClose]}
-            onPress={() => setModalVisible(!modalVisible)}
+            onPress={onClose}
           >
             <Text style={styles.textStyle}>Masquer le modal</Text>
           </Pressable>

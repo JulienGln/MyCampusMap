@@ -17,6 +17,7 @@ import {
   Text,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import ModalNewMarker from "../Modals/ModalNewMarker";
 
 import { FontAwesome5 } from "@expo/vector-icons";
 //import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions"; // > npm install react-native-permissions
@@ -24,7 +25,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 export default function MainMap() {
   const [markers, setMarkers] = useState([]); // tableau de Markers
   const mapRef = useRef(null); // référence à la carte
-  const [modalVisible, setModalVisible] = useState(false); // modal de vue des avis et du batiment
+  const [modalNewMarkerVisible, setModalNewMarkerVisible] = useState(false); // modal de vue des avis et du batiment
 
   const initialRegion = {
     latitude: 45.6417615,
@@ -44,6 +45,8 @@ export default function MainMap() {
       ToastAndroid.LONG
     );
 
+    setModalNewMarkerVisible(true);
+    // ajout du marqueur à la fin du tableau de marqueurs
     setMarkers([...markers, { coordinate: event.nativeEvent.coordinate }]);
   }
 
@@ -59,15 +62,10 @@ export default function MainMap() {
 
   return (
     <View style={styles.container}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      ></Modal>
+      <ModalNewMarker
+        visible={modalNewMarkerVisible}
+        onClose={() => setModalNewMarkerVisible(false)}
+      />
 
       {/* <Button title="text" style={styles.button} onPress={clickHandler}>
         <FontAwesome5 name="crosshairs" size={24} color={"white"} />

@@ -32,7 +32,8 @@ export default function ParameterView() {
   async function communicationServer() {
     // doc : https://reactnative.dev/docs/network
     //var url = "http://192.168.1.23:3000/data"; // adresse IP de l'ordinateur qui fait tourner le serveur
-    var url = "https://jsonplaceholder.typicode.com/posts";
+    // var url = "https://jsonplaceholder.typicode.com/posts"; // https://raw.githubusercontent.com/JulienGln/juliengln.github.io/main/data/data.json
+    var url = "https://juliengln.github.io/data/data.json";
 
     try {
       const response = await fetch(url);
