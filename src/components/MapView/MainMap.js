@@ -83,14 +83,6 @@ export default function MainMap() {
         <FontAwesome5 name="crosshairs" size={24} color={"white"} />
       </Button> */}
 
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={styles.button}
-        onPress={clickHandler}
-      >
-        <FontAwesome5 name="crosshairs" size={24} color={"white"} />
-      </TouchableOpacity>
-
       <MapView
         ref={mapRef}
         style={styles.map}
@@ -123,6 +115,15 @@ export default function MainMap() {
           />
         ))}
       </MapView>
+
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={styles.button}
+        onPress={clickHandler}
+      >
+        <FontAwesome5 name="crosshairs" size={36} color={"white"} />
+      </TouchableOpacity>
+
       <StatusBar style="auto" />
     </View>
   );
@@ -134,8 +135,11 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   map: {
+    //flex: 1,
     width: "100%",
     height: "100%",
+    //position: "absolute",
+    //top: 0,
   },
   modalView: {
     margin: 20,
@@ -153,15 +157,27 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
+    position: "absolute",
+    bottom: 0,
+    right: 0,
     alignItems: "center",
-    backgroundColor: "#bbbbbb",
+    backgroundColor: "cornflowerblue", //"#bbbbbb",
     padding: 10,
-    //borderRadius: 25,
-    //width: 50,
-    //height: 50,
-    //marginTop: Dimensions.get("window").height * 0.76, // pourcentage de la hauteur de l'écran
-    //marginLeft: Dimensions.get("window").width * 0.82, // pourcentage de la largeur de l'écran
-    position: "flex",
+    borderRadius: 50,
+    borderColor: "#00ff00",
+    width: 60,
+    height: 60,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    elevation: 5,
+    marginBottom: Dimensions.get("window").height * 0.02, // pourcentage de la hauteur de l'écran
+    marginRight: Dimensions.get("window").width * 0.05, // pourcentage de la largeur de l'écran
+    //position: "flex",
   },
 });
 

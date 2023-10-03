@@ -1,4 +1,11 @@
-import { Modal, StyleSheet, View, Pressable, Text } from "react-native";
+import {
+  Modal,
+  StyleSheet,
+  View,
+  Pressable,
+  Text,
+  TextInput,
+} from "react-native";
 /**
  * Modal de création d'un marqueur
  */
@@ -18,11 +25,29 @@ export default function ModalNewMarker({ visible, onClose }) {
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <Text style={styles.modalText}>Nouveau marqueur</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Nom du lieu"
+            placeholderTextColor={"coral"}
+          />
+          <TextInput
+            style={styles.input}
+            inputMode="numeric"
+            placeholder="Note sur 5"
+            placeholderTextColor={"coral"}
+            maxLength={1}
+          />
+          <TextInput
+            style={styles.input}
+            multiline={true}
+            placeholder="Rédiger un avis"
+            placeholderTextColor={"coral"}
+          />
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={onClose}
           >
-            <Text style={styles.textStyle}>Masquer le modal</Text>
+            <Text style={styles.textStyle}>Terminer</Text>
           </Pressable>
         </View>
       </View>
@@ -48,7 +73,7 @@ const styles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.5,
     shadowRadius: 4,
     elevation: 5,
   },
@@ -61,7 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "coral", // "cornflowerblue"
   },
   textStyle: {
     color: "white",
@@ -71,5 +96,11 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
