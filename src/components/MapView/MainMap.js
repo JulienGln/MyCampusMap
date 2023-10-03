@@ -121,7 +121,7 @@ export default function MainMap() {
         style={styles.button}
         onPress={clickHandler}
       >
-        <FontAwesome5 name="crosshairs" size={36} color={"white"} />
+        <FontAwesome5 name="crosshairs" size={36} color={"cornflowerblue"} />
       </TouchableOpacity>
 
       <StatusBar style="auto" />
@@ -161,20 +161,24 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     alignItems: "center",
-    backgroundColor: "cornflowerblue", //"#bbbbbb",
+    backgroundColor: "white", //"#bbbbbb",
     padding: 10,
     borderRadius: 50,
-    borderColor: "#00ff00",
+    borderColor: "black",
+    borderWidth: 1,
     width: 60,
     height: 60,
+
+    //shadow
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.9,
     shadowRadius: 4,
     elevation: 5,
+
     marginBottom: Dimensions.get("window").height * 0.02, // pourcentage de la hauteur de l'écran
     marginRight: Dimensions.get("window").width * 0.05, // pourcentage de la largeur de l'écran
     //position: "flex",
