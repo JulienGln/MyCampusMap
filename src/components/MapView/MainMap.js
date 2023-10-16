@@ -92,26 +92,6 @@ export default function MainMap() {
         //onPress={}
         onLongPress={handleMapPress} // Un appui long ajoutera un point sur la carte.
       >
-        <Polygon
-          coordinates={[
-            { latitude: 45.63933261, longitude: 5.8757640793 },
-            { latitude: 45.6448980714, longitude: 5.875166617 },
-            { latitude: 45.647111397, longitude: 5.8722651377 },
-            { latitude: 45.646742476, longitude: 5.8659518882 },
-            { latitude: 45.646063459, longitude: 5.8645899966 },
-            { latitude: 45.642945077, longitude: 5.8641957119 },
-            { latitude: 45.640666187, longitude: 5.8656276762 },
-            { latitude: 45.63956726, longitude: 5.8705257251 },
-          ]}
-          strokeColor="#000" // Le contour du polygone
-          fillColor="rgba(255,0,255,0.1)" // La couleur de remplissage du polygone
-          strokeWidth={1}
-          tappable={true}
-          onPress={() => {
-            Alert.alert("Campus", "Cette zone délimite le campus de l'USMB");
-          }}
-        />
-
         {markers.map((marker, index) => (
           <Marker
             key={index}
@@ -715,6 +695,28 @@ const nightMapStyle = [
     ],
   },
 ];
+
+/*
+<Polygon
+          coordinates={[
+            { latitude: 45.63933261, longitude: 5.8757640793 },
+            { latitude: 45.6448980714, longitude: 5.875166617 },
+            { latitude: 45.647111397, longitude: 5.8722651377 },
+            { latitude: 45.646742476, longitude: 5.8659518882 },
+            { latitude: 45.646063459, longitude: 5.8645899966 },
+            { latitude: 45.642945077, longitude: 5.8641957119 },
+            { latitude: 45.640666187, longitude: 5.8656276762 },
+            { latitude: 45.63956726, longitude: 5.8705257251 },
+          ]}
+          strokeColor="#000" // Le contour du polygone
+          fillColor="rgba(255,0,255,0.1)" // La couleur de remplissage du polygone
+          strokeWidth={1}
+          tappable={true}
+          onPress={() => {
+            Alert.alert("Campus", "Cette zone délimite le campus de l'USMB");
+          }}
+        />
+*/
 
 /*const [isPermissionGranted, setIsPermissionGranted] = useState(false);
 
