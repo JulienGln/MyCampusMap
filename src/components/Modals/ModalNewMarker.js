@@ -5,6 +5,7 @@ import {
   Pressable,
   Text,
   TextInput,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 
@@ -27,7 +28,9 @@ export default function ModalNewMarker({ visible, onClose }) {
    */
   function autoGrow(text) {
     setInputTextHeight(
-      Math.max(inputTextHeight, text.split("\n").length * 100)
+      text.length > 0
+        ? Math.max(inputTextHeight, text.split("\n").length * 100)
+        : 40 // init hauteur à 40
     );
   }
 
@@ -47,62 +50,72 @@ export default function ModalNewMarker({ visible, onClose }) {
       visible={visible}
       onRequestClose={onClose}
     >
-      <View style={styles.centeredView}>
-        <View style={styles.modalView}>
-          <Text style={styles.modalText}>Nouveau marqueur</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Nom du lieu"
-            placeholderTextColor={"coral"}
-          />
-          <TextInput
-            style={styles.input}
-            inputMode="numeric"
-            placeholder="Note sur 5"
-            placeholderTextColor={"coral"}
-            onChangeText={handleRatingChange}
-            value={rating}
-            maxLength={1}
-          />
-          <TextInput
-            style={[styles.input, { height: inputTextHeight }]}
-            multiline={true}
-            placeholder="Rédiger un avis"
-            placeholderTextColor={"coral"}
-            onChangeText={autoGrow}
-          />
+      <ScrollView>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <Text style={styles.modalText}>Nouveau marqueur</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Nom du lieu"
+              placeholderTextColor={"coral"}
+            />
+            <TextInput
+              style={styles.input}
+              inputMode="numeric"
+              placeholder="Note sur 5"
+              placeholderTextColor={"coral"}
+              onChangeText={handleRatingChange}
+              value={rating}
+              maxLength={1}
+            />
+            <TextInput
+              style={[styles.input, { height: inputTextHeight }]}
+              multiline={true}
+              placeholder="Rédiger un avis"
+              placeholderTextColor={"coral"}
+              onChangeText={autoGrow}
+            />
 
-          <Picker
-            style={styles.picker}
-            selectedValue={buildingType}
-            onValueChange={(itemValue, itemIndex) => {
-              setBuildingType(itemValue);
-            }}
-            prompt="Choisissez le type de bâtiment"
-            mode="dialog" // ou "dropdown"
-          >
-            <Picker.Item label="Restaurant" value="restaurant" />
-            <Picker.Item label="Parking" value="parking" />
-          </Picker>
-
-          {/** boutons annuler - terminer modal */}
-          <View style={styles.buttonGroup}>
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={onClose}
+            <Picker
+              style={styles.picker}
+              selectedValue={buildingType}
+              onValueChange={(itemValue, itemIndex) => {
+                setBuildingType(itemValue);
+              }}
+              prompt="Choisissez le type de bâtiment"
+              mode="dialog" // ou "dropdown"
             >
-              <Text style={styles.textStyle}>Annuler</Text>
-            </Pressable>
+              <Picker.Item label="Restaurant" value="restaurant" />
+              <Picker.Item label="Parking" value="parking" />
+              <Picker.Item
+                label="Bâtiment générique (template C++)"
+                value="batiment_generique"
+              />
+            </Picker>
 
-            <Pressable
-              style={[styles.button, styles.buttonValidate]}
-              onPress={onClose}
-            >
-              <Text style={styles.textStyle}>Terminer</Text>
-            </Pressable>
+            <Text style={{ fontWeight: "bold" }}>
+              Manque l'ajout d'une photo
+            </Text>
+
+            {/** boutons annuler - terminer modal */}
+            <View style={styles.buttonGroup}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={onClose}
+              >
+                <Text style={styles.textStyle}>Annuler</Text>
+              </Pressable>
+
+              <Pressable
+                style={[styles.button, styles.buttonValidate]}
+                onPress={onClose}
+              >
+                <Text style={styles.textStyle}>Terminer</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     </Modal>
   );
 }
