@@ -7,6 +7,10 @@ import {
   TextInput,
 } from "react-native";
 import React, { useState } from "react";
+
+// > npm install @react-native-picker/picker
+import { Picker } from "@react-native-picker/picker";
+
 /**
  * Modal de création d'un marqueur
  */
@@ -15,9 +19,9 @@ import React, { useState } from "react";
  * La gestion de la visibilité et la fermeture du modal est réglée dans le composant MainMap.js
  */
 export default function ModalNewMarker({ visible, onClose }) {
-  const [inputTextHeight, setInputTextHeight] = React.useState(40); // init hauteur à 40
-  const [rating, setRating] = React.useState("");
-
+  const [inputTextHeight, setInputTextHeight] = useState(40); // init hauteur à 40
+  const [rating, setRating] = useState("");
+  const [buildingType, setBuildingType] = useState("");
   /**
    * Mettre à jour la hauteur en fonction du nombre de lignes de texte
    */
@@ -67,10 +71,19 @@ export default function ModalNewMarker({ visible, onClose }) {
             placeholderTextColor={"coral"}
             onChangeText={autoGrow}
           />
-          <Text style={{ fontWeight: "bold" }}>
-            Pour le type de batiment : {">"} npm install
-            @react-native-picker/picker
-          </Text>
+
+          <Picker
+            style={styles.picker}
+            selectedValue={buildingType}
+            onValueChange={(itemValue, itemIndex) => {
+              setBuildingType(itemValue);
+            }}
+            prompt="Choisissez le type de bâtiment"
+            mode="dialog" // ou "dropdown"
+          >
+            <Picker.Item label="Restaurant" value="restaurant" />
+            <Picker.Item label="Parking" value="parking" />
+          </Picker>
 
           {/** boutons annuler - terminer modal */}
           <View style={styles.buttonGroup}>
@@ -81,7 +94,10 @@ export default function ModalNewMarker({ visible, onClose }) {
               <Text style={styles.textStyle}>Annuler</Text>
             </Pressable>
 
-            <Pressable style={[styles.button, styles.buttonValidate]}>
+            <Pressable
+              style={[styles.button, styles.buttonValidate]}
+              onPress={onClose}
+            >
               <Text style={styles.textStyle}>Terminer</Text>
             </Pressable>
           </View>
@@ -115,15 +131,16 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 20,
-    padding: 10,
+    padding: 15,
     elevation: 2,
   },
   buttonValidate: {
     backgroundColor: "cornflowerblue",
+    marginStart: 20,
   },
   buttonClose: {
     backgroundColor: "coral",
-    marginRight: 10,
+    marginEnd: 20,
   },
   buttonGroup: {
     flexDirection: "row",
@@ -134,16 +151,28 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+    fontSize: 20,
   },
   modalText: {
     marginBottom: 15,
     textAlign: "center",
     fontWeight: "bold",
+    fontSize: 22,
   },
   input: {
-    height: 40,
-    margin: 12,
+    height: 60,
+    margin: 15,
     borderWidth: 1,
     padding: 10,
+    fontSize: 20,
+  },
+  picker: {
+    height: 50,
+    width: 200,
+    borderWidth: 1,
+    backgroundColor: "lightgrey",
+    borderRadius: 10,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
