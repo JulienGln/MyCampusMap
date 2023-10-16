@@ -63,6 +63,7 @@ export default function MainMap() {
 
   function clickHandler() {
     //function to handle click on floating Action Button
+    ToastAndroid.show("Retour sur le campus !", ToastAndroid.SHORT);
     mapRef.current.animateToRegion(initialRegion, 2000);
     removeAllMarkers();
   }
@@ -71,6 +72,7 @@ export default function MainMap() {
     <View style={styles.container}>
       <ModalNewMarker
         visible={modalNewMarkerVisible}
+        coords={"\nCoordonnées à placer dans MainMap.js"}
         onClose={() => setModalNewMarkerVisible(false)}
       />
 
@@ -121,7 +123,11 @@ export default function MainMap() {
         style={styles.button}
         onPress={clickHandler}
       >
-        <FontAwesome5 name="crosshairs" size={36} color={"cornflowerblue"} />
+        <FontAwesome5
+          name="map-marked-alt"
+          size={36}
+          color={"cornflowerblue"}
+        />
       </TouchableOpacity>
 
       <StatusBar style="auto" />

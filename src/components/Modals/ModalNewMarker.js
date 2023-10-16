@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 
@@ -19,12 +20,14 @@ import { Picker } from "@react-native-picker/picker";
 /**
  * La gestion de la visibilité et la fermeture du modal est réglée dans le composant MainMap.js
  */
-export default function ModalNewMarker({ visible, onClose }) {
+export default function ModalNewMarker({ visible, coords, onClose }) {
   const [inputTextHeight, setInputTextHeight] = useState(40); // init hauteur à 40
+  const [buildingTitle, setBuildingTitle] = useState("");
   const [rating, setRating] = useState("");
   const [buildingType, setBuildingType] = useState("");
+  const [avis, setAvis] = useState("");
   /**
-   * Mettre à jour la hauteur en fonction du nombre de lignes de texte
+   * Mettre à jour la hauteur en fonction du nombre de lignes de texte + ajouter l'avis
    */
   function autoGrow(text) {
     setInputTextHeight(
@@ -32,6 +35,11 @@ export default function ModalNewMarker({ visible, onClose }) {
         ? Math.max(inputTextHeight, text.split("\n").length * 100)
         : 40 // init hauteur à 40
     );
+    setAvis(text);
+  }
+
+  function handleChangeTitle(text) {
+    setBuildingTitle(text);
   }
 
   /**
@@ -40,6 +48,24 @@ export default function ModalNewMarker({ visible, onClose }) {
   function handleRatingChange(note) {
     note = parseInt(note);
     note >= 0 && note <= 5 ? setRating(note.toString()) : setRating("");
+  }
+
+  /**
+   * Quand on appuie sur "Terminer", ajout de l'avis en base
+   */
+  function handleSubmitAvis() {
+    Alert.alert(
+      "Votre avis est le suivant :",
+      "Nom du bâtiment : " +
+        buildingTitle +
+        "\nNote : " +
+        rating +
+        "\nType de bâtiment : " +
+        buildingType +
+        "\nAvis : " +
+        avis +
+        coords
+    );
   }
 
   return (
@@ -58,6 +84,8 @@ export default function ModalNewMarker({ visible, onClose }) {
               style={styles.input}
               placeholder="Nom du lieu"
               placeholderTextColor={"coral"}
+              value={buildingTitle}
+              onChangeText={handleChangeTitle}
             />
             <TextInput
               style={styles.input}
@@ -108,7 +136,7 @@ export default function ModalNewMarker({ visible, onClose }) {
 
               <Pressable
                 style={[styles.button, styles.buttonValidate]}
-                onPress={onClose}
+                onPress={handleSubmitAvis}
               >
                 <Text style={styles.textStyle}>Terminer</Text>
               </Pressable>
