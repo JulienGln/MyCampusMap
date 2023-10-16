@@ -28,6 +28,7 @@ export default function MainMap() {
   const mapRef = useRef(null); // référence à la carte
   const [modalNewMarkerVisible, setModalNewMarkerVisible] = useState(false); // modal de création d'un avis
   const [modalMarkerVisible, setModalMarkerVisible] = useState(false); // modal de vue des avis et du batiment
+  const [markerCoords, setMarkerCoords] = useState({}); // les coordonnées du dernier marqueur créé
 
   const initialRegion = {
     latitude: 45.6417615,
@@ -39,7 +40,7 @@ export default function MainMap() {
   const colorScheme = Appearance.getColorScheme(); // mode sombre ou light de l'OS
 
   /**
-   * Appelée lors d'un appui sur la carte
+   * Appelée lors d'un appui long sur la carte
    */
   function handleMapPress(event) {
     ToastAndroid.show(
@@ -47,6 +48,7 @@ export default function MainMap() {
       ToastAndroid.LONG
     );
 
+    setMarkerCoords(event.nativeEvent.coordinate); // mettre un appel à fct async + await qui set les coords si le modal s'ouvre trop vite
     setModalNewMarkerVisible(true);
     // ajout du marqueur à la fin du tableau de marqueurs
     setMarkers([...markers, { coordinate: event.nativeEvent.coordinate }]);

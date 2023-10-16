@@ -64,7 +64,7 @@ export default function ModalNewMarker({ visible, coords, onClose }) {
         buildingType +
         "\nAvis : " +
         avis +
-        coords
+        JSON.stringify(coords)
     );
   }
 
