@@ -74,7 +74,7 @@ export default function MainMap() {
     <View style={styles.container}>
       <ModalNewMarker
         visible={modalNewMarkerVisible}
-        coords={"\nCoordonnées à placer dans MainMap.js"}
+        coords={markerCoords}
         onClose={() => setModalNewMarkerVisible(false)}
       />
 
