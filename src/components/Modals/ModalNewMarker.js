@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  ToastAndroid,
 } from "react-native";
 import React, { useState } from "react";
 
@@ -20,7 +21,13 @@ import { Picker } from "@react-native-picker/picker";
 /**
  * La gestion de la visibilité et la fermeture du modal est réglée dans le composant MainMap.js
  */
-export default function ModalNewMarker({ visible, coords, onClose }) {
+export default function ModalNewMarker({
+  visible,
+  coords,
+  onClose,
+  onCancel,
+  createMarker,
+}) {
   const [inputTextHeight, setInputTextHeight] = useState(40); // init hauteur à 40
   const [buildingTitle, setBuildingTitle] = useState("");
   const [rating, setRating] = useState("");
@@ -54,6 +61,17 @@ export default function ModalNewMarker({ visible, coords, onClose }) {
    * Quand on appuie sur "Terminer", ajout de l'avis en base
    */
   function handleSubmitAvis() {
+    if (!avis || !buildingTitle || !rating) {
+      ToastAndroid.show("Avis incomplet !", ToastAndroid.LONG);
+      Alert.alert(
+        "Avis incomplet",
+        "Il vous manque :\n\n" +
+          (!avis ? "- l'avis\n" : "\n") +
+          (!buildingTitle ? "- le nom du lieu\n" : "\n") +
+          (!rating ? "- la note" : "")
+      );
+      return;
+    }
     Alert.alert(
       "Votre avis est le suivant :",
       "Nom du bâtiment : " +
@@ -66,6 +84,17 @@ export default function ModalNewMarker({ visible, coords, onClose }) {
         avis +
         JSON.stringify(coords)
     );
+
+    // dictionnaire qui associe le type d'un bâtiment à une couleur
+    const markerColors = {
+      Restaurant: "coral",
+      Parking: "steelblue",
+      batiment_scolaire: "fuchsia",
+      Sante: "green",
+      logement_crous: "gold",
+    };
+    createMarker(coords, markerColors[buildingType]); // fonction de MainMap
+    onClose(); // fonction de MainMap
   }
 
   return (
@@ -113,12 +142,14 @@ export default function ModalNewMarker({ visible, coords, onClose }) {
               prompt="Choisissez le type de bâtiment"
               mode="dialog" // ou "dropdown"
             >
-              <Picker.Item label="Restaurant" value="restaurant" />
-              <Picker.Item label="Parking" value="parking" />
+              <Picker.Item label="Restaurant" value="Restaurant" />
+              <Picker.Item label="Parking" value="Parking" />
               <Picker.Item
-                label="Bâtiment générique (template C++)"
-                value="batiment_generique"
+                label="Bâtiment scolaire"
+                value="batiment_scolaire"
               />
+              <Picker.Item label="Santé" value="Sante" />
+              <Picker.Item label="Logement CROUS" value="logement_crous" />
             </Picker>
 
             <Text style={{ fontWeight: "bold" }}>
@@ -129,7 +160,7 @@ export default function ModalNewMarker({ visible, coords, onClose }) {
             <View style={styles.buttonGroup}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={onClose}
+                onPress={onCancel}
               >
                 <Text style={styles.textStyle}>Annuler</Text>
               </Pressable>

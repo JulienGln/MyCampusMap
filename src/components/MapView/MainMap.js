@@ -29,6 +29,7 @@ export default function MainMap() {
   const [modalNewMarkerVisible, setModalNewMarkerVisible] = useState(false); // modal de création d'un avis
   const [modalMarkerVisible, setModalMarkerVisible] = useState(false); // modal de vue des avis et du batiment
   const [markerCoords, setMarkerCoords] = useState({}); // les coordonnées du dernier marqueur créé
+  const [markerColor, setMarkerColor] = useState("green");
 
   const initialRegion = {
     latitude: 45.6417615,
@@ -51,9 +52,16 @@ export default function MainMap() {
     setMarkerCoords(event.nativeEvent.coordinate); // mettre un appel à fct async + await qui set les coords si le modal s'ouvre trop vite
     setModalNewMarkerVisible(true);
     // ajout du marqueur à la fin du tableau de marqueurs
-    setMarkers([...markers, { coordinate: event.nativeEvent.coordinate }]);
+    //setMarkers([...markers, { coordinate: event.nativeEvent.coordinate }]);
   }
 
+  /**
+   * fonction qui ajoute un marqueur au tableau des marqueurs si on appuie sur "Terminer" dans le modal
+   */
+  function createMarker(coords, color) {
+    setMarkerColor(color); // en fonction du type de bâtiment, le marqueur change de couleur
+    setMarkers([...markers, { coordinate: coords }]);
+  }
   /**
    * Appelée lors d'un appui sur un marqueur
    */
@@ -76,6 +84,12 @@ export default function MainMap() {
         visible={modalNewMarkerVisible}
         coords={markerCoords}
         onClose={() => setModalNewMarkerVisible(false)}
+        onCancel={() => {
+          // si on appuie sur le bouton "Annuler" du modal
+          setModalNewMarkerVisible(false);
+          markers.pop(); // on enlève le dernier marqueur ajouté
+        }}
+        createMarker={createMarker}
       />
 
       {/*<ModalDefault
@@ -99,7 +113,7 @@ export default function MainMap() {
         {markers.map((marker, index) => (
           <Marker
             key={index}
-            pinColor="green"
+            pinColor={markerColor}
             draggable
             tappable
             description={"à faire" + index}
@@ -127,7 +141,7 @@ export default function MainMap() {
       >
         <FontAwesome5
           name="map-marked-alt"
-          size={36}
+          size={32}
           color={"cornflowerblue"}
         />
       </TouchableOpacity>
