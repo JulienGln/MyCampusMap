@@ -7,13 +7,16 @@
  */
 export async function postLieu(data) {
   try {
-    const response = await fetch("https://example.com/profile", {
-      method: "POST", // ou 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      "mongodb://localhost/MyCampusMap/data/create_lieu",
+      {
+        method: "POST", // ou 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     const result = await response.json();
     console.log("Success:", result);
@@ -22,14 +25,17 @@ export async function postLieu(data) {
   }
 }
 
-export async function getLieu() {
+export async function getAllLieu() {
   try {
-    const response = await fetch("https://example.com/profile", {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-    });
+    const response = await fetch(
+      "mongodb://localhost/MyCampusMap/data/get_all_lieu",
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+      }
+    );
 
     if (response.ok) {
       const result = await response.json();

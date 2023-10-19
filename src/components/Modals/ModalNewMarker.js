@@ -13,6 +13,7 @@ import React, { useState } from "react";
 
 // > npm install @react-native-picker/picker
 import { Picker } from "@react-native-picker/picker";
+import { postLieu } from "../../helpers/request";
 
 /**
  * Modal de création d'un marqueur
@@ -84,6 +85,14 @@ export default function ModalNewMarker({
         avis +
         JSON.stringify(coords)
     );
+
+    // ajoute le lieu à la base de données
+    postLieu({
+      nom: buildingTitle,
+      typeBatiment: buildingType,
+      coordonnees: coords,
+      avis: [],
+    });
 
     // dictionnaire qui associe le type d'un bâtiment à une couleur
     const markerColors = {
