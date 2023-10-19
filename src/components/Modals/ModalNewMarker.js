@@ -66,8 +66,8 @@ export default function ModalNewMarker({
       Alert.alert(
         "Avis incomplet",
         "Il vous manque :\n\n" +
-          (!avis ? "- l'avis\n" : "\n") +
-          (!buildingTitle ? "- le nom du lieu\n" : "\n") +
+          (!avis ? "- l'avis\n" : "") +
+          (!buildingTitle ? "- le nom du lieu\n" : "") +
           (!rating ? "- la note" : "")
       );
       return;
