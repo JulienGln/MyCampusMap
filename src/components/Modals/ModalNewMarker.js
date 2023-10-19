@@ -86,14 +86,6 @@ export default function ModalNewMarker({
         JSON.stringify(coords)
     );
 
-    // ajoute le lieu à la base de données
-    postLieu({
-      nom: buildingTitle,
-      typeBatiment: buildingType,
-      coordonnees: coords,
-      avis: [],
-    });
-
     // dictionnaire qui associe le type d'un bâtiment à une couleur
     const markerColors = {
       Restaurant: "coral",
@@ -103,6 +95,15 @@ export default function ModalNewMarker({
       logement_crous: "gold",
     };
     createMarker(coords, markerColors[buildingType]); // fonction de MainMap
+
+    // ajoute le lieu à la base de données
+    postLieu({
+      nom: buildingTitle,
+      typeBatiment: buildingType,
+      coordonnees: coords,
+      avis: [],
+    });
+
     onClose(); // fonction de MainMap
   }
 

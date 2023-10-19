@@ -8,7 +8,7 @@
 export async function postLieu(data) {
   try {
     const response = await fetch(
-      "mongodb://localhost/MyCampusMap/data/create_lieu",
+      "http://127.0.0.1:3000/data/create_lieu", //"mongodb://127.0.0.1:27017/MyCampusMap/data/create_lieu",
       {
         method: "POST", // ou 'PUT'
         headers: {
@@ -17,7 +17,7 @@ export async function postLieu(data) {
         body: JSON.stringify(data),
       }
     );
-
+    console.log(data);
     const result = await response.json();
     console.log("Success:", result);
   } catch (error) {
@@ -28,7 +28,7 @@ export async function postLieu(data) {
 export async function getAllLieu() {
   try {
     const response = await fetch(
-      "mongodb://localhost/MyCampusMap/data/get_all_lieu",
+      "mongodb://127.0.0.1:27017/MyCampusMap/data/get_all_lieu",
       {
         method: "GET",
         headers: {
