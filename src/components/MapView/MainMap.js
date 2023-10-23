@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import MapView, { Marker, Polygon } from "react-native-maps"; // > npm install react-native-maps
 // doc : https://github.com/react-native-maps/react-native-maps/tree/master#component-api
 // customiser le style sa map : https://mapstyle.withgoogle.com/
@@ -73,7 +73,7 @@ export default function MainMap() {
   function handleGetData() {
     setData(testJSON);
 
-    Alert.alert("test (" + data.length + ")", JSON.stringify(data));
+    //Alert.alert("test (" + data.length + ")", JSON.stringify(data));
 
     const newMarkers = data.map((lieu, index) => ({
       coordinate: {
@@ -96,6 +96,10 @@ export default function MainMap() {
     mapRef.current.animateToRegion(initialRegion, 2000);
     removeAllMarkers();
   }
+
+  useEffect(() => {
+    handleGetData();
+  }, []);
 
   return (
     <View style={styles.container}>
