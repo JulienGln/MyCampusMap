@@ -73,7 +73,15 @@ export default function MainMap() {
   function handleGetData() {
     setData(testJSON);
 
-    //Alert.alert("test (" + data.length + ")", JSON.stringify(data));
+    Alert.alert("test (" + data.length + ")", JSON.stringify(data));
+
+    const markerColors = {
+      Restaurant: "coral",
+      Parking: "steelblue",
+      batiment_scolaire: "fuchsia",
+      Sante: "green",
+      logement_crous: "gold",
+    };
 
     const newMarkers = data.map((lieu, index) => ({
       coordinate: {
@@ -147,7 +155,8 @@ export default function MainMap() {
                   marker.coordinate.latitude +
                   "\n- Longitude : " +
                   marker.coordinate.longitude +
-                  "\n\n(à mettre dans un component modal pour afficher avis etc.)",
+                  "\n\n(à mettre dans un component modal pour afficher avis etc.)\nIndex dans JSON : " +
+                  marker.description,
                 [{ text: "OK" }],
                 { cancelable: true } // L'alerte peut être annulée en cliquant en dehors de la boîte de dialogue
               );
