@@ -1,0 +1,41 @@
+[
+    {
+        "nom": "Cafetaria",
+        "type": "Restaurant",
+        "coordonnes": {
+            "longitude": 5.252524786247824,
+            "latitude": 45.870131775736809
+        },
+        "avis": [
+            {
+
+            }
+        ] 
+    },
+    {
+        "nom": "Disneyland",
+        "type": "Sante",
+        "coordonnes": {
+            "longitude": 5.052524786247824,
+            "latitude": 45.970131775736809
+        },
+        "avis": [
+            {
+
+            }
+        ] 
+    },
+    {
+        "nom": "Bou de lard",
+        "type": "batiment_scolaire",
+        "coordonnes": {
+            "longitude": 5.034524786247824,
+            "latitude": 46.070131775736809
+        },
+        "avis": [
+            {
+
+            }
+        ] 
+    }
+]

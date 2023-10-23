@@ -3,7 +3,7 @@ import { Modal, StyleSheet, View, Pressable, Text } from "react-native";
 /**
  * Modal qui s'affiche lorsqu'on clique sur un marqueur déjà existant (description du bâtiment, avis, photos...)
  */
-export default function ModalDefault({ markerId, onClose }) {
+export default function ModalDefault({ visible, markerId, onClose }) {
   const [data, setData] = useState(null);
 
   /**
@@ -44,7 +44,7 @@ export default function ModalDefault({ markerId, onClose }) {
       style={styles.modalView}
       animationType="fade"
       transparent={true}
-      visible={modalVisible}
+      visible={visible}
       onRequestClose={onClose}
     >
       <View style={styles.centeredView}>
