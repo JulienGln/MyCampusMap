@@ -23,6 +23,8 @@ import ModalDefault from "../Modals/ModalDefault";
 import { FontAwesome5 } from "@expo/vector-icons";
 //import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions"; // > npm install react-native-permissions
 
+const testJSON = require("../../../testData.json");
+
 export default function MainMap() {
   const [markers, setMarkers] = useState([]); // tableau de Markers
   const mapRef = useRef(null); // référence à la carte
@@ -30,6 +32,7 @@ export default function MainMap() {
   const [modalMarkerVisible, setModalMarkerVisible] = useState(false); // modal de vue des avis et du batiment
   const [markerCoords, setMarkerCoords] = useState({}); // les coordonnées du dernier marqueur créé
   const [markerColor, setMarkerColor] = useState("green");
+  const [data, setData] = useState(testJSON);
 
   const initialRegion = {
     latitude: 45.6417615,
@@ -67,6 +70,22 @@ export default function MainMap() {
    */
   function handleMarkerPress() {}
 
+  function handleGetData() {
+    setData(testJSON);
+
+    Alert.alert("test (" + data.length + ")", JSON.stringify(data));
+
+    const newMarkers = data.map((lieu, index) => ({
+      coordinate: {
+        latitude: parseFloat(lieu.coordonnees.latitude),
+        longitude: parseFloat(lieu.coordonnees.longitude),
+      },
+      description: index.toString(), // la description est l'index du lieu dans le tableau qui est dans le JSON
+    }));
+
+    setMarkers(newMarkers);
+  }
+
   function removeAllMarkers() {
     setMarkers([]);
   }
@@ -87,7 +106,7 @@ export default function MainMap() {
         onCancel={() => {
           // si on appuie sur le bouton "Annuler" du modal
           setModalNewMarkerVisible(false);
-          markers.pop(); // on enlève le dernier marqueur ajouté
+          //markers.pop(); // on enlève le dernier marqueur ajouté
         }}
         createMarker={createMarker}
       />
@@ -95,7 +114,7 @@ export default function MainMap() {
       {/*<ModalDefault
         visible={modalMarkerVisible}
         onClose={() => setModalMarkerVisible(false)}
-  />*/}
+      />*/}
 
       {/* <Button title="text" style={styles.button} onPress={clickHandler}>
         <FontAwesome5 name="crosshairs" size={24} color={"white"} />
@@ -107,7 +126,7 @@ export default function MainMap() {
         initialRegion={initialRegion}
         customMapStyle={colorScheme === "light" ? mapStyle : nightMapStyle}
         //minZoomLevel={17}
-        //onPress={}
+        onDoublePress={handleGetData}
         onLongPress={handleMapPress} // Un appui long ajoutera un point sur la carte.
       >
         {markers.map((marker, index) => (
