@@ -88,6 +88,7 @@ export default function MainMap() {
         latitude: parseFloat(lieu.coordonnees.latitude),
         longitude: parseFloat(lieu.coordonnees.longitude),
       },
+      pinColor: markerColors[lieu.type],
       description: index.toString(), // la description est l'index du lieu dans le tableau qui est dans le JSON
     }));
 
@@ -144,10 +145,10 @@ export default function MainMap() {
         {markers.map((marker, index) => (
           <Marker
             key={index}
-            pinColor={markerColor}
+            pinColor={marker.pinColor ? marker.pinColor : markerColor}
             draggable
             tappable
-            description={"à faire" + index}
+            description={index.toString()}
             onPress={() => {
               Alert.alert(
                 "Point " + (index + 1),
