@@ -102,6 +102,10 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             </Text>
           ))}
 
+          <Image
+            source={require("../../assets/mycampusmap_logoV2.jpg")}
+            style={{ width: 200, height: 200, borderRadius: 20, margin: 10 }}
+          />
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={onClose}
