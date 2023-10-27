@@ -34,7 +34,8 @@
         },
         "avis": [
             {
-                "test":"prout"
+                "test":"prout",
+                "photo":"./src/assets/icon.png"
             }
         ] 
     }

@@ -1,7 +1,33 @@
 import { useState, useEffect } from "react";
-import { Modal, StyleSheet, View, Pressable, Text } from "react-native";
+import {
+  Modal,
+  StyleSheet,
+  View,
+  Pressable,
+  Text,
+  ScrollView,
+  Image,
+} from "react-native";
 
 const testJSON = require("../../../testData.json");
+
+// dictionnaire qui associe le type d'un bâtiment à un vrai nom
+const nomLieux = {
+  Restaurant: "Restaurant",
+  Parking: "Parking",
+  batiment_scolaire: "Bâtiment scolaire",
+  Sante: "Santé",
+  logement_crous: "Logement CROUSSE",
+};
+
+// dictionnaire qui associe le type d'un bâtiment à une couleur
+const markerColors = {
+  Restaurant: "coral",
+  Parking: "steelblue",
+  batiment_scolaire: "fuchsia",
+  Sante: "green",
+  logement_crous: "gold",
+};
 /**
  * Modal qui s'affiche lorsqu'on clique sur un marqueur déjà existant (description du bâtiment, avis, photos...)
  */
@@ -52,11 +78,30 @@ export default function ModalDefault({ visible, markerId, onClose }) {
       visible={visible}
       onRequestClose={onClose}
     >
-      <View style={styles.centeredView}>
+      <View
+        style={[
+          styles.centeredView,
+          {
+            backgroundColor: markerColors[testJSON[markerId].type],
+          },
+        ]}
+      >
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>
-            Hello World! {markerId + JSON.stringify(testJSON[markerId])}
+          <Text style={styles.modalTitleText}>{testJSON[markerId].nom}</Text>
+          <Text
+            style={[
+              styles.modalText,
+              { color: markerColors[testJSON[markerId].type] },
+            ]}
+          >
+            {nomLieux[testJSON[markerId].type]}
           </Text>
+          {testJSON[markerId].avis.map((avis, index) => (
+            <Text key={index} style={styles.modalText}>
+              {avis.test}
+            </Text>
+          ))}
+
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={onClose}
@@ -109,6 +154,13 @@ const styles = StyleSheet.create({
   },
   modalText: {
     marginBottom: 15,
+    textAlign: "center",
+    fontSize: 20,
+  },
+  modalTitleText: {
+    fontWeight: "bold",
+    fontSize: 30,
+    marginBottom: 20,
     textAlign: "center",
   },
 });
