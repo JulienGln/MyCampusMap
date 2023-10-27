@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Modal, StyleSheet, View, Pressable, Text } from "react-native";
+
+const testJSON = require("../../../testData.json");
 /**
  * Modal qui s'affiche lorsqu'on clique sur un marqueur déjà existant (description du bâtiment, avis, photos...)
  */

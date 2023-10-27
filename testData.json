@@ -3,8 +3,8 @@
         "nom": "Cafetaria",
         "type": "Restaurant",
         "coordonnees": {
-            "longitude": 5.252524786247824,
-            "latitude": 45.870131775736809
+            "longitude": 5.8681425824761,
+            "latitude": 45.642587381216
         },
         "avis": [
             {
@@ -16,8 +16,8 @@
         "nom": "Disneyland",
         "type": "Sante",
         "coordonnees": {
-            "longitude": 5.052524786247824,
-            "latitude": 45.970131775736809
+            "longitude": 5.867523662745953,
+            "latitude": 45.64426919246256
         },
         "avis": [
             {
@@ -29,8 +29,8 @@
         "nom": "Bou de lard",
         "type": "batiment_scolaire",
         "coordonnees": {
-            "longitude": 5.034524786247824,
-            "latitude": 46.070131775736809
+            "longitude": 5.8751422924101,
+            "latitude": 45.6454010310795
         },
         "avis": [
             {

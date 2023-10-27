@@ -139,7 +139,6 @@ export default function MainMap() {
         initialRegion={initialRegion}
         customMapStyle={colorScheme === "light" ? mapStyle : nightMapStyle}
         //minZoomLevel={17}
-        onDoublePress={handleGetData}
         onLongPress={handleMapPress} // Un appui long ajoutera un point sur la carte.
       >
         {markers.map((marker, index) => (
