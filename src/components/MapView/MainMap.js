@@ -33,6 +33,7 @@ export default function MainMap() {
   const [markerCoords, setMarkerCoords] = useState({}); // les coordonnées du dernier marqueur créé
   const [markerColor, setMarkerColor] = useState("green");
   const [data, setData] = useState(testJSON);
+  const [currentIdMarker, setCurrentIdMarker] = useState(0);
 
   const initialRegion = {
     latitude: 45.6417615,
@@ -127,10 +128,13 @@ export default function MainMap() {
         createMarker={createMarker}
       />
 
-      {/*<ModalDefault
-        visible={modalMarkerVisible}
-        onClose={() => setModalMarkerVisible(false)}
-      />*/}
+      {
+        <ModalDefault
+          visible={modalMarkerVisible}
+          markerId={currentIdMarker}
+          onClose={() => setModalMarkerVisible(false)}
+        />
+      }
 
       {/* <Button title="text" style={styles.button} onPress={clickHandler}>
         <FontAwesome5 name="crosshairs" size={24} color={"white"} />
@@ -152,7 +156,9 @@ export default function MainMap() {
             tappable
             description={index.toString()}
             onPress={() => {
-              Alert.alert(
+              setCurrentIdMarker(parseInt(index));
+              setModalMarkerVisible(true);
+              /*Alert.alert(
                 "Point " + (index + 1),
                 "Coordonnées : \n\n- Latitude : " +
                   marker.coordinate.latitude +
@@ -162,7 +168,7 @@ export default function MainMap() {
                   marker.description,
                 [{ text: "OK" }],
                 { cancelable: true } // L'alerte peut être annulée en cliquant en dehors de la boîte de dialogue
-              );
+              );*/
             }}
             coordinate={marker.coordinate}
           />

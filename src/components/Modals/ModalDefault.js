@@ -7,6 +7,7 @@ const testJSON = require("../../../testData.json");
  */
 export default function ModalDefault({ visible, markerId, onClose }) {
   const [data, setData] = useState(null);
+  const [currentMarker, setCurrentMarker] = useState(0);
 
   /**
    * Récupère l'avis d'un point par son id
@@ -33,12 +34,14 @@ export default function ModalDefault({ visible, markerId, onClose }) {
 
   // récupération des données du marqueur
   useEffect(() => {
-    const fetchData = async () => {
+    /*const fetchData = async () => {
       const result = await getMarkerById(1); // id du marqueur
       setData(result);
     };
 
-    fetchData();
+    fetchData();*/
+    setData(testJSON);
+    setCurrentMarker(testJSON[markerId]);
   }, []);
 
   return (
@@ -51,7 +54,9 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text style={styles.modalText}>Hello World!</Text>
+          <Text style={styles.modalText}>
+            Hello World! {markerId + JSON.stringify(testJSON[markerId])}
+          </Text>
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={onClose}
