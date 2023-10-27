@@ -8,6 +8,7 @@ import NavBar from "./src/components/NavBar/NavBar";
 // > npx expo login
 // > npx expo start
 // (en local) : > npx expo start --localhost --android
+// (avec tunnel (Wi-Fi)) : > npx expo start --tunnel
 // documentation : https://docs.expo.dev/
 
 // caméra  : https://docs.expo.dev/versions/latest/sdk/camera/
