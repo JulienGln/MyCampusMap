@@ -63,7 +63,10 @@ export default function MainMap() {
    */
   function createMarker(coords, color) {
     setMarkerColor(color); // en fonction du type de bâtiment, le marqueur change de couleur
-    setMarkers([...markers, { coordinate: coords }]);
+    setMarkers([
+      ...markers,
+      { coordinate: coords, description: markers.length.toString() },
+    ]);
   }
   /**
    * Appelée lors d'un appui sur un marqueur
@@ -73,7 +76,7 @@ export default function MainMap() {
   function handleGetData() {
     setData(testJSON);
 
-    Alert.alert("test (" + data.length + ")", JSON.stringify(data));
+    //Alert.alert("test (" + data.length + ")", JSON.stringify(data));
 
     const markerColors = {
       Restaurant: "coral",
