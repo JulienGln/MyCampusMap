@@ -5,7 +5,7 @@ import {
   View,
   Pressable,
   Text,
-  ScrollView,
+  FlatList,
   Image,
 } from "react-native";
 
@@ -77,6 +77,16 @@ export default function ModalDefault({ visible, markerId, onClose }) {
       .then((data) => setWeatherData(data.current_weather));
   }, []);
 
+  function avisItem({ item }) {
+    if (item && item.test) {
+      return (
+        <Text style={[styles.modalText, { fontWeight: "bold" }]}>
+          {item.test} |{" "}
+        </Text>
+      );
+    } else return null;
+  }
+
   return (
     <Modal
       style={styles.modalView}
@@ -103,11 +113,19 @@ export default function ModalDefault({ visible, markerId, onClose }) {
           >
             {nomLieux[testJSON[markerId].type]}
           </Text>
-          {testJSON[markerId].avis.map((avis, index) => (
+
+          {/*testJSON[markerId].avis.map((avis, index) => (
             <Text key={index} style={styles.modalText}>
               {avis.test}
             </Text>
-          ))}
+          ))*/}
+          <FlatList
+            data={testJSON[markerId]?.avis}
+            renderItem={avisItem}
+            keyExtractor={(item, index) => index.toString()}
+            horizontal
+            pagingEnabled
+          />
 
           <Image
             source={{
