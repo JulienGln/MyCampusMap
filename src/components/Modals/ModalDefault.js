@@ -80,9 +80,19 @@ export default function ModalDefault({ visible, markerId, onClose }) {
   function avisItem({ item }) {
     if (item && item.test) {
       return (
-        <Text style={[styles.modalText, { fontWeight: "bold" }]}>
-          {item.test} |{" "}
-        </Text>
+        <View style={{ marginRight: 20 }}>
+          <Text style={{ fontStyle: "italic", fontWeight: "bold" }}>
+            Gudule
+          </Text>
+          <Text
+            style={{ fontStyle: "italic", color: "gold", fontWeight: "bold" }}
+          >
+            5/5
+          </Text>
+          <Text style={[styles.modalText, { fontWeight: "bold" }]}>
+            {item.test}
+          </Text>
+        </View>
       );
     } else return null;
   }
@@ -199,7 +209,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "coral",
     marginTop: 10,
   },
   textStyle: {
