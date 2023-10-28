@@ -180,10 +180,24 @@ export default function MainMap() {
         style={styles.button}
         onPress={clickHandler}
       >
-        <FontAwesome5
+        {/*<FontAwesome5
           name="map-marked-alt"
           size={32}
           color={"cornflowerblue"}
+          />*/}
+        <Image
+          source={require("../../assets/relocalisation.jpg")}
+          style={{
+            width: 55,
+            height: 55,
+            borderRadius: 500,
+            borderWidth: 1,
+            borderColor: "black",
+            alignContent: "center",
+            justifyContent: "center",
+            padding: 30,
+            marginTop: -11,
+          }}
         />
       </TouchableOpacity>
 
