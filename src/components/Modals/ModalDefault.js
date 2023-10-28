@@ -34,6 +34,7 @@ const markerColors = {
 export default function ModalDefault({ visible, markerId, onClose }) {
   const [data, setData] = useState(null);
   const [currentMarker, setCurrentMarker] = useState(0);
+  const [weatherData, setWeatherData] = useState(null);
 
   /**
    * Récupère l'avis d'un point par son id
@@ -68,6 +69,12 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     fetchData();*/
     setData(testJSON);
     setCurrentMarker(testJSON[markerId]);
+
+    fetch(
+      `https://api.open-meteo.com/v1/meteofrance?latitude=${testJSON[markerId].coordonnees.latitude}&longitude=${testJSON[markerId].coordonnees.longitude}&current_weather=true`
+    )
+      .then((response) => response.json())
+      .then((data) => setWeatherData(data.current_weather));
   }, []);
 
   return (
@@ -106,6 +113,28 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             source={require("../../assets/mycampusmap_logoV2.jpg")}
             style={{ width: 200, height: 200, borderRadius: 20, margin: 10 }}
           />
+
+          {weatherData && (
+            <View style={styles.weatherView}>
+              {/*<Text>Météo : {JSON.stringify(weatherData)}</Text>*/}
+              <Text>{weatherData.is_day ? "Jour" : "Nuit"}</Text>
+              <Text>
+                Date :{" "}
+                {new Date(weatherData.time).toLocaleDateString("fr-FR", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </Text>
+              <Text>Température : {weatherData.temperature} °C</Text>
+              <Text>
+                Vent : {weatherData.windspeed} km/h ({weatherData.winddirection}
+                °)
+              </Text>
+            </View>
+          )}
+
           <Pressable
             style={[styles.button, styles.buttonClose]}
             onPress={onClose}
@@ -166,5 +195,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
     marginBottom: 20,
     textAlign: "center",
+  },
+  weatherView: {
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });
