@@ -110,7 +110,10 @@ export default function ModalDefault({ visible, markerId, onClose }) {
           ))}
 
           <Image
-            source={require("../../assets/mycampusmap_logoV2.jpg")}
+            source={{
+              uri: "https://media.giphy.com/media/XcujzilpaiGEWFV16n/giphy.gif",
+            }}
+            // source={require("../../assets/mycampusmap_logoV2.jpg")}
             style={{ width: 200, height: 200, borderRadius: 20, margin: 10 }}
           />
 
@@ -179,6 +182,7 @@ const styles = StyleSheet.create({
   },
   buttonClose: {
     backgroundColor: "#2196F3",
+    marginTop: 10,
   },
   textStyle: {
     color: "white",
