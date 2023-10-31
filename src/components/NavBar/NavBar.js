@@ -61,7 +61,11 @@ export default function NavBar() {
         options={{
           tabBarLabel: ({ focused }) =>
             focused ? (
-              <Text style={{ color: theme === "light" ? "black" : "white" }}>
+              <Text
+                style={{
+                  color: theme === "light" ? "cornflowerblue" : "coral",
+                }}
+              >
                 Paramètres
               </Text>
             ) : (
