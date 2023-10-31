@@ -19,7 +19,7 @@ const nomLieux = {
   Parking: "Parking",
   batiment_scolaire: "Bâtiment scolaire",
   Sante: "Santé",
-  logement_crous: "Logement CROUSSE",
+  logement_crous: "Logement CROUS",
 };
 
 // dictionnaire qui associe le type d'un bâtiment à une couleur
@@ -36,7 +36,6 @@ const markerColors = {
 export default function ModalDefault({ visible, markerId, onClose }) {
   const [data, setData] = useState(null);
   const [currentMarker, setCurrentMarker] = useState(0);
-  const [weatherData, setWeatherData] = useState(null);
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
   const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
@@ -74,12 +73,6 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     fetchData();*/
     setData(testJSON);
     setCurrentMarker(testJSON[markerId]);
-
-    fetch(
-      `https://api.open-meteo.com/v1/meteofrance?latitude=${testJSON[markerId].coordonnees.latitude}&longitude=${testJSON[markerId].coordonnees.longitude}&current_weather=true`
-    )
-      .then((response) => response.json())
-      .then((data) => setWeatherData(data.current_weather));
   }, []);
 
   function avisItem({ item }) {
@@ -153,31 +146,6 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             style={{ width: 200, height: 200, borderRadius: 20, margin: 10 }}
           />
 
-          {weatherData && (
-            <View style={themeStyles.weatherView}>
-              {/*<Text>Météo : {JSON.stringify(weatherData)}</Text>*/}
-              <Text style={themeStyles.weatherText}>
-                {weatherData.is_day ? "Jour" : "Nuit"}
-              </Text>
-              <Text style={themeStyles.weatherText}>
-                Date :{" "}
-                {new Date(weatherData.time).toLocaleDateString("fr-FR", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </Text>
-              <Text style={themeStyles.weatherText}>
-                Température : {weatherData.temperature} °C
-              </Text>
-              <Text style={themeStyles.weatherText}>
-                Vent : {weatherData.windspeed} km/h ({weatherData.winddirection}
-                °)
-              </Text>
-            </View>
-          )}
-
           <Pressable
             style={[themeStyles.button, themeStyles.buttonClose]}
             onPress={onClose}
@@ -243,13 +211,6 @@ const styles = (theme) =>
       color: theme === "light" ? "black" : "white",
       marginBottom: 20,
       textAlign: "center",
-    },
-    weatherView: {
-      textAlign: "center",
-    },
-    weatherText: {
-      color: theme === "light" ? "black" : "white",
-      fontWeight: "bold",
     },
     avisUserName: {
       fontStyle: "italic",
