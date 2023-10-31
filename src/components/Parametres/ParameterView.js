@@ -11,6 +11,7 @@ import {
   Switch,
   Dimensions,
 } from "react-native";
+import { SegmentedButtons } from "react-native-paper";
 
 import { getAppTheme, setAppTheme } from "../../helpers/localStorage";
 import { ThemeContext } from "../../themeContext";
@@ -79,37 +80,49 @@ export default function ParameterView() {
       <Text style={styles.text}>Version : {Platform.Version}</Text>
       <Text style={styles.text}>
         Thème : {theme.toLocaleUpperCase() === "LIGHT" ? "CLAIR" : "SOMBRE"}
-        {"\n"}
-        <Switch
-          style={{ alignItems: "center", justifyContent: "center" }}
-          onValueChange={toggleTheme}
-          value={isSwitchThemeEnabled}
-        ></Switch>
       </Text>
 
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "space-around",
+          alignItems: "center",
           padding: 10,
         }}
       >
-        {theme === "dark" && (
+        {/*theme === "dark" && (
           <TouchableOpacity onPress={toggleTheme}>
             <Image
               source={require("../../assets/light_mode.png")}
               style={{ width: 120, height: 120, margin: 10 }}
             />
           </TouchableOpacity>
-        )}
-        {theme === "light" && (
+        )*/}
+        {/*theme === "light" && (
           <TouchableOpacity onPress={toggleTheme}>
             <Image
               source={require("../../assets/dark_mode.png")}
               style={{ width: 120, height: 120, margin: 10, borderRadius: 100 }}
             />
           </TouchableOpacity>
-        )}
+        )*/}
+        <SegmentedButtons
+          value={theme}
+          onValueChange={toggleTheme}
+          buttons={[
+            {
+              value: "dark",
+              label: "Sombre",
+              icon: "weather-night",
+              checkedColor: "black",
+            },
+            {
+              value: "light",
+              label: "Clair",
+              icon: "white-balance-sunny",
+              uncheckedColor: "white",
+            },
+          ]}
+        />
       </View>
 
       <ScrollView style={styles.scrollView}>
