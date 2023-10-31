@@ -10,9 +10,20 @@ import {
   Switch,
 } from "react-native";
 
+import { getAppTheme, setAppTheme } from "../../helpers/localStorage";
+
 export default function ParameterView() {
   const [isSwitchThemeEnabled, setSwitchThemeEnabled] = useState(false);
   const [theme, setTheme] = useState(Appearance.getColorScheme().toString()); // thème par défaut de l'OS
+
+  useEffect(() => {
+    const fetchTheme = async () => {
+      const fetchedTheme = await getAppTheme();
+      setTheme(fetchedTheme);
+    };
+
+    fetchTheme();
+  }, []);
 
   const styles = StyleSheet.create({
     container: {
@@ -61,6 +72,7 @@ export default function ParameterView() {
 
   function toggleTheme() {
     setSwitchThemeEnabled(!isSwitchThemeEnabled);
+    setAppTheme(theme === "light" ? "dark" : "light");
     setTheme(theme === "light" ? "dark" : "light");
   }
 
@@ -90,84 +102,3 @@ export default function ParameterView() {
     </View>
   );
 }
-
-/** 
-Pour appliquer le choix du mode sombre aux autres composants dans React Native, vous pouvez utiliser le `Context` de React. Le `Context` fournit un moyen de passer des données à travers l'arborescence du composant sans avoir à passer les props manuellement à chaque niveau.
-
-Voici un exemple de la façon dont vous pouvez le faire :
-
-1. Créez un `DarkModeContext` :
-
-```jsx
-import React from 'react';
-
-export const DarkModeContext = React.createContext();
-```
-
-2. Utilisez ce contexte dans votre composant principal (généralement `App.js`) pour stocker l'état du mode sombre :
-
-```jsx
-import { DarkModeContext } from './DarkModeContext';
-
-function App() {
-  const [darkMode, setDarkMode] = React.useState(false);
-
-  return (
-    <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
-      {Vos autres composants vont ici }
-      </DarkModeContext.Provider>
-      );
-    }
-    
-    export default App;
-    ```
-    
-    3. Ensuite, dans votre `ParameterView.js`, vous pouvez utiliser `setDarkMode` pour changer l'état lorsque l'utilisateur bascule le switch :
-    
-    ```jsx
-    import { DarkModeContext } from './DarkModeContext';
-    
-    function ParameterView() {
-      const { setDarkMode } = React.useContext(DarkModeContext);
-    
-      const handleSwitchChange = (value) => {
-        setDarkMode(value);
-      };
-    
-      return (
-        <Switch onValueChange={handleSwitchChange} />
-      );
-    }
-    
-    export default ParameterView;
-    ```
-    
-    4. Enfin, dans n'importe quel autre composant où vous voulez utiliser le mode sombre, vous pouvez accéder à `darkMode` à partir du contexte et l'utiliser pour déterminer vos styles :
-    
-    ```jsx
-    import { DarkModeContext } from './DarkModeContext';
-    
-    function SomeOtherComponent() {
-      const { darkMode } = React.useContext(DarkModeContext);
-    
-      const textStyle = darkMode ? styles.darkText : styles.lightText;
-    
-      return (
-        <Text style={textStyle}>Hello, world!</Text>
-      );
-    }
-    
-    const styles = StyleSheet.create({
-      lightText: {
-        color: 'black',
-      },
-      darkText: {
-        color: 'white',
-      },
-    });
-    
-    export default SomeOtherComponent;
-    ```
-    
-    Dans cet exemple, `SomeOtherComponent` utilise la valeur de `darkMode` pour déterminer sa couleur de texte. Vous pouvez adapter ce code à vos besoins spécifiques. J'espère que cela vous aide ! N'hésitez pas si vous avez d'autres questions.
-*/

@@ -23,6 +23,8 @@ import ModalDefault from "../Modals/ModalDefault";
 import { FontAwesome5 } from "@expo/vector-icons";
 //import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions"; // > npm install react-native-permissions
 
+import { getAppTheme } from "../../helpers/localStorage";
+
 const testJSON = require("../../../testData.json");
 
 export default function MainMap() {
@@ -34,6 +36,7 @@ export default function MainMap() {
   const [markerColor, setMarkerColor] = useState("green");
   const [data, setData] = useState(testJSON);
   const [currentIdMarker, setCurrentIdMarker] = useState(0);
+  const [theme, setTheme] = useState(Appearance.getColorScheme().toString()); // thème par défaut de l'OS
 
   const initialRegion = {
     latitude: 45.6417615,
@@ -42,7 +45,15 @@ export default function MainMap() {
     longitudeDelta: 0.004, // Plus c'est proche de 0, plus c'est zoomé
   };
 
-  const colorScheme = Appearance.getColorScheme(); // mode sombre ou light de l'OS
+  // récupération du thème de l'app
+  useEffect(() => {
+    const fetchTheme = async () => {
+      const fetchedTheme = await getAppTheme();
+      setTheme(fetchedTheme);
+    };
+
+    fetchTheme();
+  }, []);
 
   /**
    * Appelée lors d'un appui long sur la carte
@@ -144,7 +155,7 @@ export default function MainMap() {
         ref={mapRef}
         style={styles.map}
         initialRegion={initialRegion}
-        customMapStyle={colorScheme === "light" ? mapStyle : nightMapStyle}
+        customMapStyle={theme === "light" ? mapStyle : nightMapStyle}
         //minZoomLevel={17}
         onLongPress={handleMapPress} // Un appui long ajoutera un point sur la carte.
       >
