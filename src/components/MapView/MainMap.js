@@ -187,7 +187,7 @@ export default function MainMap() {
           color={"cornflowerblue"}
           />*/}
         <Image
-          source={require("../../assets/relocalisation.jpg")}
+          source={require("../../assets/relocalisation.png")}
           style={{
             width: 55,
             height: 55,
@@ -196,6 +196,7 @@ export default function MainMap() {
             borderColor: "black",
             alignContent: "center",
             justifyContent: "center",
+            backgroundColor: theme === "light" ? "white" : "blueviolet",
             padding: 30,
             marginTop: -11,
           }}
