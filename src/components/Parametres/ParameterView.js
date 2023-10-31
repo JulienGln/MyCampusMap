@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Text,
   View,
@@ -11,19 +11,11 @@ import {
 } from "react-native";
 
 import { getAppTheme, setAppTheme } from "../../helpers/localStorage";
+import { ThemeContext } from "../../themeContext";
 
 export default function ParameterView() {
   const [isSwitchThemeEnabled, setSwitchThemeEnabled] = useState(false);
-  const [theme, setTheme] = useState(Appearance.getColorScheme().toString()); // thème par défaut de l'OS
-
-  useEffect(() => {
-    const fetchTheme = async () => {
-      const fetchedTheme = await getAppTheme();
-      setTheme(fetchedTheme);
-    };
-
-    fetchTheme();
-  }, []);
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const styles = StyleSheet.create({
     container: {

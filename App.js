@@ -1,8 +1,11 @@
 import { StyleSheet, Appearance } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
+import { useState, useEffect } from "react";
 
 /**** import des composants : */
 import NavBar from "./src/components/NavBar/NavBar";
+import { ThemeContext } from "./src/themeContext";
+import { getAppTheme } from "./src/helpers/localStorage";
 
 // lancer l'app :
 // > npx expo login
@@ -15,12 +18,23 @@ import NavBar from "./src/components/NavBar/NavBar";
 // couleurs : https://reactnative.dev/docs/colors#color-keywords
 
 export default function App() {
-  const colorScheme = Appearance.getColorScheme(); // mode sombre ou light de l'OS
-  // theme={{ dark: colorScheme === "dark" }}
+  const [theme, setTheme] = useState(Appearance.getColorScheme().toString()); // mode sombre ou light de l'OS
+
+  useEffect(() => {
+    const fetchTheme = async () => {
+      const fetchedTheme = await getAppTheme();
+      setTheme(fetchedTheme);
+    };
+
+    fetchTheme();
+  }, []);
+
   return (
-    <NavigationContainer>
-      <NavBar />
-    </NavigationContainer>
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <NavigationContainer>
+        <NavBar />
+      </NavigationContainer>
+    </ThemeContext.Provider>
   );
 }
 

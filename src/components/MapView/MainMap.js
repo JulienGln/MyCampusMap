@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 import MapView, { Marker, Polygon } from "react-native-maps"; // > npm install react-native-maps
 // doc : https://github.com/react-native-maps/react-native-maps/tree/master#component-api
 // customiser le style sa map : https://mapstyle.withgoogle.com/
@@ -23,7 +23,7 @@ import ModalDefault from "../Modals/ModalDefault";
 import { FontAwesome5 } from "@expo/vector-icons";
 //import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions"; // > npm install react-native-permissions
 
-import { getAppTheme } from "../../helpers/localStorage";
+import { ThemeContext } from "../../themeContext";
 
 const testJSON = require("../../../testData.json");
 
@@ -36,7 +36,7 @@ export default function MainMap() {
   const [markerColor, setMarkerColor] = useState("green");
   const [data, setData] = useState(testJSON);
   const [currentIdMarker, setCurrentIdMarker] = useState(0);
-  const [theme, setTheme] = useState(Appearance.getColorScheme().toString()); // thème par défaut de l'OS
+  const { theme } = useContext(ThemeContext); // récupération du thème de l'app
 
   const initialRegion = {
     latitude: 45.6417615,
@@ -44,16 +44,6 @@ export default function MainMap() {
     latitudeDelta: 0.004, // Plus c'est proche de 0, plus c'est zoomé
     longitudeDelta: 0.004, // Plus c'est proche de 0, plus c'est zoomé
   };
-
-  // récupération du thème de l'app
-  useEffect(() => {
-    const fetchTheme = async () => {
-      const fetchedTheme = await getAppTheme();
-      setTheme(fetchedTheme);
-    };
-
-    fetchTheme();
-  }, []);
 
   /**
    * Appelée lors d'un appui long sur la carte
