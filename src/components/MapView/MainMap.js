@@ -21,6 +21,7 @@ import ModalNewMarker from "../Modals/ModalNewMarker";
 import ModalDefault from "../Modals/ModalDefault";
 
 import { FontAwesome5 } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 //import { check, PERMISSIONS, request, RESULTS } from "react-native-permissions"; // > npm install react-native-permissions
 
 import { ThemeContext } from "../../themeContext";
@@ -36,6 +37,7 @@ export default function MainMap() {
   const [markerColor, setMarkerColor] = useState("green");
   const [data, setData] = useState(testJSON);
   const [currentIdMarker, setCurrentIdMarker] = useState(0);
+  const [weatherData, setWeatherData] = useState(null);
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
 
   const initialRegion = {
@@ -113,6 +115,11 @@ export default function MainMap() {
 
   useEffect(() => {
     handleGetData();
+    fetch(
+      `https://api.open-meteo.com/v1/meteofrance?latitude=${initialRegion.latitude}&longitude=${initialRegion.longitude}&current_weather=true`
+    )
+      .then((response) => response.json())
+      .then((data) => setWeatherData(data.current_weather));
   }, []);
 
   return (
@@ -176,6 +183,103 @@ export default function MainMap() {
         ))}
       </MapView>
 
+      {/* encart météo */}
+      {weatherData && (
+        <View
+          style={{
+            textAlign: "center",
+            alignItems: "center",
+            //backgroundColor: theme === "light" ? "white" : "black",
+            position: "absolute", // centrer en haut, (top, left et right)
+            top: 0,
+            left: 0,
+            right: 0,
+            borderRadius: 30,
+            marginTop: 10,
+            marginLeft: 30,
+            marginRight: 30,
+            opacity: 0.4,
+          }}
+        >
+          {/*<Text>Météo : {JSON.stringify(weatherData)}</Text>*/}
+          <Text
+            style={{
+              color: theme === "light" ? "black" : "white",
+              fontWeight: "bold",
+            }}
+          >
+            {weatherData.is_day ? (
+              <>
+                <Feather
+                  name="sun"
+                  size={24}
+                  color={theme === "light" ? "black" : "white"}
+                />
+                <Text> Jour</Text>
+              </>
+            ) : (
+              <>
+                <Feather
+                  name="moon"
+                  size={24}
+                  color={theme === "light" ? "black" : "white"}
+                />
+                <Text> Nuit</Text>
+              </>
+            )}
+          </Text>
+          <Text
+            style={{
+              color: theme === "light" ? "black" : "white",
+              fontWeight: "bold",
+            }}
+          >
+            <Feather
+              name="calendar"
+              size={24}
+              color={theme === "light" ? "black" : "white"}
+            />
+            {"  "}
+            {new Date(weatherData.time).toLocaleDateString("fr-FR", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </Text>
+          <Text
+            style={{
+              color: theme === "light" ? "black" : "white",
+              fontWeight: "bold",
+            }}
+          >
+            <FontAwesome5
+              name="temperature-high"
+              size={24}
+              color={theme === "light" ? "black" : "white"}
+            />
+            {"  "}
+            {weatherData.temperature} °C
+          </Text>
+          <Text
+            style={{
+              color: theme === "light" ? "black" : "white",
+              fontWeight: "bold",
+            }}
+          >
+            <FontAwesome5
+              name="wind"
+              size={24}
+              color={theme === "light" ? "black" : "white"}
+            />
+            {"  "}
+            {weatherData.windspeed} km/h ({weatherData.winddirection}
+            °)
+          </Text>
+        </View>
+      )}
+
+      {/* boton pour recentrer */}
       <TouchableOpacity
         activeOpacity={0.8}
         style={styles.button}
