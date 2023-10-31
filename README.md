@@ -12,4 +12,5 @@ Avec la commande `npm install`
 - `@react-navigation/bottom-tabs` pour la barre du bas, navigation entre fragments
 - `react-native-maps` pour l'affichage d'une carte et la gestion des marqueurs
 - `@react-native-async-storage/async-storage` pour le stockage local en préférences partagées (clé-valeur[string ou JSON.stringify(jsonObject)])
+- `react-native-paper` pour une application au design natif de Google (intallée assez tardivement sur le projet donc potentiellement sous-exploitée)
 - `@react-native-picker/picker` component picker
