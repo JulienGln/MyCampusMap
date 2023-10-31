@@ -193,7 +193,7 @@ export default function MainMap() {
             height: 55,
             borderRadius: 500,
             borderWidth: 1,
-            borderColor: "black",
+            borderColor: theme === "light" ? "black" : "lightgray",
             alignContent: "center",
             justifyContent: "center",
             backgroundColor: theme === "light" ? "white" : "blueviolet",

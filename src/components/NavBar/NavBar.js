@@ -64,6 +64,9 @@ export default function NavBar() {
               <Text
                 style={{
                   color: theme === "light" ? "cornflowerblue" : "coral",
+                  fontSize: 11,
+                  fontWeight: "bold",
+                  fontStyle: "italic",
                 }}
               >
                 Paramètres
