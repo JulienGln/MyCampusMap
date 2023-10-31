@@ -6,6 +6,7 @@ import ParameterView from "../Parametres/ParameterView";
 // https://icons.expo.fyi/Index pour choix des icones
 import { MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 
+import { Text } from "react-native";
 import { useContext } from "react";
 import { ThemeContext } from "../../themeContext";
 
@@ -27,13 +28,11 @@ export default function NavBar() {
         tabBarActiveTintColor: theme === "light" ? "cornflowerblue" : "coral", // cornflowerblue ou tomato
         tabBarInactiveTintColor: theme === "light" ? "darkgray" : "lightgray", //gray
         headerStyle: {
-          backgroundColor: theme === "light" ? "aliceblue" : "darkblue",
+          backgroundColor: theme === "light" ? "aliceblue" : "navy",
         },
         headerTintColor: theme === "light" ? "black" : "white",
-        tabBarActiveBackgroundColor:
-          theme === "light" ? "aliceblue" : "darkblue",
-        tabBarInactiveBackgroundColor:
-          theme === "light" ? "aliceblue" : "darkblue",
+        tabBarActiveBackgroundColor: theme === "light" ? "aliceblue" : "navy",
+        tabBarInactiveBackgroundColor: theme === "light" ? "aliceblue" : "navy",
       }}
     >
       <Tab.Screen
@@ -60,7 +59,14 @@ export default function NavBar() {
         name="Paramètres"
         component={ParameterView}
         options={{
-          tabBarLabel: "Paramètres",
+          tabBarLabel: ({ focused }) =>
+            focused ? (
+              <Text style={{ color: theme === "light" ? "black" : "white" }}>
+                Paramètres
+              </Text>
+            ) : (
+              ""
+            ),
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="settings" size={size} color={color} />
           ),
