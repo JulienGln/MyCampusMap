@@ -83,7 +83,7 @@ export default function NavBar() {
               ""
             ),
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings" size={size} color={color} />
+            <Ionicons name="settings-sharp" size={size} color={color} />
           ),
         }}
       />

@@ -78,7 +78,7 @@ export default function ParameterView() {
       <Text style={styles.text}>OS : {Platform.OS.toLocaleUpperCase()}</Text>
       <Text style={styles.text}>Version : {Platform.Version}</Text>
       <Text style={styles.text}>
-        Thème (par défaut) : {theme.toLocaleUpperCase()}
+        Thème : {theme.toLocaleUpperCase() === "LIGHT" ? "CLAIR" : "SOMBRE"}
         {"\n"}
         <Switch
           style={{ alignItems: "center", justifyContent: "center" }}
