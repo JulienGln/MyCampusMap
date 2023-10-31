@@ -202,7 +202,7 @@ export default function MainMap() {
         />
       </TouchableOpacity>
 
-      <StatusBar style="auto" />
+      <StatusBar style={theme === "light" ? "dark" : "light"} />
     </View>
   );
 }
