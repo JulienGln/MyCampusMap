@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {
   Modal,
   StyleSheet,
@@ -8,6 +8,8 @@ import {
   FlatList,
   Image,
 } from "react-native";
+
+import { ThemeContext } from "../../themeContext";
 
 const testJSON = require("../../../testData.json");
 
@@ -35,6 +37,9 @@ export default function ModalDefault({ visible, markerId, onClose }) {
   const [data, setData] = useState(null);
   const [currentMarker, setCurrentMarker] = useState(0);
   const [weatherData, setWeatherData] = useState(null);
+
+  const { theme } = useContext(ThemeContext); // récupération du thème de l'app
+  const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
 
   /**
    * Récupère l'avis d'un point par son id
@@ -81,15 +86,13 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     if (item && item.test) {
       return (
         <View style={{ marginRight: 20 }}>
-          <Text style={{ fontStyle: "italic", fontWeight: "bold" }}>
-            Gudule
-          </Text>
+          <Text style={themeStyles.avisUserName}>Gudule</Text>
           <Text
             style={{ fontStyle: "italic", color: "gold", fontWeight: "bold" }}
           >
             5/5
           </Text>
-          <Text style={[styles.modalText, { fontWeight: "bold" }]}>
+          <Text style={[themeStyles.modalText, { fontWeight: "bold" }]}>
             {item.test}
           </Text>
         </View>
@@ -99,7 +102,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
 
   return (
     <Modal
-      style={styles.modalView}
+      style={themeStyles.modalView}
       animationType="fade"
       transparent={true}
       visible={visible}
@@ -107,18 +110,23 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     >
       <View
         style={[
-          styles.centeredView,
+          themeStyles.centeredView,
           {
             backgroundColor: markerColors[testJSON[markerId].type],
           },
         ]}
       >
-        <View style={styles.modalView}>
-          <Text style={styles.modalTitleText}>{testJSON[markerId].nom}</Text>
+        <View style={themeStyles.modalView}>
+          <Text style={themeStyles.modalTitleText}>
+            {testJSON[markerId].nom}
+          </Text>
           <Text
             style={[
-              styles.modalText,
-              { color: markerColors[testJSON[markerId].type] },
+              themeStyles.modalText,
+              {
+                color: markerColors[testJSON[markerId].type],
+                fontWeight: "bold",
+              },
             ]}
           >
             {nomLieux[testJSON[markerId].type]}
@@ -146,10 +154,12 @@ export default function ModalDefault({ visible, markerId, onClose }) {
           />
 
           {weatherData && (
-            <View style={styles.weatherView}>
+            <View style={themeStyles.weatherView}>
               {/*<Text>Météo : {JSON.stringify(weatherData)}</Text>*/}
-              <Text>{weatherData.is_day ? "Jour" : "Nuit"}</Text>
-              <Text>
+              <Text style={themeStyles.weatherText}>
+                {weatherData.is_day ? "Jour" : "Nuit"}
+              </Text>
+              <Text style={themeStyles.weatherText}>
                 Date :{" "}
                 {new Date(weatherData.time).toLocaleDateString("fr-FR", {
                   weekday: "long",
@@ -158,8 +168,10 @@ export default function ModalDefault({ visible, markerId, onClose }) {
                   day: "numeric",
                 })}
               </Text>
-              <Text>Température : {weatherData.temperature} °C</Text>
-              <Text>
+              <Text style={themeStyles.weatherText}>
+                Température : {weatherData.temperature} °C
+              </Text>
+              <Text style={themeStyles.weatherText}>
                 Vent : {weatherData.windspeed} km/h ({weatherData.winddirection}
                 °)
               </Text>
@@ -167,10 +179,10 @@ export default function ModalDefault({ visible, markerId, onClose }) {
           )}
 
           <Pressable
-            style={[styles.button, styles.buttonClose]}
+            style={[themeStyles.button, themeStyles.buttonClose]}
             onPress={onClose}
           >
-            <Text style={styles.textStyle}>Masquer le modal</Text>
+            <Text style={themeStyles.textStyle}>Masquer le modal</Text>
           </Pressable>
         </View>
       </View>
@@ -178,58 +190,70 @@ export default function ModalDefault({ visible, markerId, onClose }) {
   );
 }
 
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+// styles devient une fonction qui prend le thème en paramètre
+const styles = (theme) =>
+  StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "coral",
-    marginTop: 10,
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-    fontSize: 20,
-  },
-  modalTitleText: {
-    fontWeight: "bold",
-    fontSize: 30,
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  weatherView: {
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-});
+    modalView: {
+      margin: 20,
+      backgroundColor: theme === "light" ? "white" : "black",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+    },
+    buttonOpen: {
+      backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+      backgroundColor: "coral",
+      marginTop: 10,
+    },
+    textStyle: {
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+    modalText: {
+      marginBottom: 15,
+      color: theme === "light" ? "black" : "white",
+      textAlign: "center",
+      fontSize: 20,
+    },
+    modalTitleText: {
+      fontWeight: "bold",
+      fontSize: 30,
+      color: theme === "light" ? "black" : "white",
+      marginBottom: 20,
+      textAlign: "center",
+    },
+    weatherView: {
+      textAlign: "center",
+    },
+    weatherText: {
+      color: theme === "light" ? "black" : "white",
+      fontWeight: "bold",
+    },
+    avisUserName: {
+      fontStyle: "italic",
+      fontWeight: "bold",
+      color: theme === "light" ? "black" : "white",
+    },
+  });

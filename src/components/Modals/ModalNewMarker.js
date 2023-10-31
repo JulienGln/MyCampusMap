@@ -9,11 +9,13 @@ import {
   Alert,
   ToastAndroid,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 // > npm install @react-native-picker/picker
 import { Picker } from "@react-native-picker/picker";
 import { postLieu } from "../../helpers/request";
+
+import { ThemeContext } from "../../themeContext";
 
 /**
  * Modal de création d'un marqueur
@@ -34,6 +36,10 @@ export default function ModalNewMarker({
   const [rating, setRating] = useState("");
   const [buildingType, setBuildingType] = useState("");
   const [avis, setAvis] = useState("");
+
+  const { theme } = useContext(ThemeContext); // récupération du thème de l'app
+  const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
+
   /**
    * Mettre à jour la hauteur en fonction du nombre de lignes de texte + ajouter l'avis
    */
@@ -109,25 +115,25 @@ export default function ModalNewMarker({
 
   return (
     <Modal
-      style={styles.modalView}
+      style={themeStyles.modalView}
       animationType="fade"
       transparent={true}
       visible={visible}
       onRequestClose={onClose}
     >
       <ScrollView>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={styles.modalText}>Nouveau marqueur</Text>
+        <View style={themeStyles.centeredView}>
+          <View style={themeStyles.modalView}>
+            <Text style={themeStyles.modalText}>Nouveau marqueur</Text>
             <TextInput
-              style={styles.input}
+              style={themeStyles.input}
               placeholder="Nom du lieu"
               placeholderTextColor={"coral"}
               value={buildingTitle}
               onChangeText={handleChangeTitle}
             />
             <TextInput
-              style={styles.input}
+              style={themeStyles.input}
               inputMode="numeric"
               placeholder="Note sur 5"
               placeholderTextColor={"coral"}
@@ -136,7 +142,7 @@ export default function ModalNewMarker({
               maxLength={1}
             />
             <TextInput
-              style={[styles.input, { height: inputTextHeight }]}
+              style={[themeStyles.input, { height: inputTextHeight }]}
               multiline={true}
               placeholder="Rédiger un avis"
               placeholderTextColor={"coral"}
@@ -144,7 +150,7 @@ export default function ModalNewMarker({
             />
 
             <Picker
-              style={styles.picker}
+              style={themeStyles.picker}
               selectedValue={buildingType}
               onValueChange={(itemValue, itemIndex) => {
                 setBuildingType(itemValue);
@@ -162,24 +168,24 @@ export default function ModalNewMarker({
               <Picker.Item label="Logement CROUS" value="logement_crous" />
             </Picker>
 
-            <Text style={{ fontWeight: "bold" }}>
+            <Text style={[themeStyles.modalText, { fontWeight: "bold" }]}>
               Manque l'ajout d'une photo
             </Text>
 
             {/** boutons annuler - terminer modal */}
-            <View style={styles.buttonGroup}>
+            <View style={themeStyles.buttonGroup}>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[themeStyles.button, themeStyles.buttonClose]}
                 onPress={onCancel}
               >
-                <Text style={styles.textStyle}>Annuler</Text>
+                <Text style={themeStyles.textStyle}>Annuler</Text>
               </Pressable>
 
               <Pressable
-                style={[styles.button, styles.buttonValidate]}
+                style={[themeStyles.button, themeStyles.buttonValidate]}
                 onPress={handleSubmitAvis}
               >
-                <Text style={styles.textStyle}>Terminer</Text>
+                <Text style={themeStyles.textStyle}>Terminer</Text>
               </Pressable>
             </View>
           </View>
@@ -189,72 +195,77 @@ export default function ModalNewMarker({
   );
 }
 
-const styles = StyleSheet.create({
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
+// styles devient une fonction qui prend le thème en paramètre
+const styles = (theme) =>
+  StyleSheet.create({
+    centeredView: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 22,
     },
-    shadowOpacity: 0.5,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 20,
-    padding: 15,
-    elevation: 2,
-  },
-  buttonValidate: {
-    backgroundColor: "cornflowerblue",
-    marginStart: 20,
-  },
-  buttonClose: {
-    backgroundColor: "coral",
-    marginEnd: 20,
-  },
-  buttonGroup: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 5,
-  },
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 20,
-  },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center",
-    fontWeight: "bold",
-    fontSize: 22,
-  },
-  input: {
-    height: 60,
-    margin: 15,
-    borderWidth: 1,
-    padding: 10,
-    fontSize: 20,
-  },
-  picker: {
-    height: 50,
-    width: 200,
-    borderWidth: 1,
-    backgroundColor: "lightgrey",
-    borderRadius: 10,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-});
+    modalView: {
+      margin: 20,
+      backgroundColor: theme === "light" ? "white" : "black",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.5,
+      shadowRadius: 4,
+      elevation: 5,
+    },
+    button: {
+      borderRadius: 20,
+      padding: 15,
+      elevation: 2,
+    },
+    buttonValidate: {
+      backgroundColor: "cornflowerblue",
+      marginStart: 20,
+    },
+    buttonClose: {
+      backgroundColor: "coral",
+      marginEnd: 20,
+    },
+    buttonGroup: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      padding: 5,
+    },
+    textStyle: {
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center",
+      fontSize: 20,
+    },
+    modalText: {
+      marginBottom: 15,
+      textAlign: "center",
+      color: theme === "light" ? "black" : "white",
+      fontWeight: "bold",
+      fontSize: 22,
+    },
+    input: {
+      height: 60,
+      margin: 15,
+      borderWidth: 1,
+      color: theme === "light" ? "black" : "white",
+      borderColor: theme === "light" ? "black" : "white",
+      padding: 10,
+      fontSize: 20,
+    },
+    picker: {
+      height: 50,
+      width: 200,
+      borderWidth: 1,
+      backgroundColor: theme === "light" ? "lightgrey" : "darkgrey",
+      borderRadius: 10,
+      marginTop: 10,
+      marginBottom: 10,
+    },
+  });
