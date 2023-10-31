@@ -4,12 +4,12 @@ import {
   View,
   Pressable,
   Text,
-  TextInput,
   ScrollView,
   Alert,
   ToastAndroid,
 } from "react-native";
 import React, { useState, useContext } from "react";
+import { TextInput } from "react-native-paper";
 
 // > npm install @react-native-picker/picker
 import { Picker } from "@react-native-picker/picker";
@@ -127,7 +127,7 @@ export default function ModalNewMarker({
             <Text style={themeStyles.modalText}>Nouveau marqueur</Text>
             <TextInput
               style={themeStyles.input}
-              placeholder="Nom du lieu"
+              label="Nom du lieu"
               placeholderTextColor={"coral"}
               value={buildingTitle}
               onChangeText={handleChangeTitle}
@@ -135,7 +135,7 @@ export default function ModalNewMarker({
             <TextInput
               style={themeStyles.input}
               inputMode="numeric"
-              placeholder="Note sur 5"
+              label="Note sur 5"
               placeholderTextColor={"coral"}
               onChangeText={handleRatingChange}
               value={rating}
@@ -144,7 +144,7 @@ export default function ModalNewMarker({
             <TextInput
               style={[themeStyles.input, { height: inputTextHeight }]}
               multiline={true}
-              placeholder="Rédiger un avis"
+              label="Rédiger un avis"
               placeholderTextColor={"coral"}
               onChangeText={autoGrow}
             />
