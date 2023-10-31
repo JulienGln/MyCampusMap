@@ -200,6 +200,12 @@ export default function MainMap() {
             marginRight: 30,
             opacity: 0.4,
           }}
+          onTouchStart={() => {
+            ToastAndroid.show(
+              "Météo générée à l'aide de l'API Open-Meteo.com",
+              ToastAndroid.SHORT
+            );
+          }}
         >
           {/*<Text>Météo : {JSON.stringify(weatherData)}</Text>*/}
           <Text
@@ -300,7 +306,7 @@ export default function MainMap() {
             borderColor: theme === "light" ? "black" : "lightgray",
             alignContent: "center",
             justifyContent: "center",
-            backgroundColor: theme === "light" ? "white" : "blueviolet",
+            backgroundColor: theme === "light" ? "white" : "navy",
             padding: 30,
             marginTop: -11,
           }}

@@ -19,6 +19,8 @@ options={({ route }) => ({
         })}
       */
 
+// polices par défaut : https://infinitbility.com/react-native-font-family-list/#supported-fonts-for-android-with-a-code-example
+
 export default function NavBar() {
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
 
@@ -33,6 +35,12 @@ export default function NavBar() {
         headerTintColor: theme === "light" ? "black" : "white",
         tabBarActiveBackgroundColor: theme === "light" ? "aliceblue" : "navy",
         tabBarInactiveBackgroundColor: theme === "light" ? "aliceblue" : "navy",
+        headerTitleAlign: "center",
+        headerTitleStyle: {
+          fontSize: 28,
+          fontFamily: "sans-serif-light",
+          color: theme === "light" ? "cornflowerblue" : "coral",
+        },
       }}
     >
       <Tab.Screen
@@ -66,7 +74,7 @@ export default function NavBar() {
                   color: theme === "light" ? "cornflowerblue" : "coral",
                   fontSize: 11,
                   fontWeight: "bold",
-                  fontStyle: "italic",
+                  fontFamily: "monospace",
                 }}
               >
                 Paramètres
