@@ -6,6 +6,9 @@ import ParameterView from "../Parametres/ParameterView";
 // https://icons.expo.fyi/Index pour choix des icones
 import { MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 
+import { useContext } from "react";
+import { ThemeContext } from "../../themeContext";
+
 const Tab = createBottomTabNavigator();
 
 /* Pour le focus sur l'icone
@@ -16,11 +19,21 @@ options={({ route }) => ({
       */
 
 export default function NavBar() {
+  const { theme } = useContext(ThemeContext); // récupération du thème de l'app
+
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarActiveTintColor: "cornflowerblue", // tomato
-        tabBarInactiveTintColor: "gray", //gray
+        tabBarActiveTintColor: theme === "light" ? "cornflowerblue" : "coral", // cornflowerblue ou tomato
+        tabBarInactiveTintColor: theme === "light" ? "darkgray" : "lightgray", //gray
+        headerStyle: {
+          backgroundColor: theme === "light" ? "aliceblue" : "darkblue",
+        },
+        headerTintColor: theme === "light" ? "black" : "white",
+        tabBarActiveBackgroundColor:
+          theme === "light" ? "aliceblue" : "darkblue",
+        tabBarInactiveBackgroundColor:
+          theme === "light" ? "aliceblue" : "darkblue",
       }}
     >
       <Tab.Screen
