@@ -114,12 +114,18 @@ export default function ParameterView() {
               label: "Sombre",
               icon: "weather-night",
               checkedColor: "black",
+              style: {
+                backgroundColor: theme === "dark" ? "coral" : "white",
+              },
             },
             {
               value: "light",
               label: "Clair",
               icon: "white-balance-sunny",
               uncheckedColor: "white",
+              style: {
+                backgroundColor: theme === "light" ? "cornflowerblue" : "black",
+              },
             },
           ]}
         />
