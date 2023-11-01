@@ -8,6 +8,7 @@ import {
   FlatList,
   Image,
 } from "react-native";
+import { Card, Icon } from "react-native-paper";
 
 import { ThemeContext } from "../../themeContext";
 
@@ -77,18 +78,43 @@ export default function ModalDefault({ visible, markerId, onClose }) {
 
   function avisItem({ item }) {
     if (item && item.test) {
+      var noteExemple = Math.floor(Math.random() * 6);
       return (
-        <View style={{ marginRight: 20 }}>
-          <Text style={themeStyles.avisUserName}>Gudule</Text>
-          <Text
-            style={{ fontStyle: "italic", color: "gold", fontWeight: "bold" }}
-          >
-            5/5
-          </Text>
-          <Text style={[themeStyles.modalText, { fontWeight: "bold" }]}>
-            {item.test}
-          </Text>
-        </View>
+        <Card
+          style={themeStyles.card}
+          mode={theme === "light" ? "elevated" : "outlined"}
+        >
+          <Card.Title title="Avis" titleStyle={themeStyles.cardTitle} />
+          <Card.Content>
+            <Text style={themeStyles.avisUserName}>Gudule</Text>
+            <Text
+              style={{ fontStyle: "italic", color: "gold", fontWeight: "bold" }}
+            >
+              {Array.from({ length: 5 }, (_, i) => (
+                <Icon
+                  key={i}
+                  source={"star"}
+                  size={14}
+                  color={
+                    i < noteExemple
+                      ? "gold"
+                      : theme === "light"
+                      ? "darkgray"
+                      : "lightgray"
+                  }
+                  style={{
+                    fontStyle: "italic",
+                    color: "gold",
+                    fontWeight: "bold",
+                  }}
+                />
+              ))}
+            </Text>
+            <Text style={[themeStyles.modalText, { fontWeight: "bold" }]}>
+              {item.test}
+            </Text>
+          </Card.Content>
+        </Card>
       );
     } else return null;
   }
@@ -215,6 +241,15 @@ const styles = (theme) =>
     avisUserName: {
       fontStyle: "italic",
       fontWeight: "bold",
+      color: theme === "light" ? "black" : "white",
+    },
+    card: {
+      marginRight: 20,
+      height: 200,
+      width: 200,
+      backgroundColor: theme === "light" ? "aliceblue" : "navy",
+    },
+    cardTitle: {
       color: theme === "light" ? "black" : "white",
     },
   });
