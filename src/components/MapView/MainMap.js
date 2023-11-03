@@ -38,6 +38,7 @@ export default function MainMap() {
   const [data, setData] = useState(testJSON);
   const [currentIdMarker, setCurrentIdMarker] = useState(0);
   const [weatherData, setWeatherData] = useState(null);
+  const [commune, setCommune] = useState(null);
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
 
   const initialRegion = {
@@ -120,6 +121,11 @@ export default function MainMap() {
     )
       .then((response) => response.json())
       .then((data) => setWeatherData(data.current_weather));
+    fetch(
+      `https://geo.api.gouv.fr/communes?lat=${initialRegion.latitude}&lon=${initialRegion.longitude}`
+    )
+      .then((response) => response.json())
+      .then((data) => setCommune(data[0]));
   }, []);
 
   return (
@@ -234,6 +240,21 @@ export default function MainMap() {
               </>
             )}
           </Text>
+          {commune && (
+            <Text
+              style={{
+                color: theme === "light" ? "black" : "white",
+                fontWeight: "bold",
+              }}
+            >
+              <Feather
+                name="map-pin"
+                size={22}
+                color={theme === "light" ? "black" : "white"}
+              />{" "}
+              {commune.nom + ` (${commune.codesPostaux[0]})`}
+            </Text>
+          )}
           <Text
             style={{
               color: theme === "light" ? "black" : "white",
