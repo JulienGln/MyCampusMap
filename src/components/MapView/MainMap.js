@@ -220,25 +220,12 @@ export default function MainMap() {
               fontWeight: "bold",
             }}
           >
-            {weatherData.is_day ? (
-              <>
-                <Feather
-                  name="sun"
-                  size={24}
-                  color={theme === "light" ? "black" : "white"}
-                />
-                <Text> Jour</Text>
-              </>
-            ) : (
-              <>
-                <Feather
-                  name="moon"
-                  size={24}
-                  color={theme === "light" ? "black" : "white"}
-                />
-                <Text> Nuit</Text>
-              </>
-            )}
+            <Feather
+              name={weatherData.is_day ? "sun" : "moon"}
+              size={24}
+              color={theme === "light" ? "black" : "white"}
+            />
+            <Text>{weatherData.is_day ? " Jour" : " Nuit"}</Text>
           </Text>
           {commune && (
             <Text
