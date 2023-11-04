@@ -14,6 +14,7 @@ import { TextInput } from "react-native-paper";
 // > npm install @react-native-picker/picker
 import { Picker } from "@react-native-picker/picker";
 import { postLieu } from "../../helpers/request";
+import { saveDataInJSON } from "../../helpers/localJSONstorage";
 
 import { ThemeContext } from "../../themeContext";
 
@@ -108,6 +109,14 @@ export default function ModalNewMarker({
       typeBatiment: buildingType,
       coordonnees: coords,
       avis: [],
+    });
+
+    // sauvegarde dans un JSON de test
+    saveDataInJSON({
+      nom: buildingTitle,
+      type: buildingType,
+      coordonnees: coords,
+      avis: [{ test: avis }],
     });
 
     onClose(); // fonction de MainMap
