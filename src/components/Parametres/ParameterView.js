@@ -8,12 +8,11 @@ import {
   StyleSheet,
   ScrollView,
   ActivityIndicator,
-  Switch,
   Dimensions,
 } from "react-native";
-import { SegmentedButtons } from "react-native-paper";
+import { SegmentedButtons, TextInput } from "react-native-paper";
 
-import { getAppTheme, setAppTheme } from "../../helpers/localStorage";
+import { getAppTheme, setAppTheme, getUser } from "../../helpers/localStorage";
 import { ThemeContext } from "../../themeContext";
 
 export default function ParameterView() {
@@ -82,6 +81,22 @@ export default function ParameterView() {
         Thème : {theme.toLocaleUpperCase() === "LIGHT" ? "CLAIR" : "SOMBRE"}
       </Text>
 
+      {theme === "dark" && (
+        <TouchableOpacity onPress={toggleTheme}>
+          <Image
+            source={require("../../assets/light_mode.png")}
+            style={{ width: 120, height: 120, margin: 10 }}
+          />
+        </TouchableOpacity>
+      )}
+      {theme === "light" && (
+        <TouchableOpacity onPress={toggleTheme}>
+          <Image
+            source={require("../../assets/dark_mode.png")}
+            style={{ width: 120, height: 120, margin: 10, borderRadius: 100 }}
+          />
+        </TouchableOpacity>
+      )}
       <View
         style={{
           flexDirection: "row",
@@ -89,22 +104,6 @@ export default function ParameterView() {
           padding: 10,
         }}
       >
-        {/*theme === "dark" && (
-          <TouchableOpacity onPress={toggleTheme}>
-            <Image
-              source={require("../../assets/light_mode.png")}
-              style={{ width: 120, height: 120, margin: 10 }}
-            />
-          </TouchableOpacity>
-        )*/}
-        {/*theme === "light" && (
-          <TouchableOpacity onPress={toggleTheme}>
-            <Image
-              source={require("../../assets/dark_mode.png")}
-              style={{ width: 120, height: 120, margin: 10, borderRadius: 100 }}
-            />
-          </TouchableOpacity>
-        )*/}
         <SegmentedButtons
           value={theme}
           onValueChange={toggleTheme}
@@ -131,16 +130,33 @@ export default function ParameterView() {
         />
       </View>
 
-      <ScrollView style={styles.scrollView}>
-        {data ? (
-          <Text style={styles.text}> JSON : {JSON.stringify(data)}</Text>
-        ) : (
-          <Text style={styles.text}>
-            JSON :
-            <ActivityIndicator size="large" />
-          </Text>
-        )}
-      </ScrollView>
+      <TextInput
+        mode="outlined"
+        label={"Nom d'utilisateur"}
+        textColor={theme === "light" ? "black" : "white"}
+        activeOutlineColor={theme === "light" ? "cornflowerblue" : "coral"}
+        outlineStyle={{
+          backgroundColor: "transparent",
+          borderColor: theme === "light" ? "cornflowerblue" : "coral",
+        }}
+        style={{
+          backgroundColor: theme === "light" ? "transparent" : "black",
+          marginTop: "5%",
+        }}
+      />
+
+      {/*
+        <ScrollView style={styles.scrollView}>
+          {data ? (
+            <Text style={styles.text}> JSON : {JSON.stringify(data)}</Text>
+          ) : (
+            <Text style={styles.text}>
+              JSON :
+              <ActivityIndicator size="large" />
+            </Text>
+          )}
+        </ScrollView>
+          */}
     </View>
   );
 }
