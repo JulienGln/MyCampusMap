@@ -74,7 +74,7 @@ export default function NavBar() {
                   color: theme === "light" ? "cornflowerblue" : "coral",
                   fontSize: 11,
                   fontWeight: "bold",
-                  fontFamily: "monospace",
+                  fontFamily: "sans-serif",
                 }}
               >
                 Paramètres
@@ -82,8 +82,24 @@ export default function NavBar() {
             ) : (
               ""
             ),
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="settings-sharp" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons
+              name="settings-sharp"
+              size={size}
+              color={color}
+              style={
+                focused
+                  ? {
+                      backgroundColor:
+                        theme === "light" ? "cornflowerblue" : "coral",
+                      paddingEnd: 15,
+                      paddingStart: 15,
+                      color: "aliceblue",
+                      borderRadius: 50,
+                    }
+                  : {}
+              }
+            />
           ),
         }}
       />
