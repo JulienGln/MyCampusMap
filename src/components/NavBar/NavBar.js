@@ -6,7 +6,7 @@ import ParameterView from "../Parametres/ParameterView";
 // https://icons.expo.fyi/Index pour choix des icones
 import { MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 
-import { Text } from "react-native";
+import { Text, Image } from "react-native";
 import { useContext } from "react";
 import { ThemeContext } from "../../themeContext";
 
@@ -50,6 +50,12 @@ export default function NavBar() {
           tabBarLabel: "Carte",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="map-marker-alt" size={size} color={color} />
+          ),
+          headerTitle: () => (
+            <Image
+              style={{ width: 60, height: 60, borderRadius: 100 }}
+              source={require("../../assets/mycampusmap_logoV2_no_background.png")}
+            />
           ),
         }}
       />

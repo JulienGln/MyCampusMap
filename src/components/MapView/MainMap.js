@@ -28,7 +28,7 @@ import { ThemeContext } from "../../themeContext";
 
 const testJSON = require("../../../testData.json");
 
-export default function MainMap() {
+export default function MainMap({ navigation }) {
   const [markers, setMarkers] = useState([]); // tableau de Markers
   const mapRef = useRef(null); // référence à la carte
   const [modalNewMarkerVisible, setModalNewMarkerVisible] = useState(false); // modal de création d'un avis
@@ -114,6 +114,12 @@ export default function MainMap() {
     removeAllMarkers();
   }
 
+  /*useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => <Text>Cartographie</Text>,
+    });
+  }, [navigation]);*/
+
   useEffect(() => {
     handleGetData();
     fetch(
@@ -160,6 +166,23 @@ export default function MainMap() {
         initialRegion={initialRegion}
         customMapStyle={theme === "light" ? mapStyle : nightMapStyle}
         //minZoomLevel={17}
+        /*onTouchMove={() => {
+          navigation.setOptions({
+            headerShown: false,
+            tabBarStyle: { display: "none" },
+          });
+        }}
+        onTouchEndCapture={async () => {
+          const sleep = (ms) => {
+            return new Promise((resolve) => setTimeout(resolve, ms));
+          };
+          await sleep(1000);
+          navigation.setOptions({
+            headerShown: true,
+            headerTransparent: false,
+            tabBarStyle: { display: "flex" },
+          });
+        }}*/
         onLongPress={handleMapPress} // Un appui long ajoutera un point sur la carte.
       >
         {markers.map((marker, index) => (
