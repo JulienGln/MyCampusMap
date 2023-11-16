@@ -73,7 +73,7 @@ export default function NavBar() {
         name="Paramètres"
         component={ParameterView}
         options={{
-          tabBarLabel: ({ focused }) =>
+          tabBarLabel: "Paramètres" /*({ focused }) =>
             focused ? (
               <Text
                 style={{
@@ -87,13 +87,13 @@ export default function NavBar() {
               </Text>
             ) : (
               ""
-            ),
+            ),*/,
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name="settings-sharp"
               size={size}
               color={color}
-              style={
+              /*style={
                 focused
                   ? {
                       backgroundColor:
@@ -104,7 +104,7 @@ export default function NavBar() {
                       borderRadius: 50,
                     }
                   : {}
-              }
+              }*/
             />
           ),
         }}
