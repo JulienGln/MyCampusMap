@@ -44,14 +44,14 @@ export default function NavBar() {
       }}
     >
       <Tab.Screen
-        name="Cartographie"
+        name="Cartograhie"
         component={MainMap}
         options={{
           tabBarLabel: "Carte",
           tabBarIcon: ({ color, size }) => (
             <FontAwesome5 name="map-marker-alt" size={size} color={color} />
           ),
-          headerTitle: () => (
+          headerLeft: () => (
             <Image
               style={{ width: 60, height: 60, borderRadius: 100 }}
               source={require("../../assets/mycampusmap_logoV2_no_background.png")}
@@ -66,6 +66,12 @@ export default function NavBar() {
           tabBarLabel: "Accueil",
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name="home" color={color} size={size} />
+          ),
+          headerLeft: () => (
+            <Image
+              style={{ width: 60, height: 60, borderRadius: 100 }}
+              source={require("../../assets/mycampusmap_logoV2_no_background.png")}
+            />
           ),
         }}
       />
@@ -105,6 +111,12 @@ export default function NavBar() {
                     }
                   : {}
               }*/
+            />
+          ),
+          headerLeft: () => (
+            <Image
+              style={{ width: 60, height: 60, borderRadius: 100 }}
+              source={require("../../assets/mycampusmap_logoV2_no_background.png")}
             />
           ),
         }}

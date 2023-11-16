@@ -17,6 +17,7 @@ import { ThemeContext } from "../../themeContext";
 
 export default function ParameterView() {
   const [isSwitchThemeEnabled, setSwitchThemeEnabled] = useState(false);
+  const [userName, setUserName] = useState(getUser);
   const { theme, setTheme } = useContext(ThemeContext);
 
   const windowWidth = Dimensions.get("window").width;
@@ -81,7 +82,7 @@ export default function ParameterView() {
         Thème : {theme.toLocaleUpperCase() === "LIGHT" ? "CLAIR" : "SOMBRE"}
       </Text>
 
-      {theme === "dark" && (
+      {/*{theme === "dark" && (
         <TouchableOpacity onPress={toggleTheme}>
           <Image
             source={require("../../assets/light_mode.png")}
@@ -96,7 +97,7 @@ export default function ParameterView() {
             style={{ width: 120, height: 120, margin: 10, borderRadius: 100 }}
           />
         </TouchableOpacity>
-      )}
+      )}*/}
       <View
         style={{
           flexDirection: "row",
@@ -133,6 +134,10 @@ export default function ParameterView() {
       <TextInput
         mode="outlined"
         label={"Nom d'utilisateur"}
+        value={typeof userName === String ? "String" : ""}
+        onChangeText={(text) => {
+          setUserName(text);
+        }}
         textColor={theme === "light" ? "black" : "white"}
         activeOutlineColor={theme === "light" ? "cornflowerblue" : "coral"}
         outlineStyle={{
