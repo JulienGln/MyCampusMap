@@ -9,6 +9,7 @@ import {
   Image,
 } from "react-native";
 import { Card, Icon } from "react-native-paper";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { ThemeContext } from "../../themeContext";
 
@@ -77,7 +78,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
   }, []);
 
   function avisItem({ item }) {
-    if (item && item.test) {
+    if (item && item.texte) {
       var noteExemple = Math.floor(Math.random() * 6);
       return (
         <Card
@@ -111,7 +112,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
               ))}
             </Text>
             <Text style={[themeStyles.modalText, { fontWeight: "bold" }]}>
-              {item.test}
+              {item.texte}
             </Text>
           </Card.Content>
         </Card>
@@ -129,6 +130,21 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     >
       <View style={[themeStyles.centeredView]}>
         <View style={themeStyles.modalView}>
+          <Pressable
+            style={{
+              position: "absolute",
+              top: 15,
+              right: 15,
+              zIndex: 1, // Assure que la croix est au-dessus du contenu du modal
+            }}
+            onPress={onClose}
+          >
+            <MaterialCommunityIcons
+              name="window-close"
+              size={48}
+              color={theme === "light" ? "black" : "white"}
+            />
+          </Pressable>
           <Text style={themeStyles.modalTitleText}>
             {testJSON[markerId].nom}
           </Text>
@@ -165,10 +181,10 @@ export default function ModalDefault({ visible, markerId, onClose }) {
           />
 
           <Pressable
-            style={[themeStyles.button, themeStyles.buttonClose]}
+            style={[themeStyles.button, themeStyles.buttonOpen]}
             onPress={onClose}
           >
-            <Text style={themeStyles.textStyle}>Masquer le modal</Text>
+            <Text style={themeStyles.textStyle}>Ajouter un avis</Text>
           </Pressable>
         </View>
       </View>
@@ -207,7 +223,7 @@ const styles = (theme) =>
       elevation: 2,
     },
     buttonOpen: {
-      backgroundColor: "#F194FF",
+      backgroundColor: "cornflowerblue",
     },
     buttonClose: {
       backgroundColor: "coral",
