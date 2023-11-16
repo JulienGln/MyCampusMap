@@ -120,6 +120,13 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     } else return null;
   }
 
+  /**
+   * Ajout d'un avis au lieu
+   */
+  function handleAddAvis() {
+    onClose();
+  }
+
   return (
     <Modal
       style={themeStyles.modalView}
@@ -172,17 +179,17 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             horizontal
           />
 
-          <Image
+          {/* <Image
             source={{
               uri: "https://media.giphy.com/media/XcujzilpaiGEWFV16n/giphy.gif",
             }}
             // source={require("../../assets/mycampusmap_logoV2.jpg")}
             style={{ width: 200, height: 200, borderRadius: 20, margin: 10 }}
-          />
+          /> */}
 
           <Pressable
             style={[themeStyles.button, themeStyles.buttonOpen]}
-            onPress={onClose}
+            onPress={handleAddAvis}
           >
             <Text style={themeStyles.textStyle}>Ajouter un avis</Text>
           </Pressable>
@@ -224,6 +231,7 @@ const styles = (theme) =>
     },
     buttonOpen: {
       backgroundColor: "cornflowerblue",
+      marginTop: 10,
     },
     buttonClose: {
       backgroundColor: "coral",
