@@ -122,19 +122,12 @@ export default function ModalDefault({ visible, markerId, onClose }) {
   return (
     <Modal
       style={themeStyles.modalView}
-      animationType="fade"
+      animationType="slide"
       transparent={true}
       visible={visible}
       onRequestClose={onClose}
     >
-      <View
-        style={[
-          themeStyles.centeredView,
-          {
-            backgroundColor: markerColors[testJSON[markerId].type],
-          },
-        ]}
-      >
+      <View style={[themeStyles.centeredView]}>
         <View style={themeStyles.modalView}>
           <Text style={themeStyles.modalTitleText}>
             {testJSON[markerId].nom}
@@ -161,7 +154,6 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             renderItem={avisItem}
             keyExtractor={(item, index) => index.toString()}
             horizontal
-            pagingEnabled
           />
 
           <Image
@@ -200,6 +192,7 @@ const styles = (theme) =>
       padding: 35,
       alignItems: "center",
       shadowColor: "#000",
+      width: "90%",
       shadowOffset: {
         width: 0,
         height: 2,

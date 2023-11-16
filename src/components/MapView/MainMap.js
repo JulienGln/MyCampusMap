@@ -108,10 +108,14 @@ export default function MainMap({ navigation }) {
   }
 
   function clickHandler() {
-    //function to handle click on floating Action Button
-    ToastAndroid.show("Retour sur le campus !", ToastAndroid.SHORT);
-    mapRef.current.animateToRegion(initialRegion, 2000);
-    removeAllMarkers();
+    //fonction quand on clique sur le floating Action Button
+    //ToastAndroid.show("Retour sur le campus !", ToastAndroid.SHORT);
+    //mapRef.current.animateToRegion(initialRegion, 2000);
+    if (markers.length > 0) {
+      removeAllMarkers();
+    } else {
+      handleGetData();
+    }
   }
 
   /*useEffect(() => {
@@ -320,7 +324,12 @@ export default function MainMap({ navigation }) {
       <TouchableOpacity
         activeOpacity={0.8}
         style={styles.button}
-        onPress={clickHandler}
+        onLongPress={clickHandler}
+        onPress={() => {
+          ToastAndroid.show("Retour sur le campus !", ToastAndroid.SHORT);
+          mapRef.current.animateToRegion(initialRegion, 2000);
+        }}
+        delayLongPress={250}
       >
         {/*<FontAwesome5
           name="map-marked-alt"

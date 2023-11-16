@@ -1,12 +1,13 @@
 // npm install @react-navigation/bottom-tabs
 // npm install @react-navigation/native
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; // doc : https://reactnavigation.org/docs/tab-based-navigation/
+import { useNavigation } from "@react-navigation/native";
 import MainMap from "../MapView/MainMap";
 import ParameterView from "../Parametres/ParameterView";
 // https://icons.expo.fyi/Index pour choix des icones
 import { MaterialIcons, FontAwesome5, Ionicons } from "@expo/vector-icons";
 
-import { Text, Image } from "react-native";
+import { Text, Image, Pressable } from "react-native";
 import { useContext } from "react";
 import { ThemeContext } from "../../themeContext";
 
@@ -23,6 +24,7 @@ options={({ route }) => ({
 
 export default function NavBar() {
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
+  const navigation = useNavigation(); // Ajout de useNavigation
 
   return (
     <Tab.Navigator
@@ -44,7 +46,7 @@ export default function NavBar() {
       }}
     >
       <Tab.Screen
-        name="Cartograhie"
+        name="Cartographie"
         component={MainMap}
         options={{
           tabBarLabel: "Carte",
@@ -59,7 +61,7 @@ export default function NavBar() {
           ),
         }}
       />
-      <Tab.Screen
+      {/*<Tab.Screen
         name="Accueil"
         component={MainMap}
         options={{
@@ -68,13 +70,13 @@ export default function NavBar() {
             <MaterialIcons name="home" color={color} size={size} />
           ),
           headerLeft: () => (
-            <Image
-              style={{ width: 60, height: 60, borderRadius: 100 }}
-              source={require("../../assets/mycampusmap_logoV2_no_background.png")}
-            />
+              <Image
+                style={{ width: 60, height: 60, borderRadius: 100 }}
+                source={require("../../assets/mycampusmap_logoV2_no_background.png")}
+              />
           ),
         }}
-      />
+      />*/}
       <Tab.Screen
         name="Paramètres"
         component={ParameterView}
@@ -114,10 +116,16 @@ export default function NavBar() {
             />
           ),
           headerLeft: () => (
-            <Image
-              style={{ width: 60, height: 60, borderRadius: 100 }}
-              source={require("../../assets/mycampusmap_logoV2_no_background.png")}
-            />
+            <Pressable
+              onPress={() => {
+                navigation.navigate("Cartographie"); // Redirection vers l'onglet "Cartographie"
+              }}
+            >
+              <Image
+                style={{ width: 60, height: 60, borderRadius: 100 }}
+                source={require("../../assets/mycampusmap_logoV2_no_background.png")}
+              />
+            </Pressable>
           ),
         }}
       />
