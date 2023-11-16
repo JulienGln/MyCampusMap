@@ -12,6 +12,7 @@ import { Card, Icon } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { ThemeContext } from "../../themeContext";
+import ModalNewAvis from "./ModalNewAvis";
 
 const testJSON = require("../../../testData.json");
 
@@ -38,6 +39,7 @@ const markerColors = {
 export default function ModalDefault({ visible, markerId, onClose }) {
   const [data, setData] = useState(null);
   const [currentMarker, setCurrentMarker] = useState(0);
+  const [modalNewAvisVisible, setModalNewAvisVisible] = useState(false);
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
   const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
@@ -124,7 +126,8 @@ export default function ModalDefault({ visible, markerId, onClose }) {
    * Ajout d'un avis au lieu
    */
   function handleAddAvis() {
-    onClose();
+    setModalNewAvisVisible(true);
+    //onClose();
   }
 
   return (
@@ -186,6 +189,14 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             // source={require("../../assets/mycampusmap_logoV2.jpg")}
             style={{ width: 200, height: 200, borderRadius: 20, margin: 10 }}
           /> */}
+
+          <ModalNewAvis
+            visible={modalNewAvisVisible}
+            onClose={() => setModalNewAvisVisible(false)}
+            onCancel={() => {
+              setModalNewAvisVisible(false);
+            }}
+          />
 
           <Pressable
             style={[themeStyles.button, themeStyles.buttonOpen]}
