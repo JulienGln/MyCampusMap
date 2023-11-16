@@ -116,7 +116,7 @@ export default function ModalNewMarker({
       nom: buildingTitle,
       type: buildingType,
       coordonnees: coords,
-      avis: [{ test: avis }],
+      avis: [{ texte: avis }],
     });
 
     onClose(); // fonction de MainMap

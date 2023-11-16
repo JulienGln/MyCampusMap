@@ -8,7 +8,7 @@
         },
         "avis": [
             {
-                "test":"miam"
+                "texte":"miam"
             }
         ] 
     },
@@ -21,22 +21,22 @@
         },
         "avis": [
             {
-                "test":"yepee"
+                "texte":"yepee"
             }, 
             {
-                "test": "bâtiment cool"
+                "texte": "bâtiment cool"
             }, 
             {
-                "test": "mouse"
+                "texte": "mouse"
             },
             {
-                "test":"yepee"
+                "texte":"yepee"
             }, 
             {
-                "test": "bâtiment cool"
+                "texte": "bâtiment cool"
             }, 
             {
-                "test": "mouse"
+                "texte": "mouse"
             }
         ] 
     },
@@ -49,7 +49,7 @@
         },
         "avis": [
             {
-                "test":"bâtiment cool",
+                "texte":"bâtiment cool",
                 "photo":"./src/assets/icon.png"
             }
         ] 
