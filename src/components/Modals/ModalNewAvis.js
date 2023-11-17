@@ -42,6 +42,21 @@ export default function ModalNewAvis({ visible, onClose }) {
       );
       return;
     }
+    const request = {
+      lieu_id: null,
+      lieu_nom: null,
+      texte: null,
+      note: rating,
+      photo: null,
+      utilisateur: null,
+    };
+    fetch("http://localhost:3000/nouvel-avis", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    });
   }
 
   function handlePermissionGalerie() {}
