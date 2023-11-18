@@ -3,9 +3,22 @@
  */
 
 /**
+ * Récupère tous les lieux et leurs avis
+ */
+export async function getAllLieux() {
+  try {
+    const response = await fetch("http://localhost:3000/lieux");
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/**
  * Requête méthode POST
  */
-export async function postLieu(data) {
+/*export async function postLieu(data) {
   try {
     const response = await fetch(
       "http://127.0.0.1:3000/data/create_lieu", //"mongodb://127.0.0.1:27017/MyCampusMap/data/create_lieu",
@@ -46,4 +59,4 @@ export async function getAllLieu() {
   } catch (error) {
     console.error("Error:", error);
   }
-}
+}*/

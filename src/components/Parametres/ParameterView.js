@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from "react";
+import axios from "axios";
 import {
   Text,
   View,
@@ -42,18 +43,23 @@ export default function ParameterView() {
     // doc : https://reactnative.dev/docs/network
     //var url = "http://192.168.1.23:3000/data"; // adresse IP de l'ordinateur qui fait tourner le serveur
     // var url = "https://jsonplaceholder.typicode.com/posts"; // https://raw.githubusercontent.com/JulienGln/juliengln.github.io/main/data/data.json
-    var url = "https://juliengln.github.io/data/krooteQuiz.json";
+    //var url = "https://juliengln.github.io/data/krooteQuiz.json";
+    var url = "http://192.168.1.23:3001/lieux";
 
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
+      console.log("Avant la requête fetch");
+      const response = await axios.get(url);
+
+      if (!response) {
         console.error("Erreur HTTP", response.status);
       } else {
-        const data = await response.json();
+        console.log("Réponse OK, en attente de la conversion en JSON");
+        const data = response.data;
+        console.log("Données récupérées avec succès :", data);
         return data;
       }
     } catch (error) {
-      console.error("Erreur fonction fetch", error);
+      console.error("Erreur fonction fetch", error.message);
     }
   }
 
@@ -61,8 +67,16 @@ export default function ParameterView() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await communicationServer();
-      setData(result);
+      try {
+        const response = await axios.get(
+          "https://juliengln.github.io/data/krooteQuiz.json"
+        ); //axios.get("http://192.168.1.23:3000/lieux");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+      /*const result = await communicationServer();
+      setData(result);*/
     };
 
     fetchData();

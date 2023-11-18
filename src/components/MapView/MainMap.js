@@ -26,6 +26,7 @@ import { Feather } from "@expo/vector-icons";
 
 import { ThemeContext } from "../../themeContext";
 
+import { getAllLieux } from "../../helpers/request";
 const testJSON = require("../../../testData.json");
 
 export default function MainMap({ navigation }) {
@@ -125,6 +126,7 @@ export default function MainMap({ navigation }) {
   }, [navigation]);*/
 
   useEffect(() => {
+    //getAllLieux().then((data) => setData(data));
     handleGetData();
     fetch(
       `https://api.open-meteo.com/v1/meteofrance?latitude=${initialRegion.latitude}&longitude=${initialRegion.longitude}&current_weather=true`
