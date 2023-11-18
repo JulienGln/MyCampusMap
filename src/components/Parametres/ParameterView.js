@@ -11,7 +11,12 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import { SegmentedButtons, TextInput, Button } from "react-native-paper";
+import {
+  SegmentedButtons,
+  TextInput,
+  Button,
+  Avatar,
+} from "react-native-paper";
 
 import {
   getAppTheme,
@@ -21,7 +26,7 @@ import {
 } from "../../helpers/localStorage";
 import { ThemeContext } from "../../themeContext";
 
-export default function ParameterView() {
+export default function ParameterView({ navigation }) {
   const [isSwitchThemeEnabled, setSwitchThemeEnabled] = useState(false);
   const [userName, setUserName] = useState(
     String(getUser.name) === null ? "" : ""
@@ -99,6 +104,21 @@ export default function ParameterView() {
     fetchUser();
   }, []);
 
+  navigation.setOptions({
+    headerRight: () => (
+      <Avatar.Text
+        label={userName.charAt(0).toLocaleUpperCase()}
+        color="white"
+        style={{
+          width: 60,
+          height: 60,
+          backgroundColor: theme === "light" ? "cornflowerblue" : "coral",
+          borderRadius: 0,
+        }}
+      />
+    ),
+  });
+
   function toggleTheme() {
     setSwitchThemeEnabled(!isSwitchThemeEnabled);
     setAppTheme(theme === "light" ? "dark" : "light");
@@ -121,7 +141,9 @@ export default function ParameterView() {
       {buttonLoading ? (
         <ActivityIndicator />
       ) : (
-        <Text style={styles.text}>{previousUserName}</Text>
+        <Text style={[styles.text, { fontWeight: "bold" }]}>
+          {previousUserName}
+        </Text>
       )}
       <Text style={styles.text}>OS : {Platform.OS.toLocaleUpperCase()}</Text>
       <Text style={styles.text}>Version : {Platform.Version}</Text>
@@ -203,6 +225,7 @@ export default function ParameterView() {
           mode="elevated"
           dark
           loading={buttonLoading}
+          disabled={userName === previousUserName}
           buttonColor={theme === "light" ? "cornflowerblue" : "coral"}
           onPress={handleChangeUserName}
         >
