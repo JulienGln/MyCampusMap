@@ -8,15 +8,18 @@ import {
   Alert,
   ToastAndroid,
 } from "react-native";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { TextInput } from "react-native-paper";
 
 // > npm install @react-native-picker/picker
 import { Picker } from "@react-native-picker/picker";
 import { postLieu } from "../../helpers/request";
 import { saveDataInJSON } from "../../helpers/localJSONstorage";
+import { getUser } from "../../helpers/localStorage";
 
 import { ThemeContext } from "../../themeContext";
+
+const testJSON = require("../../../testData.json");
 
 /**
  * Modal de création d'un marqueur
@@ -37,9 +40,18 @@ export default function ModalNewMarker({
   const [rating, setRating] = useState("");
   const [buildingType, setBuildingType] = useState("");
   const [avis, setAvis] = useState("");
+  const [userName, setUserName] = useState("");
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
   const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUser = await getUser();
+      setUserName(fetchedUser.name);
+    };
+    fetchUser();
+  }, []);
 
   /**
    * Mettre à jour la hauteur en fonction du nombre de lignes de texte + ajouter l'avis
@@ -103,20 +115,32 @@ export default function ModalNewMarker({
     };
     createMarker(coords, markerColors[buildingType]); // fonction de MainMap
 
-    // ajoute le lieu à la base de données
-    postLieu({
+    // ajoute le lieu à la base de données MongoDB
+    /*postLieu({
       nom: buildingTitle,
       typeBatiment: buildingType,
       coordonnees: coords,
       avis: [],
-    });
+    });*/
 
     // sauvegarde dans un JSON de test
     saveDataInJSON({
+      id: testJSON.length,
       nom: buildingTitle,
-      type: buildingType,
-      coordonnees: coords,
-      avis: [{ texte: avis }],
+      typeBatiment: buildingType,
+      longitude: coords.longitude,
+      latitude: coords.latitude,
+      //coordonnees: coords,
+      avis: [
+        {
+          lieu_id: testJSON.length,
+          lieu_nom: buildingTitle,
+          texte: avis,
+          note: parseInt(rating),
+          photo: null,
+          utilisateur: userName,
+        },
+      ],
     });
 
     onClose(); // fonction de MainMap

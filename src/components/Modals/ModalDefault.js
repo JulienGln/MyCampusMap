@@ -81,7 +81,6 @@ export default function ModalDefault({ visible, markerId, onClose }) {
 
   function avisItem({ item }) {
     if (item && item.texte) {
-      var noteExemple = Math.floor(Math.random() * 6);
       return (
         <Card
           style={themeStyles.card}
@@ -89,7 +88,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
         >
           <Card.Title title="Avis" titleStyle={themeStyles.cardTitle} />
           <Card.Content>
-            <Text style={themeStyles.avisUserName}>Gudule</Text>
+            <Text style={themeStyles.avisUserName}>{item.utilisateur}</Text>
             <Text
               style={{ fontStyle: "italic", color: "gold", fontWeight: "bold" }}
             >
@@ -99,7 +98,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
                   source={"star"}
                   size={14}
                   color={
-                    i < noteExemple
+                    i < item.note
                       ? "gold"
                       : theme === "light"
                       ? "darkgray"
@@ -162,12 +161,12 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             style={[
               themeStyles.modalText,
               {
-                color: markerColors[testJSON[markerId].type],
+                color: markerColors[testJSON[markerId].typeBatiment],
                 fontWeight: "bold",
               },
             ]}
           >
-            {nomLieux[testJSON[markerId].type]}
+            {nomLieux[testJSON[markerId].typeBatiment]}
           </Text>
 
           {/*testJSON[markerId].avis.map((avis, index) => (

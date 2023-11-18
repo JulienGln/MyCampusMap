@@ -94,10 +94,10 @@ export default function MainMap({ navigation }) {
 
     const newMarkers = data.map((lieu, index) => ({
       coordinate: {
-        latitude: parseFloat(lieu.coordonnees.latitude),
-        longitude: parseFloat(lieu.coordonnees.longitude),
+        latitude: parseFloat(lieu.latitude),
+        longitude: parseFloat(lieu.longitude),
       },
-      pinColor: markerColors[lieu.type],
+      pinColor: markerColors[lieu.typeBatiment],
       description: index.toString(), // la description est l'index du lieu dans le tableau qui est dans le JSON
     }));
 

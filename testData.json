@@ -1,56 +1,92 @@
 [
     {
+        "id": 0,
         "nom": "Cafetaria",
-        "type": "Restaurant",
-        "coordonnees": {
-            "longitude": 5.8681425824761,
-            "latitude": 45.642587381216
-        },
+        "typeBatiment": "Restaurant",
+        "longitude": 5.8681425824761,
+        "latitude": 45.642587381216,
         "avis": [
             {
-                "texte":"miam"
+                "lieu_id": 0,
+                "lieu_nom": "Cafetaria",
+                "texte":"miam",
+                "note": 4,
+                "photo": null,
+                "utilisateur": "null"
             }
         ] 
     },
     {
+        "id": 1,
         "nom": "Disneyland",
-        "type": "Sante",
-        "coordonnees": {
-            "longitude": 5.867523662745953,
-            "latitude": 45.64426919246256
-        },
+        "typeBatiment": "Sante",
+        "longitude": 5.867523662745953,
+        "latitude": 45.64426919246256,
         "avis": [
             {
-                "texte":"yepee"
+                "lieu_id": 1,
+                "lieu_nom": "Disneyland",
+                "texte":"yepee",
+                "note": 3,
+                "photo": null,
+                "utilisateur": "null"
             }, 
             {
-                "texte": "bâtiment cool"
+                "lieu_id": 1,
+                "lieu_nom": "Disneyland",
+                "texte": "bâtiment cool",
+                "note": 5,
+                "photo": null,
+                "utilisateur": "null"
             }, 
             {
-                "texte": "mouse"
+                "lieu_id": 1,
+                "lieu_nom": "Disneyland",
+                "texte": "mouse",
+                "note": 0,
+                "photo": null,
+                "utilisateur": "null"
             },
             {
-                "texte":"yepee"
+                "lieu_id": 1,
+                "lieu_nom": "Disneyland",
+                "texte":"yepee",
+                "note": 1,
+                "photo": null,
+                "utilisateur": "null"
             }, 
             {
-                "texte": "bâtiment cool"
+                "lieu_id": 1,
+                "lieu_nom": "Disneyland",
+                "texte": "bâtiment cool",
+                "note": 4,
+                "photo": null,
+                "utilisateur": "null"
             }, 
             {
-                "texte": "mouse"
+                "lieu_id": 1,
+                "lieu_nom": "Disneyland",
+                "texte": "mouse",
+                "note": 2,
+                "photo": null,
+                "utilisateur": "null"
             }
         ] 
     },
     {
+        "id": 2,
         "nom": "Bou de lard",
-        "type": "batiment_scolaire",
-        "coordonnees": {
-            "longitude": 5.8751422924101,
-            "latitude": 45.6454010310795
-        },
+        "typeBatiment": "batiment_scolaire",
+        "longitude": 5.8751422924101,
+        "latitude": 45.6454010310795,
         "avis": [
             {
+                "lieu_id": 2,
+                "lieu_nom": "Bou de lard",
                 "texte":"bâtiment cool",
-                "photo":"./src/assets/icon.png"
+                "note": 5,
+                "photo":"icon.png",
+                "utilisateur": "null"
             }
         ] 
     }
