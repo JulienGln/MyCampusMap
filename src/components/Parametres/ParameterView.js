@@ -16,6 +16,7 @@ import {
   TextInput,
   Button,
   Avatar,
+  Icon,
 } from "react-native-paper";
 
 import {
@@ -145,7 +146,13 @@ export default function ParameterView({ navigation }) {
           {previousUserName}
         </Text>
       )}
-      <Text style={styles.text}>OS : {Platform.OS.toLocaleUpperCase()}</Text>
+      <Text style={styles.text}>
+        <Icon
+          source={Platform.OS !== "android" ? "apple-ios" : "android"}
+          color={theme === "light" ? "black" : "white"}
+          size={48}
+        />
+      </Text>
       <Text style={styles.text}>Version : {Platform.Version}</Text>
       <Text style={styles.text}>
         Thème : {theme.toLocaleUpperCase() === "LIGHT" ? "CLAIR" : "SOMBRE"}
@@ -223,6 +230,7 @@ export default function ParameterView({ navigation }) {
         <Button
           style={styles.userButton}
           mode="elevated"
+          icon="check"
           dark
           loading={buttonLoading}
           disabled={userName === previousUserName}

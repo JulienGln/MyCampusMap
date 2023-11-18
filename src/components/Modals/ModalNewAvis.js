@@ -6,19 +6,18 @@ import {
   Modal,
   StyleSheet,
   View,
-  Pressable,
-  Text,
   ScrollView,
   Alert,
   ToastAndroid,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import { TextInput } from "react-native-paper";
+import { TextInput, Button, Text, HelperText } from "react-native-paper";
 
 import { ThemeContext } from "../../themeContext";
 
-export default function ModalNewAvis({ visible, onClose }) {
+export default function ModalNewAvis({ visible, lieu, onClose }) {
   const [rating, setRating] = useState("");
+  const [ratingError, setRatingError] = useState(false);
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
   const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
@@ -28,7 +27,13 @@ export default function ModalNewAvis({ visible, onClose }) {
    */
   function handleRatingChange(note) {
     note = parseInt(note);
-    note >= 0 && note <= 5 ? setRating(note.toString()) : setRating("");
+    if (note >= 0 && note <= 5) {
+      setRating(note.toString());
+      setRatingError(false);
+    } else {
+      setRating("");
+      setRatingError(true);
+    }
   }
 
   function handleSubmitAvis() {
@@ -46,7 +51,7 @@ export default function ModalNewAvis({ visible, onClose }) {
       lieu_id: null,
       lieu_nom: null,
       texte: null,
-      note: rating,
+      note: parseInt(rating),
       photo: null,
       utilisateur: null,
     };
@@ -71,27 +76,66 @@ export default function ModalNewAvis({ visible, onClose }) {
     >
       <View style={themeStyles.centeredView}>
         <View style={themeStyles.modalView}>
-          <TextInput label={"Rédiger votre avis"} multiline={true} />
+          <Text style={themeStyles.modalText} variant="displayLarge">
+            Nouvel avis
+          </Text>
+          <TextInput
+            label={"Rédiger votre avis"}
+            multiline={true}
+            mode="outlined"
+            textColor={theme === "light" ? "black" : "white"}
+            activeOutlineColor={theme === "light" ? "cornflowerblue" : "coral"}
+            outlineStyle={{
+              backgroundColor: "transparent",
+              borderColor: theme === "light" ? "cornflowerblue" : "coral",
+            }}
+            style={{
+              backgroundColor: theme === "light" ? "transparent" : "black",
+              width: "100%",
+              marginTop: "5%",
+            }}
+          />
           <TextInput
             inputMode="numeric"
+            mode="outlined"
             label="Note sur 5"
-            placeholderTextColor={"coral"}
             onChangeText={handleRatingChange}
             value={rating}
             maxLength={1}
+            textColor={theme === "light" ? "black" : "white"}
+            activeOutlineColor={theme === "light" ? "cornflowerblue" : "coral"}
+            outlineStyle={{
+              backgroundColor: "transparent",
+              borderColor: theme === "light" ? "cornflowerblue" : "coral",
+            }}
+            style={{
+              backgroundColor: theme === "light" ? "transparent" : "black",
+              marginTop: "5%",
+            }}
           />
-          <Pressable
-            style={[themeStyles.button, themeStyles.buttonValidate]}
+          <HelperText type="error" visible={ratingError}>
+            La note doit être comprise entre 0 et 5
+          </HelperText>
+          <Button
+            style={themeStyles.buttonValidate}
+            textColor="white"
+            mode="elevated"
+            icon="camera-image"
+            buttonColor="cornflowerblue"
             onPress={handlePermissionGalerie}
           >
-            <Text style={themeStyles.modalText}>Ajouter une photo</Text>
-          </Pressable>
-          <Pressable
-            style={[themeStyles.button, themeStyles.buttonValidate]}
+            Ajouter une photo
+          </Button>
+          <Button
+            style={themeStyles.buttonValidate}
+            textColor="white"
+            mode="elevated"
+            icon="check"
+            buttonColor="cornflowerblue"
             onPress={onClose}
           >
-            <Text style={themeStyles.textStyle}>Valider</Text>
-          </Pressable>
+            Valider
+          </Button>
         </View>
       </View>
     </Modal>
@@ -128,8 +172,8 @@ const styles = (theme) =>
       elevation: 2,
     },
     buttonValidate: {
-      backgroundColor: "cornflowerblue",
-      marginStart: 20,
+      //backgroundColor: "cornflowerblue",
+      marginTop: 10,
     },
     buttonClose: {
       backgroundColor: "coral",

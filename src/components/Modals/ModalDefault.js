@@ -3,12 +3,12 @@ import {
   Modal,
   StyleSheet,
   View,
-  Pressable,
   Text,
   FlatList,
+  Pressable,
   Image,
 } from "react-native";
-import { Card, Icon } from "react-native-paper";
+import { Card, Icon, Button } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { ThemeContext } from "../../themeContext";
@@ -191,18 +191,23 @@ export default function ModalDefault({ visible, markerId, onClose }) {
 
           <ModalNewAvis
             visible={modalNewAvisVisible}
+            lieu={testJSON[markerId]}
             onClose={() => setModalNewAvisVisible(false)}
             onCancel={() => {
               setModalNewAvisVisible(false);
             }}
           />
 
-          <Pressable
-            style={[themeStyles.button, themeStyles.buttonOpen]}
+          <Button
+            style={[themeStyles.buttonOpen]}
+            textColor="white"
+            mode="elevated"
+            icon="pencil-plus-outline"
+            buttonColor="cornflowerblue"
             onPress={handleAddAvis}
           >
-            <Text style={themeStyles.textStyle}>Ajouter un avis</Text>
-          </Pressable>
+            Ajouter un avis
+          </Button>
         </View>
       </View>
     </Modal>
@@ -240,7 +245,7 @@ const styles = (theme) =>
       elevation: 2,
     },
     buttonOpen: {
-      backgroundColor: "cornflowerblue",
+      //backgroundColor: "cornflowerblue",
       marginTop: 10,
     },
     buttonClose: {
