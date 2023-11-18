@@ -9,7 +9,6 @@ import {
   Image,
 } from "react-native";
 import { Card, Icon, Button } from "react-native-paper";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { ThemeContext } from "../../themeContext";
 import ModalNewAvis from "./ModalNewAvis";
@@ -65,6 +64,14 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     } catch (error) {
       console.error("Erreur fonction fetch", error);
     }
+  }
+
+  function calculNoteMoyenne() {
+    var moy = 0;
+    testJSON[markerId].avis.forEach((elt) => {
+      moy += parseInt(elt.note);
+    });
+    return (moy / testJSON[markerId].avis.length).toFixed(2);
   }
 
   // récupération des données du marqueur
@@ -148,14 +155,18 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             }}
             onPress={onClose}
           >
-            <MaterialCommunityIcons
-              name="window-close"
-              size={48}
+            <Icon
+              source="close"
+              size={36}
               color={theme === "light" ? "black" : "white"}
             />
           </Pressable>
           <Text style={themeStyles.modalTitleText}>
             {testJSON[markerId].nom}
+          </Text>
+          <Text style={themeStyles.modalText}>
+            <Icon source="star-settings" color="gold" size={24} />
+            {" " + calculNoteMoyenne()}
           </Text>
           <Text
             style={[

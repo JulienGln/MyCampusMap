@@ -6,21 +6,34 @@ import {
   Modal,
   StyleSheet,
   View,
-  ScrollView,
   Alert,
   ToastAndroid,
+  Pressable,
 } from "react-native";
-import React, { useState, useContext } from "react";
-import { TextInput, Button, Text, HelperText } from "react-native-paper";
+import React, { useState, useContext, useEffect } from "react";
+import { TextInput, Button, Text, HelperText, Icon } from "react-native-paper";
 
 import { ThemeContext } from "../../themeContext";
+import { getUser } from "../../helpers/localStorage";
+
+const testJSON = require("../../../testData.json");
 
 export default function ModalNewAvis({ visible, lieu, onClose }) {
   const [rating, setRating] = useState("");
   const [ratingError, setRatingError] = useState(false);
+  const [avis, setAvis] = useState("");
+  const [userName, setUserName] = useState("");
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
   const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUser = await getUser();
+      setUserName(fetchedUser.name);
+    };
+    fetchUser();
+  }, []);
 
   /**
    * Gestion de la note de l'avis ( < 5 )
@@ -36,6 +49,10 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
     }
   }
 
+  function handleChangeAvis(text) {
+    setAvis(text);
+  }
+
   function handleSubmitAvis() {
     if (!avis || !rating) {
       ToastAndroid.show("Avis incomplet !", ToastAndroid.LONG);
@@ -48,20 +65,25 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
       return;
     }
     const request = {
-      lieu_id: null,
-      lieu_nom: null,
-      texte: null,
+      lieu_id: lieu.id,
+      lieu_nom: lieu.nom,
+      texte: avis,
       note: parseInt(rating),
       photo: null,
-      utilisateur: null,
+      utilisateur: userName,
     };
+    /*
     fetch("http://localhost:3000/nouvel-avis", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(request),
-    });
+    });*/
+    // provisoirement, on sauvegarde dans le JSON en attente d'un serveur fonctionnel
+    testJSON[lieu.id].avis.push(request);
+    ToastAndroid.show("Avis ajouté avec succès", ToastAndroid.SHORT);
+    onClose();
   }
 
   function handlePermissionGalerie() {}
@@ -76,12 +98,28 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
     >
       <View style={themeStyles.centeredView}>
         <View style={themeStyles.modalView}>
+          <Pressable
+            style={{
+              position: "absolute",
+              top: 15,
+              right: 15,
+              zIndex: 1, // Assure que la croix est au-dessus du contenu du modal
+            }}
+            onPress={onClose}
+          >
+            <Icon
+              source="close"
+              size={36}
+              color={theme === "light" ? "black" : "white"}
+            />
+          </Pressable>
           <Text style={themeStyles.modalText} variant="displayLarge">
-            Nouvel avis
+            {lieu.nom} : nouvel avis
           </Text>
           <TextInput
             label={"Rédiger votre avis"}
             multiline={true}
+            onChangeText={handleChangeAvis}
             mode="outlined"
             textColor={theme === "light" ? "black" : "white"}
             activeOutlineColor={theme === "light" ? "cornflowerblue" : "coral"}
@@ -132,7 +170,7 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
             mode="elevated"
             icon="check"
             buttonColor="cornflowerblue"
-            onPress={onClose}
+            onPress={handleSubmitAvis}
           >
             Valider
           </Button>
