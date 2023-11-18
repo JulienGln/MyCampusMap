@@ -11,14 +11,23 @@ import {
   ActivityIndicator,
   Dimensions,
 } from "react-native";
-import { SegmentedButtons, TextInput } from "react-native-paper";
+import { SegmentedButtons, TextInput, Button } from "react-native-paper";
 
-import { getAppTheme, setAppTheme, getUser } from "../../helpers/localStorage";
+import {
+  getAppTheme,
+  setAppTheme,
+  getUser,
+  setUser,
+} from "../../helpers/localStorage";
 import { ThemeContext } from "../../themeContext";
 
 export default function ParameterView() {
   const [isSwitchThemeEnabled, setSwitchThemeEnabled] = useState(false);
-  const [userName, setUserName] = useState(getUser);
+  const [userName, setUserName] = useState(
+    String(getUser.name) === null ? "" : ""
+  );
+  const [previousUserName, setPreviousUserName] = useState("");
+  const [buttonLoading, setButtonLoading] = useState(false);
   const { theme, setTheme } = useContext(ThemeContext);
 
   const windowWidth = Dimensions.get("window").width;
@@ -37,6 +46,7 @@ export default function ParameterView() {
     text: {
       color: theme === "light" ? "black" : "white",
     },
+    userButton: { marginTop: 10 },
   });
 
   async function communicationServer() {
@@ -80,6 +90,13 @@ export default function ParameterView() {
     };
 
     fetchData();
+
+    const fetchUser = async () => {
+      const fetchedUser = await getUser();
+      setUserName(fetchedUser.name);
+      setPreviousUserName(fetchedUser.name);
+    };
+    fetchUser();
   }, []);
 
   function toggleTheme() {
@@ -88,8 +105,24 @@ export default function ParameterView() {
     setTheme(theme === "light" ? "dark" : "light");
   }
 
+  // Fonction pour créer un délai (sleep)
+  const sleep = (milliseconds) =>
+    new Promise((resolve) => setTimeout(resolve, milliseconds));
+  async function handleChangeUserName() {
+    setButtonLoading(true);
+    await sleep(800);
+    setUser({ name: userName });
+    setPreviousUserName(userName);
+    setButtonLoading(false);
+  }
+
   return (
     <View style={styles.container}>
+      {buttonLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <Text style={styles.text}>{previousUserName}</Text>
+      )}
       <Text style={styles.text}>OS : {Platform.OS.toLocaleUpperCase()}</Text>
       <Text style={styles.text}>Version : {Platform.Version}</Text>
       <Text style={styles.text}>
@@ -137,6 +170,7 @@ export default function ParameterView() {
               label: "Clair",
               icon: "white-balance-sunny",
               uncheckedColor: "white",
+              checkedColor: "white",
               style: {
                 backgroundColor: theme === "light" ? "cornflowerblue" : "black",
               },
@@ -148,7 +182,7 @@ export default function ParameterView() {
       <TextInput
         mode="outlined"
         label={"Nom d'utilisateur"}
-        value={typeof userName === String ? "String" : ""}
+        value={userName !== "" ? userName : ""}
         onChangeText={(text) => {
           setUserName(text);
         }}
@@ -163,6 +197,18 @@ export default function ParameterView() {
           marginTop: "5%",
         }}
       />
+      {userName !== previousUserName && (
+        <Button
+          style={styles.userButton}
+          mode="elevated"
+          dark
+          loading={buttonLoading}
+          buttonColor={theme === "light" ? "cornflowerblue" : "coral"}
+          onPress={handleChangeUserName}
+        >
+          Valider
+        </Button>
+      )}
 
       {/*
         <ScrollView style={styles.scrollView}>
