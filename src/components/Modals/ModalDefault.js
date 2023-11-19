@@ -8,7 +8,7 @@ import {
   Pressable,
   Image,
 } from "react-native";
-import { Card, Icon, Button } from "react-native-paper";
+import { Card, Icon, Button, Avatar } from "react-native-paper";
 
 import { ThemeContext } from "../../themeContext";
 import ModalNewAvis from "./ModalNewAvis";
@@ -93,9 +93,22 @@ export default function ModalDefault({ visible, markerId, onClose }) {
           style={themeStyles.card}
           mode={theme === "light" ? "elevated" : "outlined"}
         >
-          <Card.Title title="Avis" titleStyle={themeStyles.cardTitle} />
+          <Card.Title
+            title={item.utilisateur}
+            titleStyle={themeStyles.cardTitle}
+            left={(props) => (
+              <Avatar.Text
+                {...props}
+                style={{
+                  backgroundColor:
+                    theme === "light" ? "cornflowerblue" : "coral",
+                }}
+                color="white"
+                label={item.utilisateur.charAt(0).toLocaleUpperCase()}
+              />
+            )}
+          />
           <Card.Content>
-            <Text style={themeStyles.avisUserName}>{item.utilisateur}</Text>
             <Text
               style={{ fontStyle: "italic", color: "gold", fontWeight: "bold" }}
             >
@@ -119,7 +132,12 @@ export default function ModalDefault({ visible, markerId, onClose }) {
                 />
               ))}
             </Text>
-            <Text style={[themeStyles.modalText, { fontWeight: "bold" }]}>
+            <Text
+              style={[
+                themeStyles.modalText,
+                { fontWeight: "bold", textAlign: "auto" },
+              ]}
+            >
               {item.texte}
             </Text>
           </Card.Content>
@@ -287,9 +305,10 @@ const styles = (theme) =>
       color: theme === "light" ? "black" : "white",
     },
     card: {
-      marginRight: 20,
+      margin: 20,
       height: 200,
-      width: 200,
+      //width: 200,
+      flex: 1,
       backgroundColor: theme === "light" ? "aliceblue" : "navy",
     },
     cardTitle: {
