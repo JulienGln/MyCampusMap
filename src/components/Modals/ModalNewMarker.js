@@ -115,13 +115,24 @@ export default function ModalNewMarker({
     };
     createMarker(coords, markerColors[buildingType]); // fonction de MainMap
 
-    // ajoute le lieu à la base de données MongoDB
-    /*postLieu({
+    // ajoute le lieu à la base de données
+    postLieu({
+      // id: testJSON.length,
       nom: buildingTitle,
       typeBatiment: buildingType,
-      coordonnees: coords,
-      avis: [],
-    });*/
+      longitude: coords.longitude,
+      latitude: coords.latitude,
+      avis: [
+        {
+          // lieu_id: testJSON.length,
+          lieu_nom: buildingTitle,
+          texte: avis,
+          note: parseInt(rating),
+          photo: null,
+          utilisateur: userName,
+        },
+      ],
+    });
 
     // sauvegarde dans un JSON de test
     saveDataInJSON({

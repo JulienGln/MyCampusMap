@@ -14,6 +14,7 @@ import { Card, Icon, Button, Avatar } from "react-native-paper";
 import { ThemeContext } from "../../themeContext";
 import ModalNewAvis from "./ModalNewAvis";
 import { getUser } from "../../helpers/localStorage";
+import { getAllLieux, getLieuById } from "../../helpers/request";
 
 const testJSON = require("../../../testData.json");
 
@@ -102,6 +103,8 @@ export default function ModalDefault({ visible, markerId, onClose }) {
 
     fetchData();*/
     setData(testJSON[markerId]?.avis); //testJSON);
+    //getLieuById(markerId).then((data) => setData(data));
+    //setCurrentMarker(data);
     setCurrentMarker(testJSON[markerId]);
 
     const fetchUser = async () => {

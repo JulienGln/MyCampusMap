@@ -2,16 +2,46 @@
  * Fichier avec les requêtes serveurs
  */
 
+const urlServeur = "https://3db7-193-48-126-234.ngrok-free.app/";
+
 /**
  * Récupère tous les lieux et leurs avis
  */
 export async function getAllLieux() {
   try {
-    const response = await fetch("http://localhost:3000/lieux");
+    const response = await fetch(urlServeur + "/lieux");
     const data = await response.json();
     return data;
   } catch (error) {
     console.error(error);
+  }
+}
+
+export async function postLieu(json) {
+  try {
+    const response = await fetch(urlServeur + "/nouveau-lieu", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(json),
+    });
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getLieuById(id) {
+  try {
+    const response = await fetch(urlServeur + "/lieux/" + id);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching lieu by ID:", error);
+    console.error("Full response:", await response.text());
   }
 }
 

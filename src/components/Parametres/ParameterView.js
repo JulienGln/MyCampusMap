@@ -82,7 +82,7 @@ export default function ParameterView({ navigation }) {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    /*const fetchData = async () => {
       try {
         const response = await axios.get(
           "https://4edd-193-48-126-234.ngrok-free.app/lieux"
@@ -91,11 +91,11 @@ export default function ParameterView({ navigation }) {
       } catch (error) {
         console.error("Error fetching data:", error);
       }
-      /*const result = await communicationServer();
-      setData(result);*/
+      //const result = await communicationServer();
+      //setData(result);
     };
 
-    fetchData();
+    fetchData();*/
 
     const fetchUser = async () => {
       const fetchedUser = await getUser();

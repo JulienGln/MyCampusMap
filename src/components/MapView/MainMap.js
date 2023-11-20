@@ -80,7 +80,8 @@ export default function MainMap({ navigation }) {
   function handleMarkerPress() {}
 
   function handleGetData() {
-    setData(testJSON);
+    //setData(testJSON);
+    getAllLieux().then((data) => setData(data));
 
     //Alert.alert("test (" + data.length + ")", JSON.stringify(data));
 
@@ -126,7 +127,6 @@ export default function MainMap({ navigation }) {
   }, [navigation]);*/
 
   useEffect(() => {
-    //getAllLieux().then((data) => setData(data));
     handleGetData();
     fetch(
       `https://api.open-meteo.com/v1/meteofrance?latitude=${initialRegion.latitude}&longitude=${initialRegion.longitude}&current_weather=true`
