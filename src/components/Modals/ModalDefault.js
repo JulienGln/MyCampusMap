@@ -7,11 +7,13 @@ import {
   FlatList,
   Pressable,
   Image,
+  ToastAndroid,
 } from "react-native";
 import { Card, Icon, Button, Avatar } from "react-native-paper";
 
 import { ThemeContext } from "../../themeContext";
 import ModalNewAvis from "./ModalNewAvis";
+import { getUser } from "../../helpers/localStorage";
 
 const testJSON = require("../../../testData.json");
 
@@ -39,6 +41,8 @@ export default function ModalDefault({ visible, markerId, onClose }) {
   const [data, setData] = useState(null);
   const [currentMarker, setCurrentMarker] = useState(0);
   const [modalNewAvisVisible, setModalNewAvisVisible] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [selectedAvis, setSelectedAvis] = useState();
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
   const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
@@ -74,6 +78,21 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     return (moy / testJSON[markerId].avis.length).toFixed(2);
   }
 
+  /**
+   * Appelée quand on veut supprimer un de ses avis
+   */
+  function onDeleteAvis(texte, utilisateur) {
+    var avis = testJSON[markerId].avis;
+    avis.forEach((item, index) => {
+      if (item.texte === texte && item.utilisateur === utilisateur) {
+        setSelectedAvis(index);
+        avis.splice(index, 1);
+        ToastAndroid.show("Avis supprimé avec succès !", ToastAndroid.SHORT);
+        //onClose();
+      }
+    });
+  }
+
   // récupération des données du marqueur
   useEffect(() => {
     /*const fetchData = async () => {
@@ -82,8 +101,14 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     };
 
     fetchData();*/
-    setData(testJSON);
+    setData(testJSON[markerId]?.avis); //testJSON);
     setCurrentMarker(testJSON[markerId]);
+
+    const fetchUser = async () => {
+      const fetchedUser = await getUser();
+      setUserName(fetchedUser.name);
+    };
+    fetchUser();
   }, []);
 
   function avisItem({ item }) {
@@ -108,6 +133,24 @@ export default function ModalDefault({ visible, markerId, onClose }) {
               />
             )}
           />
+          {userName === item.utilisateur && (
+            <Pressable
+              style={{
+                position: "absolute",
+                top: 15,
+                right: 15,
+                zIndex: 1, // Assure que la croix est au-dessus du contenu du modal
+              }}
+              onPress={() => onDeleteAvis(item.texte, item.utilisateur)}
+            >
+              <Icon
+                source="close"
+                size={24}
+                color={theme === "light" ? "crimson" : "red"}
+              />
+            </Pressable>
+          )}
+
           <Card.Content>
             <Text
               style={{ fontStyle: "italic", color: "gold", fontWeight: "bold" }}
@@ -207,6 +250,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             data={testJSON[markerId]?.avis}
             renderItem={avisItem}
             keyExtractor={(item, index) => index.toString()}
+            extraData={selectedAvis}
             horizontal
           />
 
@@ -313,5 +357,6 @@ const styles = (theme) =>
     },
     cardTitle: {
       color: theme === "light" ? "black" : "white",
+      marginEnd: 50,
     },
   });
