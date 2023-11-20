@@ -2,7 +2,13 @@
  * Fichier avec les requêtes serveurs
  */
 
-const urlServeur = "https://3db7-193-48-126-234.ngrok-free.app";
+import axios from "axios";
+
+/**
+ * URL du ngrok qui fait "l'alias" de notre serveur local. /!\ CHANGE CONSTAMMENT
+ */
+const urlServeur =
+  "https://d056-2a01-cb15-814f-5400-7df1-17a7-dcdb-5ba0.ngrok-free.app";
 
 /**
  * Récupère tous les lieux et leurs avis
@@ -17,6 +23,11 @@ export async function getAllLieux() {
   }
 }
 
+/**
+ * Envoi un nouveau lieu (avec un avis) dans la base de données
+ * @param {JSON} json les attributs d'un lieu (nom, type, etc.) et son avis (note, texte, etc.)
+ * @returns un json
+ */
 export async function postLieu(json) {
   try {
     const response = await fetch(urlServeur + "/nouveau-lieu", {
@@ -34,6 +45,11 @@ export async function postLieu(json) {
   }
 }
 
+/**
+ * Récupère un lieu et ses avis par son id
+ * @param {number} id l'id du lieu
+ * @returns le json avec le lieu et ses avis
+ */
 export async function getLieuById(id) {
   try {
     const response = await fetch(urlServeur + "/lieux/" + id);
@@ -42,6 +58,21 @@ export async function getLieuById(id) {
   } catch (error) {
     console.error("Error fetching lieu by ID:", error);
     console.error("Full response:", await response.text());
+  }
+}
+
+/**
+ * Cette fonction pourra servir pour l'ajout d'un nouveau lieu, en incrémentant l'id
+ * @returns {number} l'ID du dernier lieu en base de données
+ */
+export async function getLastId() {
+  try {
+    const response = await axios.get(urlServeur + "/lastID");
+    //const data = await response.json();
+    console.log("LastID = " + response.data.id);
+    return response.data.id;
+  } catch (error) {
+    console.error("Erreur dans la récupération de l'id : ", error);
   }
 }
 

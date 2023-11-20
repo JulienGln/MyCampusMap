@@ -13,7 +13,7 @@ import { TextInput } from "react-native-paper";
 
 // > npm install @react-native-picker/picker
 import { Picker } from "@react-native-picker/picker";
-import { postLieu } from "../../helpers/request";
+import { postLieu, getLastId } from "../../helpers/request";
 import { saveDataInJSON } from "../../helpers/localJSONstorage";
 import { getUser } from "../../helpers/localStorage";
 
@@ -80,7 +80,7 @@ export default function ModalNewMarker({
   /**
    * Quand on appuie sur "Terminer", ajout de l'avis en base
    */
-  function handleSubmitAvis() {
+  async function handleSubmitAvis() {
     if (!avis || !buildingTitle || !rating) {
       ToastAndroid.show("Avis incomplet !", ToastAndroid.LONG);
       Alert.alert(
@@ -115,16 +115,18 @@ export default function ModalNewMarker({
     };
     createMarker(coords, markerColors[buildingType]); // fonction de MainMap
 
+    var lastId = await getLastId();
+
     // ajoute le lieu à la base de données
     postLieu({
-      // id: testJSON.length,
+      id: lastId + 1,
       nom: buildingTitle,
       typeBatiment: buildingType,
       longitude: coords.longitude,
       latitude: coords.latitude,
       avis: [
         {
-          // lieu_id: testJSON.length,
+          lieu_id: lastId + 1,
           lieu_nom: buildingTitle,
           texte: avis,
           note: parseInt(rating),
