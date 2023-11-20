@@ -52,9 +52,9 @@ export async function postLieu(json) {
  */
 export async function getLieuById(id) {
   try {
-    const response = await fetch(urlServeur + "/lieux/" + id);
-    const data = await response.json();
-    return data;
+    const response = await axios.get(urlServeur + "/lieux/" + id);
+    console.log("Lieu à l'id " + id + " = " + JSON.stringify(response.data));
+    return response.data;
   } catch (error) {
     console.error("Error fetching lieu by ID:", error);
     console.error("Full response:", await response.text());

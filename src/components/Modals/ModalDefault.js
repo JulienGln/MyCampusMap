@@ -39,7 +39,7 @@ const markerColors = {
  * Modal qui s'affiche lorsqu'on clique sur un marqueur déjà existant (description du bâtiment, avis, photos...)
  */
 export default function ModalDefault({ visible, markerId, onClose }) {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(testJSON[0]);
   const [currentMarker, setCurrentMarker] = useState(0);
   const [modalNewAvisVisible, setModalNewAvisVisible] = useState(false);
   const [userName, setUserName] = useState("");
@@ -50,40 +50,27 @@ export default function ModalDefault({ visible, markerId, onClose }) {
 
   /**
    * Récupère l'avis d'un point par son id
-   * @returns - le json d'un avis sur le marqueur
    */
   async function getMarkerById(markerId) {
-    // utiliser express pour aller chercher le json
-    // doc : https://reactnative.dev/docs/network
-    //var url = "http://192.168.1.23:3000/data/" + markerId; // adresse IP de l'ordinateur qui fait tourner le serveur
-    var url = "https://jsonplaceholder.typicode.com/posts";
-
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        console.error("Erreur HTTP", response.status);
-      } else {
-        const data = await response.json();
-        return data[markerId].title;
-      }
-    } catch (error) {
-      console.error("Erreur fonction fetch", error);
-    }
+      const donnees = await getLieuById(markerId);
+      setData(donnees);
+    } catch (error) {}
   }
 
   function calculNoteMoyenne() {
     var moy = 0;
-    testJSON[markerId].avis.forEach((elt) => {
+    data.avis.forEach((elt) => {
       moy += parseInt(elt.note);
     });
-    return (moy / testJSON[markerId].avis.length).toFixed(2);
+    return (moy / data.avis.length).toFixed(2);
   }
 
   /**
    * Appelée quand on veut supprimer un de ses avis
    */
   function onDeleteAvis(texte, utilisateur) {
-    var avis = testJSON[markerId].avis;
+    var avis = data.avis;
     avis.forEach((item, index) => {
       if (item.texte === texte && item.utilisateur === utilisateur) {
         setSelectedAvis(index);
@@ -102,8 +89,8 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     };
 
     fetchData();*/
-    setData(testJSON[markerId]?.avis); //testJSON);
-    //getLieuById(markerId).then((data) => setData(data));
+    //setData(testJSON[markerId]?.avis); //testJSON);
+    getMarkerById(markerId);
     //setCurrentMarker(data);
     setCurrentMarker(testJSON[markerId]);
 
@@ -225,9 +212,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
               color={theme === "light" ? "black" : "white"}
             />
           </Pressable>
-          <Text style={themeStyles.modalTitleText}>
-            {testJSON[markerId].nom}
-          </Text>
+          <Text style={themeStyles.modalTitleText}>{data.nom}</Text>
           <Text style={themeStyles.modalText}>
             <Icon source="star-settings" color="gold" size={24} />
             {" " + calculNoteMoyenne()}
@@ -236,12 +221,12 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             style={[
               themeStyles.modalText,
               {
-                color: markerColors[testJSON[markerId].typeBatiment],
+                color: markerColors[data.typeBatiment],
                 fontWeight: "bold",
               },
             ]}
           >
-            {nomLieux[testJSON[markerId].typeBatiment]}
+            {nomLieux[data.typeBatiment]}
           </Text>
 
           {/*testJSON[markerId].avis.map((avis, index) => (
@@ -250,7 +235,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             </Text>
           ))*/}
           <FlatList
-            data={testJSON[markerId]?.avis}
+            data={data?.avis}
             renderItem={avisItem}
             keyExtractor={(item, index) => index.toString()}
             extraData={selectedAvis}
@@ -267,7 +252,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
 
           <ModalNewAvis
             visible={modalNewAvisVisible}
-            lieu={testJSON[markerId]}
+            lieu={data}
             onClose={() => setModalNewAvisVisible(false)}
             onCancel={() => {
               setModalNewAvisVisible(false);
