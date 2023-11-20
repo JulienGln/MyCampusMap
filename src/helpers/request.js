@@ -2,7 +2,7 @@
  * Fichier avec les requêtes serveurs
  */
 
-const urlServeur = "https://3db7-193-48-126-234.ngrok-free.app/";
+const urlServeur = "https://3db7-193-48-126-234.ngrok-free.app";
 
 /**
  * Récupère tous les lieux et leurs avis
