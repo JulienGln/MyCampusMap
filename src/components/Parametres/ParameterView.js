@@ -85,7 +85,7 @@ export default function ParameterView({ navigation }) {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "https://juliengln.github.io/data/krooteQuiz.json"
+          "https://35b5-2a01-cb1e-6d-fbbc-1437-1903-57b4-5325.ngrok.io/lieux"
         ); //axios.get("http://192.168.1.23:3000/lieux");
         setData(response.data);
       } catch (error) {
@@ -251,8 +251,7 @@ export default function ParameterView({ navigation }) {
               <ActivityIndicator size="large" />
             </Text>
           )}
-        </ScrollView>
-          */}
+        </ScrollView>*/}
     </View>
   );
 }
