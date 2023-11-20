@@ -105,7 +105,7 @@ export default function ParameterView({ navigation }) {
     fetchUser();
   }, []);
 
-  navigation.setOptions({
+  /*navigation.setOptions({
     headerRight: () => (
       <Avatar.Text
         label={userName.charAt(0).toLocaleUpperCase()}
@@ -118,7 +118,7 @@ export default function ParameterView({ navigation }) {
         }}
       />
     ),
-  });
+  });*/
 
   function toggleTheme() {
     setSwitchThemeEnabled(!isSwitchThemeEnabled);
