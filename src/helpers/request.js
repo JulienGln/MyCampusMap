@@ -15,9 +15,9 @@ const urlServeur =
  */
 export async function getAllLieux() {
   try {
-    const response = await fetch(urlServeur + "/lieux");
-    const data = await response.json();
-    return data;
+    const response = await axios.get(urlServeur + "/lieux");
+    console.log("getAllLieux = " + JSON.stringify(response.data));
+    return response.data;
   } catch (error) {
     console.error(error);
   }
@@ -68,7 +68,6 @@ export async function getLieuById(id) {
 export async function getLastId() {
   try {
     const response = await axios.get(urlServeur + "/lastID");
-    //const data = await response.json();
     console.log("LastID = " + response.data.id);
     return response.data.id;
   } catch (error) {

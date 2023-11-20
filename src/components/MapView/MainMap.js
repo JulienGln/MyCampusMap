@@ -15,6 +15,7 @@ import {
   Button,
   Pressable,
   Text,
+  ActivityIndicator,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import ModalNewMarker from "../Modals/ModalNewMarker";
@@ -36,10 +37,11 @@ export default function MainMap({ navigation }) {
   const [modalMarkerVisible, setModalMarkerVisible] = useState(false); // modal de vue des avis et du batiment
   const [markerCoords, setMarkerCoords] = useState({}); // les coordonnées du dernier marqueur créé
   const [markerColor, setMarkerColor] = useState("green");
-  const [data, setData] = useState(testJSON);
+  const [data, setData] = useState(null);
   const [currentIdMarker, setCurrentIdMarker] = useState(0);
   const [weatherData, setWeatherData] = useState(null);
   const [commune, setCommune] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
 
   const initialRegion = {
@@ -79,30 +81,35 @@ export default function MainMap({ navigation }) {
    */
   function handleMarkerPress() {}
 
-  function handleGetData() {
+  async function handleGetData() {
     //setData(testJSON);
-    getAllLieux().then((data) => setData(data));
+    //getAllLieux().then((data) => setData(data));
 
-    //Alert.alert("test (" + data.length + ")", JSON.stringify(data));
+    try {
+      const donnees = await getAllLieux();
+      setData(donnees);
 
-    const markerColors = {
-      Restaurant: "coral",
-      Parking: "steelblue",
-      batiment_scolaire: "fuchsia",
-      Sante: "green",
-      logement_crous: "gold",
-    };
+      //Alert.alert("test (" + data.length + ")", JSON.stringify(data));
 
-    const newMarkers = data.map((lieu, index) => ({
-      coordinate: {
-        latitude: parseFloat(lieu.latitude),
-        longitude: parseFloat(lieu.longitude),
-      },
-      pinColor: markerColors[lieu.typeBatiment],
-      description: index.toString(), // la description est l'index du lieu dans le tableau qui est dans le JSON
-    }));
+      const markerColors = {
+        Restaurant: "coral",
+        Parking: "steelblue",
+        batiment_scolaire: "fuchsia",
+        Sante: "green",
+        logement_crous: "gold",
+      };
 
-    setMarkers(newMarkers);
+      const newMarkers = data.map((lieu, index) => ({
+        coordinate: {
+          latitude: parseFloat(lieu.latitude),
+          longitude: parseFloat(lieu.longitude),
+        },
+        pinColor: markerColors[lieu.typeBatiment],
+        description: index.toString(), // la description est l'index du lieu dans le tableau qui est dans le JSON
+      }));
+
+      setMarkers(newMarkers);
+    } catch (error) {}
   }
 
   function removeAllMarkers() {
@@ -127,7 +134,7 @@ export default function MainMap({ navigation }) {
   }, [navigation]);*/
 
   useEffect(() => {
-    handleGetData();
+    handleGetData().then(() => setIsLoading(false));
     fetch(
       `https://api.open-meteo.com/v1/meteofrance?latitude=${initialRegion.latitude}&longitude=${initialRegion.longitude}&current_weather=true`
     )
@@ -166,13 +173,14 @@ export default function MainMap({ navigation }) {
         <FontAwesome5 name="crosshairs" size={24} color={"white"} />
       </Button> */}
 
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        initialRegion={initialRegion}
-        customMapStyle={theme === "light" ? mapStyle : nightMapStyle}
-        //minZoomLevel={17}
-        /*onTouchMove={() => {
+      {!isLoading ? (
+        <MapView
+          ref={mapRef}
+          style={styles.map}
+          initialRegion={initialRegion}
+          customMapStyle={theme === "light" ? mapStyle : nightMapStyle}
+          //minZoomLevel={17}
+          /*onTouchMove={() => {
           navigation.setOptions({
             headerShown: false,
             tabBarStyle: { display: "none" },
@@ -189,19 +197,19 @@ export default function MainMap({ navigation }) {
             tabBarStyle: { display: "flex" },
           });
         }}*/
-        onLongPress={handleMapPress} // Un appui long ajoutera un point sur la carte.
-      >
-        {markers.map((marker, index) => (
-          <Marker
-            key={index}
-            pinColor={marker.pinColor ? marker.pinColor : markerColor}
-            draggable
-            tappable
-            description={index.toString()}
-            onPress={() => {
-              setCurrentIdMarker(parseInt(index));
-              setModalMarkerVisible(true);
-              /*Alert.alert(
+          onLongPress={handleMapPress} // Un appui long ajoutera un point sur la carte.
+        >
+          {markers.map((marker, index) => (
+            <Marker
+              key={index}
+              pinColor={marker.pinColor ? marker.pinColor : markerColor}
+              draggable
+              tappable
+              description={index.toString()}
+              onPress={() => {
+                setCurrentIdMarker(parseInt(index));
+                setModalMarkerVisible(true);
+                /*Alert.alert(
                 "Point " + (index + 1),
                 "Coordonnées : \n\n- Latitude : " +
                   marker.coordinate.latitude +
@@ -212,11 +220,14 @@ export default function MainMap({ navigation }) {
                 [{ text: "OK" }],
                 { cancelable: true } // L'alerte peut être annulée en cliquant en dehors de la boîte de dialogue
               );*/
-            }}
-            coordinate={marker.coordinate}
-          />
-        ))}
-      </MapView>
+              }}
+              coordinate={marker.coordinate}
+            />
+          ))}
+        </MapView>
+      ) : (
+        <ActivityIndicator />
+      )}
 
       {/* encart météo */}
       {weatherData && (
