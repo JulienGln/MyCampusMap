@@ -99,7 +99,7 @@ export default function MainMap({ navigation }) {
         logement_crous: "gold",
       };
 
-      const newMarkers = data.map((lieu, index) => ({
+      const newMarkers = donnees.map((lieu, index) => ({
         coordinate: {
           latitude: parseFloat(lieu.latitude),
           longitude: parseFloat(lieu.longitude),
