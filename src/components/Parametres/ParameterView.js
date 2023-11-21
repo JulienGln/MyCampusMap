@@ -225,6 +225,12 @@ export default function ParameterView({ navigation }) {
           backgroundColor: theme === "light" ? "transparent" : "black",
           marginTop: "5%",
         }}
+        right={
+          <TextInput.Icon
+            icon="account-edit"
+            color={theme === "light" ? "darkgray" : "lightgray"}
+          />
+        }
       />
       {userName !== previousUserName && (
         <Button

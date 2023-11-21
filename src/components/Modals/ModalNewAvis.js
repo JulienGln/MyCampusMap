@@ -134,6 +134,12 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
               width: "100%",
               marginTop: "5%",
             }}
+            right={
+              <TextInput.Icon
+                icon="pencil"
+                color={theme === "light" ? "darkgray" : "lightgray"}
+              />
+            }
           />
           <TextInput
             inputMode="numeric"
@@ -152,6 +158,13 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
               backgroundColor: theme === "light" ? "transparent" : "black",
               marginTop: "5%",
             }}
+            right={
+              <TextInput.Icon
+                icon="map-marker-star"
+                color={theme === "light" ? "darkgray" : "lightgray"}
+              />
+            }
+            error={ratingError}
           />
           <HelperText type="error" visible={ratingError}>
             La note doit être comprise entre 0 et 5

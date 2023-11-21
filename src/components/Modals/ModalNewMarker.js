@@ -175,8 +175,23 @@ export default function ModalNewMarker({
               style={themeStyles.input}
               label="Nom du lieu"
               placeholderTextColor={"coral"}
+              mode="outlined"
               value={buildingTitle}
               onChangeText={handleChangeTitle}
+              textColor={theme === "light" ? "black" : "white"}
+              activeOutlineColor={
+                theme === "light" ? "cornflowerblue" : "coral"
+              }
+              outlineStyle={{
+                backgroundColor: "transparent",
+                borderColor: theme === "light" ? "cornflowerblue" : "coral",
+              }}
+              right={
+                <TextInput.Icon
+                  icon="office-building-marker"
+                  color={theme === "light" ? "darkgray" : "lightgray"}
+                />
+              }
             />
             <TextInput
               style={themeStyles.input}
@@ -186,6 +201,21 @@ export default function ModalNewMarker({
               onChangeText={handleRatingChange}
               value={rating}
               maxLength={1}
+              mode="outlined"
+              textColor={theme === "light" ? "black" : "white"}
+              activeOutlineColor={
+                theme === "light" ? "cornflowerblue" : "coral"
+              }
+              outlineStyle={{
+                backgroundColor: "transparent",
+                borderColor: theme === "light" ? "cornflowerblue" : "coral",
+              }}
+              right={
+                <TextInput.Icon
+                  icon="map-marker-star"
+                  color={theme === "light" ? "darkgray" : "lightgray"}
+                />
+              }
             />
             <TextInput
               style={[themeStyles.input, { height: inputTextHeight }]}
@@ -193,6 +223,21 @@ export default function ModalNewMarker({
               label="Rédiger un avis"
               placeholderTextColor={"coral"}
               onChangeText={autoGrow}
+              mode="outlined"
+              textColor={theme === "light" ? "black" : "white"}
+              activeOutlineColor={
+                theme === "light" ? "cornflowerblue" : "coral"
+              }
+              outlineStyle={{
+                backgroundColor: "transparent",
+                borderColor: theme === "light" ? "cornflowerblue" : "coral",
+              }}
+              right={
+                <TextInput.Icon
+                  icon="pencil"
+                  color={theme === "light" ? "darkgray" : "lightgray"}
+                />
+              }
             />
 
             <Picker
@@ -297,13 +342,16 @@ const styles = (theme) =>
       fontSize: 22,
     },
     input: {
-      height: 60,
+      /*height: 60,
       margin: 15,
       borderWidth: 1,
       color: theme === "light" ? "black" : "white",
       borderColor: theme === "light" ? "black" : "white",
       padding: 10,
-      fontSize: 20,
+      fontSize: 20,*/
+      backgroundColor: theme === "light" ? "transparent" : "black",
+      width: "100%",
+      marginTop: "5%",
     },
     picker: {
       height: 50,

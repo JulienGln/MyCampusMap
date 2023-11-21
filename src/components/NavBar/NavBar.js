@@ -46,7 +46,7 @@ export default function NavBar() {
       }}
     >
       <Tab.Screen
-        name="Cartographie"
+        name="MyCampusMap"
         component={MainMap}
         options={{
           tabBarLabel: "Carte",
@@ -118,7 +118,7 @@ export default function NavBar() {
           headerLeft: () => (
             <Pressable
               onPress={() => {
-                navigation.navigate("Cartographie"); // Redirection vers l'onglet "Cartographie"
+                navigation.navigate("MyCampusMap"); // Redirection vers l'onglet "MyCampusMap"
               }}
             >
               <Image
