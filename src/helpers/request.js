@@ -7,8 +7,7 @@ import axios from "axios";
 /**
  * URL du ngrok qui fait "l'alias" de notre serveur local. /!\ CHANGE CONSTAMMENT
  */
-const urlServeur =
-  "https://1126-2a01-cb15-814f-5400-7df1-17a7-dcdb-5ba0.ngrok-free.app";
+const urlServeur = "https://75ca-193-48-126-240.ngrok-free.app";
 
 /**
  * Récupère tous les lieux et leurs avis

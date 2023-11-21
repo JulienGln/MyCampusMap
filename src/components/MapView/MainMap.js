@@ -105,7 +105,7 @@ export default function MainMap({ navigation }) {
           longitude: parseFloat(lieu.longitude),
         },
         pinColor: markerColors[lieu.typeBatiment],
-        description: index.toString(), // la description est l'index du lieu dans le tableau qui est dans le JSON
+        description: lieu.id.toString(), //index.toString(), // la description est l'index du lieu dans le tableau qui est dans le JSON
       }));
 
       setMarkers(newMarkers);
@@ -163,6 +163,7 @@ export default function MainMap({ navigation }) {
 
       {
         <ModalDefault
+          key={Date.now()} // clé unique pour forcer à re-render le composant à chaque apparition
           visible={modalMarkerVisible}
           markerId={currentIdMarker}
           onClose={() => setModalMarkerVisible(false)}
@@ -207,7 +208,7 @@ export default function MainMap({ navigation }) {
               tappable
               description={index.toString()}
               onPress={() => {
-                setCurrentIdMarker(parseInt(index));
+                setCurrentIdMarker(parseInt(marker.description));
                 setModalMarkerVisible(true);
                 /*Alert.alert(
                 "Point " + (index + 1),

@@ -9,7 +9,13 @@ import {
   Image,
   ToastAndroid,
 } from "react-native";
-import { Card, Icon, Button, Avatar } from "react-native-paper";
+import {
+  Card,
+  Icon,
+  Button,
+  Avatar,
+  ActivityIndicator,
+} from "react-native-paper";
 
 import { ThemeContext } from "../../themeContext";
 import ModalNewAvis from "./ModalNewAvis";
@@ -44,6 +50,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
   const [modalNewAvisVisible, setModalNewAvisVisible] = useState(false);
   const [userName, setUserName] = useState("");
   const [selectedAvis, setSelectedAvis] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
   const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
@@ -55,6 +62,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     try {
       const donnees = await getLieuById(markerId);
       setData(donnees);
+      setIsLoading(false);
     } catch (error) {}
   }
 
@@ -212,37 +220,44 @@ export default function ModalDefault({ visible, markerId, onClose }) {
               color={theme === "light" ? "black" : "white"}
             />
           </Pressable>
-          <Text style={themeStyles.modalTitleText}>{data.nom}</Text>
-          <Text style={themeStyles.modalText}>
-            <Icon source="star-settings" color="gold" size={24} />
-            {" " + calculNoteMoyenne()}
-          </Text>
-          <Text
-            style={[
-              themeStyles.modalText,
-              {
-                color: markerColors[data.typeBatiment],
-                fontWeight: "bold",
-              },
-            ]}
-          >
-            {nomLieux[data.typeBatiment]}
-          </Text>
+          {isLoading ? (
+            <ActivityIndicator
+              size="large"
+              color={theme === "light" ? "cornflowerblue" : "coral"}
+            />
+          ) : (
+            <>
+              <Text style={themeStyles.modalTitleText}>{data.nom}</Text>
+              <Text style={themeStyles.modalText}>
+                <Icon source="star-settings" color="gold" size={24} />
+                {" " + calculNoteMoyenne()}
+              </Text>
+              <Text
+                style={[
+                  themeStyles.modalText,
+                  {
+                    color: markerColors[data.typeBatiment],
+                    fontWeight: "bold",
+                  },
+                ]}
+              >
+                {nomLieux[data.typeBatiment]}
+              </Text>
 
-          {/*testJSON[markerId].avis.map((avis, index) => (
+              {/*testJSON[markerId].avis.map((avis, index) => (
             <Text key={index} style={styles.modalText}>
               {avis.test}
             </Text>
           ))*/}
-          <FlatList
-            data={data?.avis}
-            renderItem={avisItem}
-            keyExtractor={(item, index) => index.toString()}
-            extraData={selectedAvis}
-            horizontal
-          />
+              <FlatList
+                data={data?.avis}
+                renderItem={avisItem}
+                keyExtractor={(item, index) => index.toString()}
+                extraData={selectedAvis}
+                horizontal
+              />
 
-          {/* <Image
+              {/* <Image
             source={{
               uri: "https://media.giphy.com/media/XcujzilpaiGEWFV16n/giphy.gif",
             }}
@@ -250,25 +265,27 @@ export default function ModalDefault({ visible, markerId, onClose }) {
             style={{ width: 200, height: 200, borderRadius: 20, margin: 10 }}
           /> */}
 
-          <ModalNewAvis
-            visible={modalNewAvisVisible}
-            lieu={data}
-            onClose={() => setModalNewAvisVisible(false)}
-            onCancel={() => {
-              setModalNewAvisVisible(false);
-            }}
-          />
+              <ModalNewAvis
+                visible={modalNewAvisVisible}
+                lieu={data}
+                onClose={() => setModalNewAvisVisible(false)}
+                onCancel={() => {
+                  setModalNewAvisVisible(false);
+                }}
+              />
 
-          <Button
-            style={[themeStyles.buttonOpen]}
-            textColor="white"
-            mode="elevated"
-            icon="pencil-plus-outline"
-            buttonColor="cornflowerblue"
-            onPress={handleAddAvis}
-          >
-            Ajouter un avis
-          </Button>
+              <Button
+                style={[themeStyles.buttonOpen]}
+                textColor="white"
+                mode="elevated"
+                icon="pencil-plus-outline"
+                buttonColor="cornflowerblue"
+                onPress={handleAddAvis}
+              >
+                Ajouter un avis
+              </Button>
+            </>
+          )}
         </View>
       </View>
     </Modal>
