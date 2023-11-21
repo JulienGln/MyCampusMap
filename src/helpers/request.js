@@ -7,7 +7,7 @@ import axios from "axios";
 /**
  * URL du ngrok qui fait "l'alias" de notre serveur local. /!\ CHANGE CONSTAMMENT
  */
-const urlServeur = "https://75ca-193-48-126-240.ngrok-free.app";
+const urlServeur = "https://9a63-193-48-126-240.ngrok-free.app";
 
 /**
  * Récupère tous les lieux et leurs avis
@@ -41,6 +41,54 @@ export async function postLieu(json) {
     return data;
   } catch (error) {
     console.error(error);
+  }
+}
+
+/**
+ * Envoi un nouvel avis dans la base de données
+ * @param {JSON} json les attributs de l'avis
+ * @returns un json
+ */
+export async function postNewAvis(json) {
+  try {
+    const response = await fetch(urlServeur + "/nouvel-avis", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(json),
+    });
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la publication d'un nouvel avis :", error);
+    console.error("Réponse complète :", await response.text());
+  }
+}
+
+/**
+ * Supprime un avis de la base de données
+ * @param {string} lieu_id l'ID du lieu
+ * @param {string} utilisateur le nom de l'utilisateur
+ * @param {string} texte le texte de l'avis
+ * @returns un json
+ */
+export async function deleteAvis(lieu_id, utilisateur, texte) {
+  try {
+    const response = await fetch(
+      urlServeur + "/avis/" + lieu_id + "/" + utilisateur + "/" + texte,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Erreur lors de la suppression d'un avis :", error);
+    console.error("Réponse complète :", await response.text());
   }
 }
 

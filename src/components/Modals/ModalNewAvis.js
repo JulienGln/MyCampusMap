@@ -15,6 +15,7 @@ import { TextInput, Button, Text, HelperText, Icon } from "react-native-paper";
 
 import { ThemeContext } from "../../themeContext";
 import { getUser } from "../../helpers/localStorage";
+import { postNewAvis } from "../../helpers/request";
 
 const testJSON = require("../../../testData.json");
 
@@ -80,8 +81,9 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
       },
       body: JSON.stringify(request),
     });*/
+    postNewAvis(request);
     // provisoirement, on sauvegarde dans le JSON en attente d'un serveur fonctionnel
-    testJSON[lieu.id].avis.push(request);
+    // testJSON[lieu.id].avis.push(request);
     ToastAndroid.show("Avis ajouté avec succès", ToastAndroid.SHORT);
     onClose();
   }

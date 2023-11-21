@@ -20,7 +20,7 @@ import {
 import { ThemeContext } from "../../themeContext";
 import ModalNewAvis from "./ModalNewAvis";
 import { getUser } from "../../helpers/localStorage";
-import { getAllLieux, getLieuById } from "../../helpers/request";
+import { getLieuById, deleteAvis } from "../../helpers/request";
 
 const testJSON = require("../../../testData.json");
 
@@ -82,6 +82,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     avis.forEach((item, index) => {
       if (item.texte === texte && item.utilisateur === utilisateur) {
         setSelectedAvis(index);
+        deleteAvis(item.lieu_id, item.utilisateur, item.texte);
         avis.splice(index, 1);
         ToastAndroid.show("Avis supprimé avec succès !", ToastAndroid.SHORT);
         //onClose();

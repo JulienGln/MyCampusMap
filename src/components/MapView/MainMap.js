@@ -227,7 +227,7 @@ export default function MainMap({ navigation }) {
           ))}
         </MapView>
       ) : (
-        <ActivityIndicator />
+        <ActivityIndicator size="large" />
       )}
 
       {/* encart météo */}
