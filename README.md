@@ -8,9 +8,17 @@ React Native a les défauts de ses qualités
 
 ## Librairies installées
 Avec la commande `npm install`
+
+Côté client :
 - `@react-navigation/native` pour la navigation dans l'app
 - `@react-navigation/bottom-tabs` pour la barre du bas, navigation entre fragments
 - `react-native-maps` pour l'affichage d'une carte et la gestion des marqueurs
-- `@react-native-async-storage/async-storage` pour le stockage local en préférences partagées (clé-valeur[string ou JSON.stringify(jsonObject)])
-- `react-native-paper` pour une application au design natif de Google (intallée assez tardivement sur le projet donc potentiellement sous-exploitée)
+- `@react-native-async-storage/async-storage` pour le stockage local en préférences partagées (clé-valeur`[string` ou `JSON.stringify(jsonObject)]`)
+- `react-native-paper` pour une application au design natif de Google
 - `@react-native-picker/picker` component picker
+- `axios` pour faciliter certaine requêtes vers le serveur
+
+Côté serveur :
+- `express` pour la gestion des routes
+- `sqlite3` pour la base de données
+- `ngrok` pour simuler un serveur en ligne à partir d'un serveur en local
