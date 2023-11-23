@@ -16,7 +16,9 @@ import {
   Pressable,
   Text,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
+import { Chip } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import ModalNewMarker from "../Modals/ModalNewMarker";
 import ModalDefault from "../Modals/ModalDefault";
@@ -126,6 +128,39 @@ export default function MainMap({ navigation }) {
       handleGetData();
     }
   }
+
+  /**
+   * Ajoute un type de bâtiment de l'affichage des marqueurs
+   * @param {string} type le type du filtre à ajouter ("restaurant", ...)
+   */
+  function addFilter(type) {
+    let filteredData = data.filter((item) => item.typeBatiment === type);
+    console.log("\nfilteredData = " + JSON.stringify(filteredData));
+    const markerColors = {
+      Restaurant: "coral",
+      Parking: "steelblue",
+      batiment_scolaire: "fuchsia",
+      Sante: "green",
+      logement_crous: "gold",
+    };
+
+    const newMarkers = filteredData.map((lieu, index) => ({
+      coordinate: {
+        latitude: parseFloat(lieu.latitude),
+        longitude: parseFloat(lieu.longitude),
+      },
+      pinColor: markerColors[lieu.typeBatiment],
+      description: lieu.id.toString(),
+    }));
+    setData(filteredData);
+    setMarkers(newMarkers);
+  }
+
+  /**
+   * Retire un type de bâtiment de l'affichage des marqueurs
+   * @param {string} type le type du filtre à retirer ("restaurant", ...)
+   */
+  function removeFilter(type) {}
 
   /*useEffect(() => {
     navigation.setOptions({
@@ -356,6 +391,52 @@ export default function MainMap({ navigation }) {
         />
       </TouchableOpacity>
 
+      {/* filtres de la carte */}
+      {!isLoading && (
+        <ScrollView style={styles.filters} horizontal>
+          <Chip
+            icon="food"
+            mode="outlined"
+            style={styles.filterItem}
+            onPress={() => addFilter("Restaurant")}
+          >
+            Restaurant
+          </Chip>
+          <Chip
+            icon="parking"
+            mode="outlined"
+            style={styles.filterItem}
+            onPress={() => addFilter("Parking")}
+          >
+            Parking
+          </Chip>
+          <Chip
+            icon="school"
+            mode="outlined"
+            style={styles.filterItem}
+            onPress={() => addFilter("batiment_scolaire")}
+          >
+            Bâtiment scolaire
+          </Chip>
+          <Chip
+            icon="medical-bag"
+            mode="outlined"
+            style={styles.filterItem}
+            onPress={() => addFilter("Sante")}
+          >
+            Santé
+          </Chip>
+          <Chip
+            icon="home"
+            mode="outlined"
+            style={styles.filterItem}
+            onPress={() => addFilter("logement_crous")}
+          >
+            Logement CROUS
+          </Chip>
+        </ScrollView>
+      )}
+
       <StatusBar style={theme === "light" ? "dark" : "light"} />
     </View>
   );
@@ -388,9 +469,19 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
-  button: {
+  filters: {
     position: "absolute",
     bottom: 0,
+    //right: 0,
+  },
+  filterItem: {
+    margin: 5,
+    borderRadius: 100,
+    //backgroundColor: "cornflowerblue",
+  },
+  button: {
+    position: "absolute",
+    bottom: 30,
     right: 0,
     alignItems: "center",
     backgroundColor: "white", //"#bbbbbb",
