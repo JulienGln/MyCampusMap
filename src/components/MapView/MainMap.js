@@ -182,22 +182,22 @@ export default function MainMap({ navigation }) {
           customMapStyle={theme === "light" ? mapStyle : nightMapStyle}
           //minZoomLevel={17}
           /*onTouchMove={() => {
-          navigation.setOptions({
-            headerShown: false,
-            tabBarStyle: { display: "none" },
-          });
-        }}
-        onTouchEndCapture={async () => {
-          const sleep = (ms) => {
-            return new Promise((resolve) => setTimeout(resolve, ms));
-          };
-          await sleep(1000);
-          navigation.setOptions({
-            headerShown: true,
-            headerTransparent: false,
-            tabBarStyle: { display: "flex" },
-          });
-        }}*/
+            navigation.setOptions({
+              headerShown: false,
+              tabBarStyle: { display: "none" },
+            });
+          }}
+          onTouchEndCapture={async () => {
+            const sleep = (ms) => {
+              return new Promise((resolve) => setTimeout(resolve, ms));
+            };
+            await sleep(400);
+            navigation.setOptions({
+              headerShown: true,
+              headerTransparent: false,
+              tabBarStyle: { display: "flex" },
+            });
+          }}*/
           onLongPress={handleMapPress} // Un appui long ajoutera un point sur la carte.
         >
           {markers.map((marker, index) => (
@@ -210,17 +210,6 @@ export default function MainMap({ navigation }) {
               onPress={() => {
                 setCurrentIdMarker(parseInt(marker.description));
                 setModalMarkerVisible(true);
-                /*Alert.alert(
-                "Point " + (index + 1),
-                "Coordonnées : \n\n- Latitude : " +
-                  marker.coordinate.latitude +
-                  "\n- Longitude : " +
-                  marker.coordinate.longitude +
-                  "\n\n(à mettre dans un component modal pour afficher avis etc.)\nIndex dans JSON : " +
-                  marker.description,
-                [{ text: "OK" }],
-                { cancelable: true } // L'alerte peut être annulée en cliquant en dehors de la boîte de dialogue
-              );*/
               }}
               coordinate={marker.coordinate}
             />
