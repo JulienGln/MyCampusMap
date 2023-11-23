@@ -43,6 +43,7 @@ export default function MainMap({ navigation }) {
   const [currentIdMarker, setCurrentIdMarker] = useState(0);
   const [weatherData, setWeatherData] = useState(null);
   const [commune, setCommune] = useState(null);
+  const [filters, setFilters] = useState([]); // tableau des filtres actifs
   const [isLoading, setIsLoading] = useState(true);
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
 
@@ -51,6 +52,14 @@ export default function MainMap({ navigation }) {
     longitude: 5.8698961,
     latitudeDelta: 0.004, // Plus c'est proche de 0, plus c'est zoomé
     longitudeDelta: 0.004, // Plus c'est proche de 0, plus c'est zoomé
+  };
+
+  const markerColors = {
+    Restaurant: "coral",
+    Parking: "steelblue",
+    batiment_scolaire: "fuchsia",
+    Sante: "green",
+    logement_crous: "gold",
   };
 
   /**
@@ -91,16 +100,6 @@ export default function MainMap({ navigation }) {
       const donnees = await getAllLieux();
       setData(donnees);
 
-      //Alert.alert("test (" + data.length + ")", JSON.stringify(data));
-
-      const markerColors = {
-        Restaurant: "coral",
-        Parking: "steelblue",
-        batiment_scolaire: "fuchsia",
-        Sante: "green",
-        logement_crous: "gold",
-      };
-
       const newMarkers = donnees.map((lieu, index) => ({
         coordinate: {
           latitude: parseFloat(lieu.latitude),
@@ -134,25 +133,35 @@ export default function MainMap({ navigation }) {
    * @param {string} type le type du filtre à ajouter ("restaurant", ...)
    */
   function addFilter(type) {
-    let filteredData = data.filter((item) => item.typeBatiment === type);
-    console.log("\nfilteredData = " + JSON.stringify(filteredData));
-    const markerColors = {
-      Restaurant: "coral",
-      Parking: "steelblue",
-      batiment_scolaire: "fuchsia",
-      Sante: "green",
-      logement_crous: "gold",
-    };
+    if (!filters.includes(type)) {
+      filters.push(type);
+    } else removeFilter(type);
 
-    const newMarkers = filteredData.map((lieu, index) => ({
-      coordinate: {
-        latitude: parseFloat(lieu.latitude),
-        longitude: parseFloat(lieu.longitude),
-      },
-      pinColor: markerColors[lieu.typeBatiment],
-      description: lieu.id.toString(),
-    }));
-    setData(filteredData);
+    let filteredData = data.filter((item) =>
+      filters.includes(item.typeBatiment)
+    );
+
+    var newMarkers = null;
+    if (filters.length > 0) {
+      newMarkers = filteredData.map((lieu, index) => ({
+        coordinate: {
+          latitude: parseFloat(lieu.latitude),
+          longitude: parseFloat(lieu.longitude),
+        },
+        pinColor: markerColors[lieu.typeBatiment],
+        description: lieu.id.toString(),
+      }));
+    } else {
+      newMarkers = data.map((lieu, index) => ({
+        coordinate: {
+          latitude: parseFloat(lieu.latitude),
+          longitude: parseFloat(lieu.longitude),
+        },
+        pinColor: markerColors[lieu.typeBatiment],
+        description: lieu.id.toString(),
+      }));
+    }
+
     setMarkers(newMarkers);
   }
 
@@ -160,7 +169,12 @@ export default function MainMap({ navigation }) {
    * Retire un type de bâtiment de l'affichage des marqueurs
    * @param {string} type le type du filtre à retirer ("restaurant", ...)
    */
-  function removeFilter(type) {}
+  function removeFilter(type) {
+    var index = filters.indexOf(type);
+    if (index >= 0) {
+      filters.splice(index, 1);
+    }
+  }
 
   /*useEffect(() => {
     navigation.setOptions({
@@ -398,6 +412,7 @@ export default function MainMap({ navigation }) {
             icon="food"
             mode="outlined"
             style={styles.filterItem}
+            selected={filters.includes("Restaurant")}
             onPress={() => addFilter("Restaurant")}
           >
             Restaurant
@@ -405,6 +420,7 @@ export default function MainMap({ navigation }) {
           <Chip
             icon="parking"
             mode="outlined"
+            selected={filters.includes("Parking")}
             style={styles.filterItem}
             onPress={() => addFilter("Parking")}
           >
@@ -413,6 +429,7 @@ export default function MainMap({ navigation }) {
           <Chip
             icon="school"
             mode="outlined"
+            selected={filters.includes("batiment_scolaire")}
             style={styles.filterItem}
             onPress={() => addFilter("batiment_scolaire")}
           >
@@ -421,6 +438,7 @@ export default function MainMap({ navigation }) {
           <Chip
             icon="medical-bag"
             mode="outlined"
+            selected={filters.includes("Sante")}
             style={styles.filterItem}
             onPress={() => addFilter("Sante")}
           >
@@ -429,6 +447,7 @@ export default function MainMap({ navigation }) {
           <Chip
             icon="home"
             mode="outlined"
+            selected={filters.includes("logement_crous")}
             style={styles.filterItem}
             onPress={() => addFilter("logement_crous")}
           >
