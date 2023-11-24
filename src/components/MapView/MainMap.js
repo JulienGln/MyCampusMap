@@ -18,7 +18,7 @@ import {
   ActivityIndicator,
   ScrollView,
 } from "react-native";
-import { Chip } from "react-native-paper";
+import { Chip, Icon } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import ModalNewMarker from "../Modals/ModalNewMarker";
 import ModalDefault from "../Modals/ModalDefault";
@@ -409,46 +409,176 @@ export default function MainMap({ navigation }) {
       {!isLoading && (
         <ScrollView style={styles.filters} horizontal>
           <Chip
-            icon="food"
+            icon={() =>
+              !filters.includes("Restaurant") ? (
+                <Icon
+                  source="food"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              ) : (
+                <Icon
+                  source="check-bold"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              )
+            }
             mode="outlined"
-            style={styles.filterItem}
+            elevated
+            style={[
+              styles.filterItem,
+              {
+                backgroundColor: theme === "light" ? "white" : "black",
+                borderColor: "transparent",
+              },
+            ]}
+            textStyle={{
+              color: theme === "light" ? "cornflowerblue" : "coral",
+            }}
             selected={filters.includes("Restaurant")}
+            showSelectedOverlay={filters.includes("Restaurant")}
+            showSelectedCheck={filters.includes("Restaurant")}
             onPress={() => addFilter("Restaurant")}
           >
             Restaurant
           </Chip>
           <Chip
-            icon="parking"
+            icon={() =>
+              !filters.includes("Parking") ? (
+                <Icon
+                  source="parking"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              ) : (
+                <Icon
+                  source="check-bold"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              )
+            }
             mode="outlined"
+            elevated
+            style={[
+              styles.filterItem,
+              {
+                backgroundColor: theme === "light" ? "white" : "black",
+                borderColor: "transparent",
+              },
+            ]}
+            textStyle={{
+              color: theme === "light" ? "cornflowerblue" : "coral",
+            }}
             selected={filters.includes("Parking")}
-            style={styles.filterItem}
+            showSelectedOverlay={filters.includes("Parking")}
+            showSelectedCheck={filters.includes("Parking")}
             onPress={() => addFilter("Parking")}
           >
             Parking
           </Chip>
           <Chip
-            icon="school"
+            icon={() =>
+              !filters.includes("batiment_scolaire") ? (
+                <Icon
+                  source="school"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              ) : (
+                <Icon
+                  source="check-bold"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              )
+            }
             mode="outlined"
+            elevated
+            style={[
+              styles.filterItem,
+              {
+                backgroundColor: theme === "light" ? "white" : "black",
+                borderColor: "transparent",
+              },
+            ]}
+            textStyle={{
+              color: theme === "light" ? "cornflowerblue" : "coral",
+            }}
             selected={filters.includes("batiment_scolaire")}
-            style={styles.filterItem}
+            showSelectedOverlay={filters.includes("batiment_scolaire")}
+            showSelectedCheck={filters.includes("batiment_scolaire")}
             onPress={() => addFilter("batiment_scolaire")}
           >
             Bâtiment scolaire
           </Chip>
           <Chip
-            icon="medical-bag"
+            icon={() =>
+              !filters.includes("Sante") ? (
+                <Icon
+                  source="medical-bag"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              ) : (
+                <Icon
+                  source="check-bold"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              )
+            }
             mode="outlined"
+            elevated
+            style={[
+              styles.filterItem,
+              {
+                backgroundColor: theme === "light" ? "white" : "black",
+                borderColor: "transparent",
+              },
+            ]}
+            textStyle={{
+              color: theme === "light" ? "cornflowerblue" : "coral",
+            }}
             selected={filters.includes("Sante")}
-            style={styles.filterItem}
+            showSelectedOverlay={filters.includes("Sante")}
+            showSelectedCheck={filters.includes("Sante")}
             onPress={() => addFilter("Sante")}
           >
             Santé
           </Chip>
           <Chip
-            icon="home"
+            icon={() =>
+              !filters.includes("logement_crous") ? (
+                <Icon
+                  source="home"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              ) : (
+                <Icon
+                  source="check-bold"
+                  size={18}
+                  color={theme === "light" ? "cornflowerblue" : "coral"}
+                />
+              )
+            }
             mode="outlined"
+            elevated
+            style={[
+              styles.filterItem,
+              {
+                backgroundColor: theme === "light" ? "white" : "black",
+                borderColor: "transparent",
+              },
+            ]}
+            textStyle={{
+              color: theme === "light" ? "cornflowerblue" : "coral",
+            }}
             selected={filters.includes("logement_crous")}
-            style={styles.filterItem}
+            showSelectedOverlay={filters.includes("logement_crous")}
+            showSelectedCheck={filters.includes("logement_crous")}
             onPress={() => addFilter("logement_crous")}
           >
             Logement CROUS
@@ -496,7 +626,7 @@ const styles = StyleSheet.create({
   filterItem: {
     margin: 5,
     borderRadius: 100,
-    //backgroundColor: "cornflowerblue",
+    //backgroundColor: "white",
   },
   button: {
     position: "absolute",
