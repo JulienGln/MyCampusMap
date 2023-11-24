@@ -430,7 +430,11 @@ export default function MainMap({ navigation }) {
               styles.filterItem,
               {
                 backgroundColor: theme === "light" ? "white" : "black",
-                borderColor: "transparent",
+                borderColor: !filters.includes("Restaurant")
+                  ? "transparent"
+                  : theme === "light"
+                  ? "cornflowerblue"
+                  : "coral",
               },
             ]}
             textStyle={{
@@ -465,7 +469,11 @@ export default function MainMap({ navigation }) {
               styles.filterItem,
               {
                 backgroundColor: theme === "light" ? "white" : "black",
-                borderColor: "transparent",
+                borderColor: !filters.includes("Parking")
+                  ? "transparent"
+                  : theme === "light"
+                  ? "cornflowerblue"
+                  : "coral",
               },
             ]}
             textStyle={{
@@ -500,7 +508,11 @@ export default function MainMap({ navigation }) {
               styles.filterItem,
               {
                 backgroundColor: theme === "light" ? "white" : "black",
-                borderColor: "transparent",
+                borderColor: !filters.includes("batiment_scolaire")
+                  ? "transparent"
+                  : theme === "light"
+                  ? "cornflowerblue"
+                  : "coral",
               },
             ]}
             textStyle={{
@@ -535,7 +547,11 @@ export default function MainMap({ navigation }) {
               styles.filterItem,
               {
                 backgroundColor: theme === "light" ? "white" : "black",
-                borderColor: "transparent",
+                borderColor: !filters.includes("Sante")
+                  ? "transparent"
+                  : theme === "light"
+                  ? "cornflowerblue"
+                  : "coral",
               },
             ]}
             textStyle={{
@@ -570,7 +586,11 @@ export default function MainMap({ navigation }) {
               styles.filterItem,
               {
                 backgroundColor: theme === "light" ? "white" : "black",
-                borderColor: "transparent",
+                borderColor: !filters.includes("logement_crous")
+                  ? "transparent"
+                  : theme === "light"
+                  ? "cornflowerblue"
+                  : "coral",
               },
             ]}
             textStyle={{
