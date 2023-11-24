@@ -9,9 +9,11 @@ import {
   Alert,
   ToastAndroid,
   Pressable,
+  Image,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
 import { TextInput, Button, Text, HelperText, Icon } from "react-native-paper";
+import * as ImagePicker from "expo-image-picker";
 
 import { ThemeContext } from "../../themeContext";
 import { getUser } from "../../helpers/localStorage";
@@ -24,6 +26,7 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
   const [ratingError, setRatingError] = useState(false);
   const [avis, setAvis] = useState("");
   const [userName, setUserName] = useState("");
+  const [imageUri, setImageUri] = useState(null); // l'URI de l'image de l'avis
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
   const themeStyles = styles(theme); // appel de la fonction pour la feuille de style suivant le thème
@@ -65,22 +68,15 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
       );
       return;
     }
+    console.log("Note = " + parseInt(rating));
     const request = {
       lieu_id: lieu.id,
       lieu_nom: lieu.nom,
       texte: avis,
       note: parseInt(rating),
-      photo: null,
+      photo: null, //imageUri,
       utilisateur: userName,
     };
-    /*
-    fetch("http://localhost:3000/nouvel-avis", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(request),
-    });*/
     postNewAvis(request);
     // provisoirement, on sauvegarde dans le JSON en attente d'un serveur fonctionnel
     // testJSON[lieu.id].avis.push(request);
@@ -88,7 +84,20 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
     onClose();
   }
 
-  function handlePermissionGalerie() {}
+  async function handlePermissionGalerie() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
+  }
 
   return (
     <Modal
@@ -169,6 +178,14 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
           <HelperText type="error" visible={ratingError}>
             La note doit être comprise entre 0 et 5
           </HelperText>
+
+          {imageUri && (
+            <Image
+              source={{ uri: imageUri }}
+              style={{ width: 200, height: 200, borderRadius: 5 }}
+            />
+          )}
+
           <Button
             style={themeStyles.buttonValidate}
             textColor="white"

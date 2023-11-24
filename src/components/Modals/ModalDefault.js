@@ -50,6 +50,8 @@ export default function ModalDefault({ visible, markerId, onClose }) {
   const [modalNewAvisVisible, setModalNewAvisVisible] = useState(false);
   const [userName, setUserName] = useState("");
   const [selectedAvis, setSelectedAvis] = useState();
+  const [selectedPhoto, setSelectedPhoto] = useState();
+  const [photos, setPhotos] = useState([]); // les photos du lieu
   const [isLoading, setIsLoading] = useState(true);
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
@@ -63,6 +65,11 @@ export default function ModalDefault({ visible, markerId, onClose }) {
       const donnees = await getLieuById(markerId);
       setData(donnees);
       setIsLoading(false);
+      /*donnees.avis.forEach((item) => {
+        if (item.photo !== null && !photos.includes(item.photo)) {
+          photos.push(item.photo);
+        }
+      });*/
     } catch (error) {}
   }
 
@@ -82,7 +89,12 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     avis.forEach((item, index) => {
       if (item.texte === texte && item.utilisateur === utilisateur) {
         setSelectedAvis(index);
+        //setSelectedPhoto(photos.indexOf(item.photo));
         deleteAvis(item.lieu_id, item.utilisateur, item.texte);
+        // var idPhoto = photos.indexOf(item.photo);
+        // if (idPhoto !== -1) {
+        //   photos.splice(idPhoto, 1);
+        // }
         avis.splice(index, 1);
         ToastAndroid.show("Avis supprimé avec succès !", ToastAndroid.SHORT);
         //onClose();
@@ -188,6 +200,17 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     } else return null;
   }
 
+  // function photoItem({ item }) {
+  //   return (
+  //     <Image
+  //       source={{ uri: item }}
+  //       width={200}
+  //       height={200}
+  //       style={{ borderRadius: 10, margin: 5 }}
+  //     />
+  //   );
+  // }
+
   /**
    * Ajout d'un avis au lieu
    */
@@ -245,11 +268,13 @@ export default function ModalDefault({ visible, markerId, onClose }) {
                 {nomLieux[data.typeBatiment]}
               </Text>
 
-              {/*testJSON[markerId].avis.map((avis, index) => (
-            <Text key={index} style={styles.modalText}>
-              {avis.test}
-            </Text>
-          ))*/}
+              {/*<FlatList
+                data={photos}
+                renderItem={photoItem}
+                keyExtractor={(item, index) => index.toString()}
+                //extraData={selectedPhoto}
+                horizontal
+              />*/}
               <FlatList
                 data={data?.avis}
                 renderItem={avisItem}
