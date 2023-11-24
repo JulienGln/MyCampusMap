@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
-import MapView, { Marker, Polygon } from "react-native-maps"; // > npm install react-native-maps
+import MapView, { Marker } from "react-native-maps"; // > npm install react-native-maps
 // doc : https://github.com/react-native-maps/react-native-maps/tree/master#component-api
 // customiser le style sa map : https://mapstyle.withgoogle.com/
 import {
@@ -39,14 +39,17 @@ export default function MainMap({ navigation }) {
   const [modalMarkerVisible, setModalMarkerVisible] = useState(false); // modal de vue des avis et du batiment
   const [markerCoords, setMarkerCoords] = useState({}); // les coordonnées du dernier marqueur créé
   const [markerColor, setMarkerColor] = useState("green");
-  const [data, setData] = useState(null);
-  const [currentIdMarker, setCurrentIdMarker] = useState(0);
-  const [weatherData, setWeatherData] = useState(null);
-  const [commune, setCommune] = useState(null);
+  const [data, setData] = useState(null); // JSON contenant tous les lieux
+  const [currentIdMarker, setCurrentIdMarker] = useState(0); // l'ID pour ouvrir le modal du bon marqueur
+  const [weatherData, setWeatherData] = useState(null); // données de l'API Météo
+  const [commune, setCommune] = useState(null); // données de l'API du gouvernement pour la commune
   const [filters, setFilters] = useState([]); // tableau des filtres actifs
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // chargement des données
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
 
+  /**
+   * Point de départ en arrivant sur la map
+   */
   const initialRegion = {
     latitude: 45.6417615,
     longitude: 5.8698961,
@@ -54,6 +57,9 @@ export default function MainMap({ navigation }) {
     longitudeDelta: 0.004, // Plus c'est proche de 0, plus c'est zoomé
   };
 
+  /**
+   * Tableau associatif (type bâtiment - couleur)
+   */
   const markerColors = {
     Restaurant: "coral",
     Parking: "steelblue",
@@ -71,7 +77,7 @@ export default function MainMap({ navigation }) {
       ToastAndroid.LONG
     );
 
-    setMarkerCoords(event.nativeEvent.coordinate); // mettre un appel à fct async + await qui set les coords si le modal s'ouvre trop vite
+    setMarkerCoords(event.nativeEvent.coordinate);
     setModalNewMarkerVisible(true);
     // ajout du marqueur à la fin du tableau de marqueurs
     //setMarkers([...markers, { coordinate: event.nativeEvent.coordinate }]);
@@ -87,10 +93,6 @@ export default function MainMap({ navigation }) {
       { coordinate: coords, description: markers.length.toString() },
     ]);
   }
-  /**
-   * Appelée lors d'un appui sur un marqueur
-   */
-  function handleMarkerPress() {}
 
   async function handleGetData() {
     //setData(testJSON);
@@ -117,10 +119,10 @@ export default function MainMap({ navigation }) {
     setMarkers([]);
   }
 
+  /**
+   * fonction quand on clique longuement sur le floating Action Button
+   */
   function clickHandler() {
-    //fonction quand on clique sur le floating Action Button
-    //ToastAndroid.show("Retour sur le campus !", ToastAndroid.SHORT);
-    //mapRef.current.animateToRegion(initialRegion, 2000);
     if (markers.length > 0) {
       removeAllMarkers();
     } else {
@@ -219,15 +221,13 @@ export default function MainMap({ navigation }) {
         />
       }
 
-      {/* <Button title="text" style={styles.button} onPress={clickHandler}>
-        <FontAwesome5 name="crosshairs" size={24} color={"white"} />
-      </Button> */}
-
       {!isLoading ? (
         <MapView
           ref={mapRef}
           style={styles.map}
           initialRegion={initialRegion}
+          loadingEnabled
+          toolbarEnabled={false}
           customMapStyle={theme === "light" ? mapStyle : nightMapStyle}
           //minZoomLevel={17}
           /*onTouchMove={() => {
@@ -274,7 +274,6 @@ export default function MainMap({ navigation }) {
           style={{
             textAlign: "center",
             alignItems: "center",
-            //backgroundColor: theme === "light" ? "white" : "black",
             position: "absolute", // centrer en haut, (top, left et right)
             top: 0,
             left: 0,
@@ -292,7 +291,6 @@ export default function MainMap({ navigation }) {
             );
           }}
         >
-          {/*<Text>Météo : {JSON.stringify(weatherData)}</Text>*/}
           <Text
             style={{
               color: theme === "light" ? "black" : "white",
@@ -383,11 +381,6 @@ export default function MainMap({ navigation }) {
         }}
         delayLongPress={250}
       >
-        {/*<FontAwesome5
-          name="map-marked-alt"
-          size={32}
-          color={"cornflowerblue"}
-          />*/}
         <Image
           source={require("../../assets/relocalisation.png")}
           style={{
@@ -617,11 +610,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   map: {
-    //flex: 1,
     width: "100%",
     height: "100%",
-    //position: "absolute",
-    //top: 0,
   },
   modalView: {
     margin: 20,
@@ -641,19 +631,17 @@ const styles = StyleSheet.create({
   filters: {
     position: "absolute",
     bottom: 0,
-    //right: 0,
   },
   filterItem: {
     margin: 5,
     borderRadius: 100,
-    //backgroundColor: "white",
   },
   button: {
     position: "absolute",
     bottom: 30,
     right: 0,
     alignItems: "center",
-    backgroundColor: "white", //"#bbbbbb",
+    backgroundColor: "white",
     padding: 10,
     borderRadius: 50,
     borderColor: "black",
@@ -673,7 +661,6 @@ const styles = StyleSheet.create({
 
     marginBottom: Dimensions.get("window").height * 0.02, // pourcentage de la hauteur de l'écran
     marginRight: Dimensions.get("window").width * 0.05, // pourcentage de la largeur de l'écran
-    //position: "flex",
   },
 });
 
