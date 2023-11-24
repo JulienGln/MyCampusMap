@@ -17,6 +17,7 @@ Côté client :
 - `react-native-paper` pour une application au design natif de Google
 - `@react-native-picker/picker` component picker
 - `axios` pour faciliter certaine requêtes vers le serveur
+- `expo-image-picker` pour sélectionner une image de sa propre galerie photo
 
 Côté serveur :
 - `express` pour la gestion des routes
