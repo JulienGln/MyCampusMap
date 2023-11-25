@@ -18,6 +18,7 @@ Côté client :
 - `@react-native-picker/picker` component picker
 - `axios` pour faciliter certaine requêtes vers le serveur
 - `expo-image-picker` pour sélectionner une image de sa propre galerie photo
+- `react-native-fs` pour encoder l'image en base 64
 
 Côté serveur :
 - `express` pour la gestion des routes
