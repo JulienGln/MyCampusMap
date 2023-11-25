@@ -113,7 +113,7 @@ export default function ModalDefault({ visible, markerId, onClose }) {
     //setData(testJSON[markerId]?.avis); //testJSON);
     getMarkerById(markerId);
     //setCurrentMarker(data);
-    setCurrentMarker(testJSON[markerId]);
+    setCurrentMarker(testJSON[markerId]); // n'est plus utilisé
 
     const fetchUser = async () => {
       const fetchedUser = await getUser();
@@ -294,7 +294,10 @@ export default function ModalDefault({ visible, markerId, onClose }) {
               <ModalNewAvis
                 visible={modalNewAvisVisible}
                 lieu={data}
-                onClose={() => setModalNewAvisVisible(false)}
+                onClose={() => {
+                  setModalNewAvisVisible(false);
+                  getMarkerById(markerId);
+                }}
                 onCancel={() => {
                   setModalNewAvisVisible(false);
                 }}

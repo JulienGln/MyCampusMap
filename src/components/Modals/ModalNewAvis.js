@@ -91,8 +91,6 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImageUri(result.assets[0].uri);
     }
@@ -129,6 +127,7 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
           <TextInput
             label={"Rédiger votre avis"}
             multiline={true}
+            value={avis}
             onChangeText={handleChangeAvis}
             mode="outlined"
             textColor={theme === "light" ? "black" : "white"}

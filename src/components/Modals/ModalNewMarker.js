@@ -7,9 +7,11 @@ import {
   ScrollView,
   Alert,
   ToastAndroid,
+  Image,
 } from "react-native";
 import React, { useState, useContext, useEffect } from "react";
-import { TextInput } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
+import * as ImagePicker from "expo-image-picker";
 
 // > npm install @react-native-picker/picker
 import { Picker } from "@react-native-picker/picker";
@@ -40,6 +42,7 @@ export default function ModalNewMarker({
   const [rating, setRating] = useState("");
   const [buildingType, setBuildingType] = useState("");
   const [avis, setAvis] = useState("");
+  const [imageUri, setImageUri] = useState(null); // l'URI de l'image de l'avis
   const [userName, setUserName] = useState("");
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
@@ -75,6 +78,19 @@ export default function ModalNewMarker({
   function handleRatingChange(note) {
     note = parseInt(note);
     note >= 0 && note <= 5 ? setRating(note.toString()) : setRating("");
+  }
+
+  async function handlePermissionGalerie() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImageUri(result.assets[0].uri);
+    }
   }
 
   /**
@@ -259,25 +275,47 @@ export default function ModalNewMarker({
               <Picker.Item label="Logement CROUS" value="logement_crous" />
             </Picker>
 
-            <Text style={[themeStyles.modalText, { fontWeight: "bold" }]}>
-              Manque l'ajout d'une photo
-            </Text>
+            {imageUri && (
+              <Image
+                source={{ uri: imageUri }}
+                style={{ width: 200, height: 200, borderRadius: 5 }}
+              />
+            )}
+
+            <Button
+              style={themeStyles.buttonValidate}
+              textColor="white"
+              mode="elevated"
+              icon="camera-image"
+              buttonColor="cornflowerblue"
+              onPress={handlePermissionGalerie}
+            >
+              Ajouter une photo
+            </Button>
 
             {/** boutons annuler - terminer modal */}
             <View style={themeStyles.buttonGroup}>
-              <Pressable
-                style={[themeStyles.button, themeStyles.buttonClose]}
+              <Button
+                style={themeStyles.buttonClose}
+                textColor="white"
+                mode="elevated"
+                icon="close"
+                buttonColor="coral"
                 onPress={onCancel}
               >
-                <Text style={themeStyles.textStyle}>Annuler</Text>
-              </Pressable>
+                Annuler
+              </Button>
 
-              <Pressable
-                style={[themeStyles.button, themeStyles.buttonValidate]}
+              <Button
+                style={themeStyles.buttonValidate}
+                textColor="white"
+                mode="elevated"
+                icon="check"
+                buttonColor="cornflowerblue"
                 onPress={handleSubmitAvis}
               >
-                <Text style={themeStyles.textStyle}>Terminer</Text>
-              </Pressable>
+                Terminer
+              </Button>
             </View>
           </View>
         </View>
@@ -316,12 +354,13 @@ const styles = (theme) =>
       elevation: 2,
     },
     buttonValidate: {
-      backgroundColor: "cornflowerblue",
-      marginStart: 20,
+      //backgroundColor: "cornflowerblue",
+      marginTop: 10,
     },
     buttonClose: {
-      backgroundColor: "coral",
-      marginEnd: 20,
+      //backgroundColor: "coral",
+      marginTop: 10,
+      marginEnd: 10,
     },
     buttonGroup: {
       flexDirection: "row",
