@@ -68,7 +68,6 @@ export default function ModalNewAvis({ visible, lieu, onClose }) {
       );
       return;
     }
-    console.log("Note = " + parseInt(rating));
     const request = {
       lieu_id: lieu.id,
       lieu_nom: lieu.nom,
