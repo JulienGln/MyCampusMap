@@ -50,8 +50,8 @@ export default function ModalDefault({ visible, markerId, onClose }) {
   const [modalNewAvisVisible, setModalNewAvisVisible] = useState(false);
   const [userName, setUserName] = useState("");
   const [selectedAvis, setSelectedAvis] = useState();
-  const [selectedPhoto, setSelectedPhoto] = useState();
-  const [photos, setPhotos] = useState([]); // les photos du lieu
+  // const [selectedPhoto, setSelectedPhoto] = useState();
+  // const [photos, setPhotos] = useState([]); // les photos du lieu
   const [isLoading, setIsLoading] = useState(true);
 
   const { theme } = useContext(ThemeContext); // récupération du thème de l'app
