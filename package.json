@@ -15,6 +15,7 @@
     "@react-navigation/native": "^6.1.7",
     "axios": "^1.6.2",
     "expo": "~49.0.11",
+    "expo-file-system": "^15.6.0",
     "expo-image-picker": "^14.5.0",
     "expo-status-bar": "~1.6.0",
     "ngrok": "^5.0.0-beta.2",
